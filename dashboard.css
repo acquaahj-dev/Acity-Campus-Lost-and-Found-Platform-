@@ -110,3 +110,12 @@ body {
 @media (min-width: 768px) {
   .dashboard { padding: 2rem 2rem 4rem; }
 }
+
+.dashboard-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.btn { text-decoration: none; }
