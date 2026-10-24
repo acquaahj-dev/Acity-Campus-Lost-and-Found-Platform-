@@ -4,40 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Activity | Campus Lost & Found</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-  <!--Group 7 header-->
+  <!-- Group 7 header -->
 
   <main class="dashboard">
     <header class="dashboard-header">
+      <p class="eyebrow">Your dashboard</p>
       <h1>My Activity</h1>
-      <p>Track your reports, claims and messages.</p>
+      <p class="subtitle">Track your reports, claims and messages in one place.</p>
     </header>
 
-    <nav class="tabs" aria-label="Dashboard sections">
-      <button class="tab active" data-tab="reported">My Reported Items</button>
-      <button class="tab" data-tab="claims">Pending Claims</button>
-      <button class="tab" data-tab="resolved">Resolved</button>
+    <nav class="tabs" role="tablist" aria-label="Dashboard sections">
+      <button class="tab active" role="tab" id="tab-reported" aria-selected="true" aria-controls="reported" data-tab="reported">My Reported Items</button>
+      <button class="tab" role="tab" id="tab-claims" aria-selected="false" aria-controls="claims" data-tab="claims">Pending Claims</button>
+      <button class="tab" role="tab" id="tab-resolved" aria-selected="false" aria-controls="resolved" data-tab="resolved">Resolved</button>
     </nav>
 
-    <section id="reported" class="tab-panel">
+    <section id="reported" class="tab-panel" role="tabpanel" aria-labelledby="tab-reported">
       <h2>My Reported Items</h2>
       <!-- Role 2 builds here -->
     </section>
 
-    <section id="claims" class="tab-panel" hidden>
+    <section id="claims" class="tab-panel" role="tabpanel" aria-labelledby="tab-claims" hidden>
       <h2>Pending Claims</h2>
       <!-- Role 3 builds here -->
     </section>
 
-    <section id="resolved" class="tab-panel" hidden>
+    <section id="resolved" class="tab-panel" role="tabpanel" aria-labelledby="tab-resolved" hidden>
       <h2>Resolved Items</h2>
       <!-- Role 4 builds here -->
     </section>
   </main>
 
-  <!--footer from group 7 -->
+  <!-- Footer from Group 7 -->
+
   <script src="dashboard.js"></script>
 </body>
 </html>
