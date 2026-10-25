@@ -70,6 +70,7 @@
     claimForm.addEventListener('submit', (event) => {
         event.preventDefault();
         claimFeedback.textContent = 'Your response has been sent.';
+        claimDialog.close();
     });
 
     try {
