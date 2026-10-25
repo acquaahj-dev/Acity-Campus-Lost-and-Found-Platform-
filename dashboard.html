@@ -3,52 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Activity | Campus Lost & Found</title>
-  <link rel="stylesheet" href="ux-ui.css">
-<link rel="stylesheet" href="dashboard.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>My Dashboard | Campus Lost & Found</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ux-ui.css">
   <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="reported-items.css">
+  <link rel="stylesheet" href="pending-claims.css">
+  <link rel="stylesheet" href="status-controls.css">
+  <link rel="stylesheet" href="messages-panel.css">
 </head>
 <body>
-  <!-- Group 7 header -->
+  <!-- PASTE the <header> and <nav> from Group 7's index.html here -->
 
-  <main class="dashboard">
-    <header class="dashboard-header">
-      <div class="dashboard-actions">
-  <a class="btn" href="#">Report an item</a>
-  <a class="btn" href="#">Open messages</a>
-</div>
+  <main id="dashboard">
+    <section aria-labelledby="dash-title">
+      <h2 id="dash-title">My Dashboard</h2>
 
-      <p class="eyebrow">Your dashboard</p>
-      <h1>My Activity</h1>
-      <p class="subtitle">Track your reports, claims and messages in one place.</p>
-    </header>
+      <!-- Summary cards: Role 4's script fills in the numbers -->
+      <div class="dash-summary">
+        <article class="card"><h3>Open</h3><p><strong data-count="open">0</strong></p></article>
+        <article class="card"><h3>Claimed</h3><p><strong data-count="claimed">0</strong></p></article>
+        <article class="card"><h3>Resolved</h3><p><strong data-count="resolved">0</strong></p></article>
+        <article class="card"><h3>Total reports</h3><p><strong data-count="total">0</strong></p></article>
+      </div>
 
-    <nav class="tabs" role="tablist" aria-label="Dashboard sections">
-      <button class="tab active" role="tab" id="tab-reported" aria-selected="true" aria-controls="reported" data-tab="reported">My Reported Items</button>
-      <button class="tab" role="tab" id="tab-claims" aria-selected="false" aria-controls="claims" data-tab="claims">Pending Claims</button>
-      <button class="tab" role="tab" id="tab-resolved" aria-selected="false" aria-controls="resolved" data-tab="resolved">Resolved</button>
-    </nav>
+      <!-- Tabs -->
+      <nav class="dash-tabs" role="tablist" aria-label="Dashboard sections">
+        <button type="button" role="tab" id="tabbtn-reported" aria-controls="tab-reported" aria-selected="true" data-tab="reported">Reported Items</button>
+        <button type="button" role="tab" id="tabbtn-claims" aria-controls="tab-claims" aria-selected="false" data-tab="claims">Pending Claims</button>
+        <button type="button" role="tab" id="tabbtn-resolved" aria-controls="tab-resolved" aria-selected="false" data-tab="resolved">Resolved</button>
+        <button type="button" role="tab" id="tabbtn-messages" aria-controls="tab-messages" aria-selected="false" data-tab="messages">Messages</button>
+      </nav>
+    </section>
 
-    <section id="reported" class="tab-panel" role="tabpanel" aria-labelledby="tab-reported">
+    <section id="tab-reported" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-reported" data-tab-panel="reported">
       <h2>My Reported Items</h2>
-      <!-- Role 2 builds here -->
+      <p class="empty-state" data-empty-for="reported-items-list" hidden>No active reports yet.</p>
+      <div id="reported-items-list" class="dash-grid"></div> <!-- Role 2 fills -->
     </section>
 
-    <section id="claims" class="tab-panel" role="tabpanel" aria-labelledby="tab-claims" hidden>
+    <section id="tab-claims" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-claims" data-tab-panel="claims" hidden>
       <h2>Pending Claims</h2>
-      <!-- Role 3 builds here -->
+      <div id="claims-list"></div> <!-- Role 3 fills -->
     </section>
 
-    <section id="resolved" class="tab-panel" role="tabpanel" aria-labelledby="tab-resolved" hidden>
+    <section id="tab-resolved" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-resolved" data-tab-panel="resolved" hidden>
       <h2>Resolved Items</h2>
-      <!-- Role 4 builds here -->
+      <p class="empty-state" data-empty-for="resolved-items-list">Nothing resolved yet.</p>
+      <div id="resolved-items-list" class="dash-grid"></div> <!-- Role 4 moves cards here -->
+    </section>
+
+    <section id="tab-messages" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-messages" data-tab-panel="messages" hidden>
+      <h2>Messages</h2>
+      <div id="messages-panel"></div> <!-- Role 5 fills -->
     </section>
   </main>
 
-  <!-- Footer from Group 7 -->
+  <!-- PASTE the <footer> from Group 7's index.html here -->
 
-  <script src="dashboard.js"></script>
+  <script src="mock-data.js"></script>
+  <script src="dashboard-tabs.js"></script>
+  <script src="reported-items.js"></script>
+  <script src="pending-claims.js"></script>
+  <script src="messages-panel.js"></script>
+  <script src="status-controls.js"></script> <!-- ALWAYS LAST -->
 </body>
 </html>

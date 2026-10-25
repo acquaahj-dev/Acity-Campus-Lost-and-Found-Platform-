@@ -1,121 +1,76 @@
-:root {
-  --red: #c8102e;
-  --red-dark: #a80f26;
-  --black: #0a0a0a;
-  --grey: #f5f5f7;
-  --text: #1d1d1f;
-  --muted: #6e6e73;
-  --gold: #d4a843;
-  --radius: 20px;
-}
+/* Group 6 - Role 1: page shell and tabs.
+   Colours come from the ux-ui.css variables; classes use the dash- prefix. */
 
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: "Inter", system-ui, sans-serif;
-  background: #fff;
-  color: var(--text);
-  line-height: 1.5;
-}
-
-.dashboard {
+#dashboard {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
 }
 
-/* Header */
-.dashboard-header {
-  text-align: center;
-  padding: 2rem 0 1.5rem;
+/* Summary cards */
+.dash-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
 }
-.eyebrow {
+.dash-summary .card {
+  background: var(--light-gray);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.25rem;
+  text-align: left;
+}
+.dash-summary .card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+}
+.dash-summary .card p { margin: 0; }
+.dash-summary .card strong {
+  font-size: 2rem;
   color: var(--red);
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-}
-.dashboard-header h1 {
-  font-size: clamp(2.2rem, 6vw, 3.5rem);
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  margin: 0 0 0.75rem;
-}
-.subtitle {
-  color: var(--muted);
-  font-size: 1.05rem;
-  margin: 0;
 }
 
 /* Tabs as pills */
-.tabs {
+.dash-tabs {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
-  overflow-x: auto;
-  padding: 0.25rem 0;
-  margin: 1.5rem 0 1rem;
+  margin: 1rem 0;
 }
-.tab {
+.dash-tabs button {
   padding: 0.6rem 1.1rem;
   border: none;
   border-radius: 999px;
-  background: var(--grey);
-  color: var(--text);
+  background: var(--light-gray);
+  color: var(--black);
   font: inherit;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  white-space: nowrap;
   transition: background 0.2s, color 0.2s;
 }
-.tab:hover { background: #e8e8ed; }
-.tab.active {
+.dash-tabs button:hover { background: var(--border); }
+.dash-tabs button[aria-selected="true"] {
   background: var(--red);
-  color: #fff;
+  color: var(--white);
 }
-.tab:focus-visible {
+.dash-tabs button:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 2px;
 }
 
-/* Panels */
-.tab-panel {
-  background: var(--grey);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  min-height: 200px;
-}
-.tab-panel h2 {
-  margin-top: 0;
-  letter-spacing: -0.02em;
+/* Panels: ux-ui.css centres main, so reset alignment here */
+.dash-panel { text-align: left; }
+.dash-panel h2 { margin-top: 0; }
+
+/* Grid that Roles 2 and 4 render cards into */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
 }
 
-/* Reusable button for teammates */
-.btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 999px;
-  background: var(--red);
-  color: #fff;
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
+@media (max-width: 700px) {
+  .dash-summary { grid-template-columns: repeat(2, 1fr); }
 }
-.btn:hover { background: var(--red-dark); }
-
-/* Tablet and desktop */
-@media (min-width: 768px) {
-  .dashboard { padding: 2rem 2rem 4rem; }
-}
-
-.dashboard-actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-.btn { text-decoration: none; }
