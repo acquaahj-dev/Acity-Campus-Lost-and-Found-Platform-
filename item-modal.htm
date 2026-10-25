@@ -6,21 +6,22 @@
     <title>Reported Items | Acity Lost and Found</title>
     <link rel="stylesheet" href="../ux-ui.css">
     <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
     <header>
         <h1>Acity Lost and Found</h1>
-    <nav aria-label="Main navigation">
-        <a href="test/Report-item.html">Report Item</a>
-        <a href="#">Community</a>
-        <a href="#">Community2</a>
+        <nav aria-label="Main navigation">
+            <a href="test/Report-item.html">Report Item</a>
+            <a href="#">Community</a>
+            <a href="#">Community2</a>
+        </nav>
     </header>
-    </nav>
     <main>
-        <h2>Reported items</h2>
-        <p id="message" role="status">Loading reported items...</p>
-        <section id="items" aria-live="polite" aria-label="Reported items"></section>
+        <section aria-labelledby="reported-items-heading">
+            <h2 id="reported-items-heading">Reported items</h2>
+            <p id="message" role="status">Loading reported items...</p>
+            <section id="items" aria-live="polite"></section>
+        </section>
     </main>
     <dialog id="claim-dialog" aria-labelledby="claim-title">
         <form id="claim-form">
@@ -30,10 +31,10 @@
             <textarea id="claim-answer" name="claimAnswer" rows="4" required></textarea>
             <p class="claim-note"></p>
             <p id="claim-feedback" role="status" aria-live="polite"></p>
-            <div class="claim-actions">
+            <section class="claim-actions">
                 <button class="claim-cancel" id="claim-cancel" type="button">Cancel</button>
                 <button class="claim-button" type="submit">Submit claim</button>
-            </div>
+            </section>
         </form>
     </dialog>
     <script src="script.js" defer></script>
