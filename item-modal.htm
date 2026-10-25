@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reported Items | Acity Lost and Found</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Acity Lost and Found</h1>
+    <nav aria-label="Main navigation">
+        <a href="../test/Report-item.html">Report Item</a>
+        <!-- <a href="../test2/index.htm">Browse</a> | -->
+        <a href="#">Community</a>
+        <a href="#">Community2</a>
+    </header>
+    </nav>
+    <main>
+        <h2>Reported items</h2>
+        <p id="message" role="status">Loading reported items...</p>
+        <section id="items" aria-live="polite" aria-label="Reported items"></section>
+    </main>
+    <dialog id="claim-dialog" aria-labelledby="claim-title">
+        <form id="claim-form">
+            <h2 id="claim-title">Claim item</h2>
+            <p id="claim-item-name"></p>
+            <label for="claim-answer">What specific detail can you provide to verify this item belongs to you?</label>
+            <textarea id="claim-answer" name="claimAnswer" rows="4" required></textarea>
+            <p class="claim-note"></p>
+            <p id="claim-feedback" role="status" aria-live="polite"></p>
+            <div class="claim-actions">
+                <button class="claim-cancel" id="claim-cancel" type="button">Cancel</button>
+                <button class="claim-button" type="submit">Submit claim</button>
+            </div>
+        </form>
+    </dialog>
+    <script src="script.js" defer></script>
+</body>
+</html>
