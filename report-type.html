@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Choose report type - Acity Lost and Found</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared styles first, then Group 1 styles -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+
+  <!-- The shared header appears here (added by layout.js) -->
+  <div id="site-header"></div>
+
+  <main id="main">
+
+    <section class="hero">
+      <p class="eyebrow">Report an item</p>
+      <h1 class="hero__title">Lost something? Found something?</h1>
+      <p class="hero__text">Help keep our campus safe and connected. Report lost or found items and get them back to their rightful owners.</p>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid grid--2">
+
+          <div class="card card--large">
+            <p class="card__label">Lost</p>
+            <h2 class="card__title">Report a lost item</h2>
+            <p class="card__text">I lost something on campus.</p>
+            <div class="card__link"><a class="btn" href="report.html?type=lost">Start lost report</a></div>
+          </div>
+
+          <div class="card card--large card--dark">
+            <p class="card__label">Found</p>
+            <h2 class="card__title">Report a found item</h2>
+            <p class="card__text">I found something on campus.</p>
+            <div class="card__link"><a class="btn" href="report.html?type=found">Start found report</a></div>
+          </div>
+
+        </div>
+        <p class="report-note">Already sent a report? <a class="link" href="find-report.html">Find it with your reference ID</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- The shared footer appears here (added by layout.js) -->
+  <div id="site-footer"></div>
+
+  <!-- Scripts go last, layout.js first -->
+  <script src="js/layout.js"></script>
+
+</body>
+</html>

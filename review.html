@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Review your report </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Shared styles first, then Group 1 styles -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+
+  <!-- The shared header appears here (added by layout.js) -->
+  <div id="site-header"></div>
+
+  <main id="main">
+    <div class="container report-page">
+
+      <a class="report-back" href="report.html">&larr; Back to edit</a>
+      <h1 class="report-title" id="review-title">Review your report</h1>
+      <p class="report-intro" id="review-intro">Check everything below, then submit.</p>
+
+      <!-- Shown only if there is nothing to review -->
+      <p class="report-empty" id="empty-message" hidden>There is nothing to review yet. <a class="link" href="report-type.html">Start a report</a></p>
+
+      <section class="card report-review" id="review-card">
+        <a class="link report-review-edit" href="report.html">Edit</a>
+        <div class="report-photo" id="photo-area"></div>
+        <dl class="report-list" id="details-list"></dl>
+      </section>
+
+      <div class="report-actions report-actions-end" id="buttons-area">
+        <button type="button" class="button" id="submit-button">Submit report</button>
+      </div>
+
+      <!-- Shown after submitting, in case the pop-up is closed -->
+      <p class="report-submitted-note" id="submitted-note" hidden></p>
+
+      <!-- Success pop-up -->
+      <dialog class="report-modal" id="success-box" aria-labelledby="success-title">
+        <div class="report-tick"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+        <h2 class="report-modal-title" id="success-title">Your report has been submitted</h2>
+        <p class="report-modal-text">We’ll notify you if there is any update.</p>
+
+        <div class="report-reference">
+          <p class="report-reference-label">Your reference ID</p>
+          <p class="report-reference-id" id="reference-id-text"></p>
+          <button type="button" class="report-link-button" id="copy-button">Copy ID</button>
+          <p class="report-copy-message" id="copy-message" role="status"></p>
+        </div>
+        <p class="report-reference-note">Keep this ID safe. You need it to find your report later.</p>
+
+        <a class="button" id="view-report-link" href="find-report.html">View my report</a>
+        <a class="report-modal-link" href="report-type.html">Submit another report</a>
+        <a class="report-modal-link" href="index.html">Back to home</a>
+      </dialog>
+
+    </div>
+  </main>
+
+  <!-- The shared footer appears here (added by layout.js) -->
+  <div id="site-footer"></div>
+
+  <!-- Scripts go last, layout.js first -->
+  <script src="js/layout.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/review.js"></script>
+</body>
+</html>
