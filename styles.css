@@ -16,6 +16,7 @@
             gap: 16px;
             border-bottom: 1px solid #dedede;
             padding: 18px 24px;
+            background: #e30808;
         }
         header h1 { margin: 0; font-size: 22px; }
         a { color: #202020; }
