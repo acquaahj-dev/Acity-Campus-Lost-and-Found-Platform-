@@ -1,0 +1,81 @@
+<!-- working on the filter panel UI -->>
+
+<!-- Main sidebar structure: includes a top title row with an instant reset action -->
+<aside class="filter-panel">
+  <div class="filter-title-row">
+    <h3>Filters</h3>
+    <button type="button" id="clear-filters" class="text-button">Reset All</button>
+  </div>
+
+<!-- Capturing raw text typed by the user 
+ to search through item titles, tag numbers,
+ and descriptions -->
+
+  <label class="field-label" for="keyword">Keyword Search</label>
+  <div class="search-field">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="keyword" placeholder="Search name, ID, details...">
+  </div>
+
+  <div class="filter-divider"></div>
+
+  <!-- 
+Filter campus items down by specific item classifications 
+(e.g., Electronics, Documents, Keys).
+-->
+
+  <label class="field-label" for="category">Category</label>
+  <select id="category">
+    <option value="">All Categories</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Documents">Documents & IDs</option>
+    <option value="Accessories">Accessories & Bags</option>
+    <option value="Clothing">Clothing</option>
+    <option value="Keys">Keys & Cards</option>
+    <option value="Other">Other Items</option>
+  </select>
+
+  <!-- Status Dropdown (Lost / Found) -->
+  <label class="field-label" for="status">Status</label>
+  <select id="status">
+    <option value="">All Statuses</option>
+    <option value="Lost">Lost</option>
+    <option value="Found">Found</option>
+  </select>
+
+  <!-- Filter by Location -->
+  <label class="field-label" for="location">Location</label>
+  <select id="location">
+    <option value="">All Locations</option>
+    <option value="Library">Library</option>
+    <option value="Computer Lab 1">Computer Lab 1</option>
+    <option value="Computer Lab 2">Computer Lab 2</option>
+    <option value="Auditorium">Auditorium</option>
+    <option value="Cafeteria">Cafeteria</option>
+    <option value="A1">Block A1</option>
+    <option value="A2">Block A2</option>
+    <option value="L5">Lecture Room L5</option>
+    <option value="L8">Lecture Room L8</option>
+  </select>
+
+  <div class="filter-divider"></div>
+
+  <!-- Date Range Selection -->
+  <div class="date-label-row">
+    <span class="field-label" style="margin:0;">Date Range</span>
+    <span class="optional-label">Optional</span>
+  </div>
+  <div class="date-inputs">
+    <div>
+      <label for="date-from" class="sub-label">From</label>
+      <input type="date" id="date-from">
+    </div>
+    <div>
+      <label for="date-to" class="sub-label">To</label>
+      <input type="date" id="date-to">
+    </div>
+  </div>
+
+  <!-- Clear All Filters Button at the bottom of the filter panel -->
+  <button type="button" id="clear-filters-bottom" class="clear-button">Clear All Filters</button>
+</aside>
