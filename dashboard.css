@@ -23,18 +23,19 @@
 .dash-summary .card h3 {
   margin: 0 0 0.25rem;
   font-size: 0.95rem;
+  
 }
 .dash-summary .card p { margin: 0; }
 .dash-summary .card strong {
   font-size: 2rem;
-  color: var(--red);
+ color: var(--red);
 }
 
 /* Tabs as pills */
 .dash-tabs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: left;
   gap: 0.5rem;
   margin: 1rem 0;
 }
@@ -42,18 +43,21 @@
   padding: 0.6rem 1.1rem;
   border: none;
   border-radius: 999px;
-  background: var(--light-gray);
+  background: #e4e4e4;
   color: var(--black);
   font: inherit;
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s;
 }
-.dash-tabs button:hover { background: var(--border); }
+.dash-tabs button:hover,
+.dash-tabs button[aria-selected="true"]:hover {
+  background: #d0d0d0;
+}
 .dash-tabs button[aria-selected="true"] {
-  background: var(--red);
-  color: var(--white);
+  background: #d0d0d0;
+  font-weight: 700;
 }
 .dash-tabs button:focus-visible {
   outline: 3px solid var(--gold);
