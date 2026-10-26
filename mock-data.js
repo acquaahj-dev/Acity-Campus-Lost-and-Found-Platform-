@@ -1,7 +1,7 @@
-/* ==========================================================================
+/* 
    Group 6 – User Activity Dashboard
    Role 5: Shared Mock Data
-   File:   mock-data.js          (load FIRST in dashboard.html)
+   File:   mock-data.js 
 
    There is no backend in this project, so every Group 6 script reads its
    data from the two globals created here:
@@ -21,21 +21,21 @@
    PRIVACY: the platform is built around anonymous contact, so people are
    shown by an alias ("Anonymous Student A"), never by a real name, phone
    number or email address.
-   ========================================================================== */
+    */
 
 (function () {
   "use strict";
 
-  /* ---------- The raw mock data ---------- */
+  /*  The raw mock data  */
 
   const data = {
     // Pretend login: the user who is "using" the dashboard right now.
     currentUserId: "u1",
 
-    /* ------------------------------------------------------------------
+    /* 
            HOOKS FOR OTHER GROUPS (Group 8: change a path HERE and every
            link in the dashboard updates. Nothing else needs editing.)
-           ------------------------------------------------------------------ */
+            */
     links: {
       itemDetails: "item-details.html", // Group 3 – page receives ?id=ITEM_ID
       messages: "messages.html", // Group 4 – page may read ?item=ITEM_ID
@@ -53,13 +53,13 @@
       { id: "u6", alias: "Anonymous Student E" },
     ],
 
-    /* ------------------------------------------------------------------
+    /* 
            ITEMS
            HOOK (Groups 1 and 2): when the shared item store exists, replace
            this array with the shared data. Keep the field names above.
-           ------------------------------------------------------------------ */
+            */
     items: [
-      // Reported by the current user (u1) – these appear on the dashboard
+      // Reported by the current user (u1)  these appear on the dashboard
       {
         id: 1,
         title: "Black laptop bag",
@@ -121,7 +121,7 @@
         reportedBy: "u1",
       },
 
-      // Reported by other users – only used to show claims the user made
+      // Reported by other users only used to show claims the user made
       {
         id: 7,
         title: "Set of house keys",
@@ -164,10 +164,10 @@
       },
     ],
 
-    /* ------------------------------------------------------------------
-           CLAIMS – both claims made ON the user's items and claims the user
+    /* 
+           CLAIMS both claims made ON the user's items and claims the user
            made on other people's items.
-           ------------------------------------------------------------------ */
+            */
     claims: [
       {
         id: "c1",
@@ -233,9 +233,9 @@
       },
     ],
 
-    /* ------------------------------------------------------------------
-           MESSAGES – a summary only. The full chat lives on Group 4's page.
-           ------------------------------------------------------------------ */
+    /* 
+           MESSAGES a summary only. The full chat lives on Group 4's page.
+            */
     messages: [
       {
         id: "m1",
@@ -273,7 +273,7 @@
     ],
   };
 
-  /* ---------- Helper functions shared by every Group 6 script ---------- */
+  /*  Helper functions shared by every Group 6 script  */
 
   const helpers = {
     /** Anonymous display name for a user id ("You" for the current user). */
@@ -337,7 +337,7 @@
       return data.links.itemDetails + "?id=" + encodeURIComponent(itemId);
     },
 
-    /** Link to Group 4's messaging page (optionally for one item). */
+    /** Link to Group 4's messaging page. */
     messagesUrl(itemId) {
       return itemId === undefined
         ? data.links.messages

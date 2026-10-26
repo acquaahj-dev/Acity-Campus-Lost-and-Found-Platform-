@@ -1,9 +1,9 @@
-/* ==========================================================================
+/* 
    GROUP 6 — ROLE 4: STATUS CONTROLS & RESOLVE LOGIC
    Styles only. Do not change status-controls.js behavior or the data-status
    contract: Open / Claimed / Resolved. Status meaning is communicated with
    labels and borders, using only Group 7's approved red / black / gold palette.
-   ========================================================================== */
+    */
 
 /* Status-specific edge accents are deliberately restrained. */
 .item-card[data-status="Open"] { --item-accent: var(--black); }
@@ -44,7 +44,7 @@
 .badge--claimed { border-color: var(--gold); }
 .badge--resolved { background: var(--light-gray); border-color: var(--red); color: var(--dark-red); }
 
-/* Action button is full-width so the next step is obvious on each card. */
+/* Action button is full width so the next step is obvious on each card. */
 .item-card__actions { display: flex; flex-wrap: wrap; gap: 0.55rem; }
 .btn-status-toggle {
   display: inline-flex;
@@ -164,7 +164,7 @@
   .btn-status-toggle, .confirm-dialog[open], .confirm-dialog__cancel,
   .confirm-dialog__confirm, .status-toast { animation: none; transition: none; }
 }
-/* ULTRA-MODERN STATUS SYSTEM — keep all JS-facing status hooks unchanged. */
+/*  — keep all JS-facing status hooks unchanged. */
 .item-card__badges { gap: .45rem; }
 .badge {
   min-height: 27px;

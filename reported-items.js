@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* 
    Group 6 – User Activity Dashboard
    Role 2: My Reported Items
    File:   reported-items.js
@@ -13,7 +13,7 @@
 
    Card contract shared with Role 4 (do not change these attributes):
      <article class="item-card" data-item-id data-status data-type>
-   ========================================================================== */
+    */
 
 (function () {
     "use strict";
@@ -31,7 +31,7 @@
             "</svg>"
         );
 
-    /* ---------- Small DOM helper ---------- */
+    /* Small DOM helper */
 
     /** Create an element with an optional class name and text. */
     function createElement(tag, className, text) {
@@ -48,7 +48,7 @@
         return line;
     }
 
-    /* ---------- Building one card ---------- */
+    /* Building one card */
 
     function buildCard(item, helpers) {
         const card = createElement("article", "item-card");
@@ -83,7 +83,7 @@
         return card;
     }
 
-    /* ---------- Drawing every card ---------- */
+    /* Drawing every card */
 
     function render() {
         const helpers = window.dashboardHelpers;

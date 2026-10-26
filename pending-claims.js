@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* 
    Group 6 – User Activity Dashboard
    Role 3: Pending Claims
    File:   pending-claims.js
@@ -10,14 +10,14 @@
    Saves  : DashboardStore.saveClaimStatus()                 (dashboard-store.js)
 
    The Claims tab shows two groups:
-     1. "Claims on my items"  – other students claim something I reported.
-                                I can Approve or Reject pending ones.
-     2. "Claims I've made"    – I claim something someone else reported.
+     1. "Claims on my items"  other students claim something I reported.
+                             I can Approve or Reject pending ones.
+     2. "Claims I've made"   I claim something someone else reported.
                                 I can only wait for their decision.
 
    Claim statuses: "Pending", "Approved", "Rejected".
    Claim rows never use the .item-card class, so Role 4's script ignores them.
-   ========================================================================== */
+    */
 
 (function () {
     "use strict";
@@ -37,7 +37,7 @@
     const CLAIM = Object.freeze({ PENDING: "Pending", APPROVED: "Approved", REJECTED: "Rejected" });
     const SORT_ORDER = { Pending: 0, Approved: 1, Rejected: 2 };
 
-    /* ---------- Small DOM helper ---------- */
+    /* Small DOM helper */
 
     function createElement(tag, className, text) {
         const element = document.createElement(tag);
@@ -46,7 +46,7 @@
         return element;
     }
 
-    /* ---------- Page pieces that are created once ---------- */
+    /* Page pieces that are created once */
 
     const summaryEl = createElement("p", "claim-summary");
     const liveRegion = createElement("p", "claim-sr-only"); // read aloud by screen readers
@@ -56,7 +56,7 @@
 
     container.append(summaryEl, liveRegion, groupsEl);
 
-    /* ---------- Rules ---------- */
+    /* Rules */
 
     /** A pending claim on an item that is already Resolved is no longer relevant. */
     function isRelevant(claim) {
@@ -76,7 +76,7 @@
         );
     }
 
-    /* ---------- Building one claim row ---------- */
+    /* Building one claim row */
 
     /**
      * @param {Object} claim
@@ -173,7 +173,7 @@
         return button;
     }
 
-    /* ---------- Building a group of rows ---------- */
+    /* Building a group of rows */
 
     function buildGroup(title, intro, claims, role, emptyText) {
         const group = createElement("section", "claim-group");
@@ -190,7 +190,7 @@
         return group;
     }
 
-    /* ---------- Drawing everything ---------- */
+    /* Drawing everything */
 
     function render() {
         const onMyItems = helpers.getClaimsOnMyItems().filter(isRelevant);
@@ -224,7 +224,7 @@
         });
     }
 
-    /* ---------- Approve / Reject ---------- */
+    /* Approve / Reject */
 
     function decide(claim, newStatus) {
         // Safety net: never approve a second claim for the same item.
@@ -262,7 +262,7 @@
         if (row) row.focus();
     }
 
-    /* ---------- Start up ---------- */
+    /* Start up */
 
     // Resolving or reopening an item elsewhere can hide / show its pending claims.
     document.addEventListener("item-status-changed", render);

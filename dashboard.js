@@ -9,7 +9,7 @@
       t.setAttribute('aria-selected', active ? 'true' : 'false');
       t.tabIndex = active ? 0 : -1;
     });
-    // Panels are only hidden, never removed, so cards inside still exist
+   
     panels.forEach(function (p) {
       p.hidden = p.getAttribute('data-tab-panel') !== name;
     });
@@ -26,7 +26,7 @@
     });
   });
 
-  // Open the tab named in the URL, e.g. dashboard.html#claims
+  // Open the tab named in the URL, 
   var initial = tabs.filter(function (t) {
     return '#' + t.getAttribute('data-tab') === location.hash;
   })[0];

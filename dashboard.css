@@ -1,7 +1,6 @@
-/* ==========================================================================
+/* 
    GROUP 6 — USER ACTIVITY DASHBOARD
    Role 1: Page shell, layout, shared tokens and motion.
-   --------------------------------------------------------------------------
    INTEGRATION CONTRACT
    - Load ux-ui.css first; this file must load after it.
    - This file is intentionally scoped to #dashboard / dash-* classes.
@@ -9,7 +8,7 @@
    - Reuse ONLY Group 7's palette and Inter typeface. Do not add global rules.
    - The shared --dash-* tokens below are safe for the other Group 6 CSS files.
    - Group 7 / Group 8 can reuse the documented dash-* classes where useful.
-   ========================================================================== */
+    */
 
 /* Shared component tokens. These are aliases of the global theme, not a
    second palette. Shadows are translucent versions of the global black. */
@@ -375,14 +374,14 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
-/* ==========================================================================
+/* 
    ULTRA-MODERN PRESENTATION LAYER — Group 6
    --------------------------------------------------------------------------
    This layer intentionally comes AFTER the existing component rules.
    It is a CSS-only refinement: no DOM, JavaScript, IDs, event hooks, or
    existing class contracts are changed. Keep ux-ui.css and index.html intact.
    Palette and typography are inherited from the Group 7 global theme only.
-   ========================================================================== */
+    */
 
 /* A calmer, editorial dashboard canvas with more deliberate rhythm. */
 #dashboard {
@@ -657,5 +656,9 @@
   .dash-tab { gap: .35rem; padding-inline: .6rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #dashboard *, #dashboard *::before, #dashboard *::after,
+  #dashboard *, #dashboard *::before, #dashboard *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

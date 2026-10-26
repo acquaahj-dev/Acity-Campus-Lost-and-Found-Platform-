@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* 
    Group 6 – User Activity Dashboard
    Role 4: Status Controls & Resolve Logic
    File:   status-controls.js          (ALWAYS load LAST in dashboard.html)
@@ -21,12 +21,12 @@
                         StatusControls.setStatus(id, s)    change a status from code (Role 3)
                         StatusControls.createStatusBadge() / createTypeBadge()
      Event:             "item-status-changed"  ->  event.detail = { id, from, to }
-   ========================================================================== */
+    */
 
 (function () {
     "use strict";
 
-    /* ---------- Settings ---------- */
+    /*  Settings  */
 
     const ACTIVE_LIST_ID = "reported-items-list";
     const RESOLVED_LIST_ID = "resolved-items-list";
@@ -35,7 +35,7 @@
 
     const store = window.DashboardStore || null; // optional: the page still works without it
 
-    /* ---------- Module state ---------- */
+    /*  Module state  */
 
     const memoryPrevious = {}; // fallback "status before resolving" if the store is missing
     let dialogEl = null;       // the confirm dialog (built the first time it is needed)
@@ -43,7 +43,7 @@
     let toastTimer = null;
     let pendingAction = null;  // { card, trigger } while the dialog is open
 
-    /* ---------- Small helpers ---------- */
+    /*  Small helpers  */
 
     /** Turn any text into one of the three valid statuses. */
     function normaliseStatus(value) {
@@ -86,7 +86,7 @@
         return previous === STATUS.RESOLVED ? STATUS.OPEN : previous;
     }
 
-    /* ---------- Badges (reusable by other roles) ---------- */
+    /*  Badges (reusable by other roles)  */
 
     function createStatusBadge(status) {
         const clean = normaliseStatus(status);
@@ -106,7 +106,7 @@
         return badge;
     }
 
-    /* ---------- Card setup: badges and button ---------- */
+    /*  Card setup: badges and button  */
 
     /** (Re)build the badge row at the top of a card. */
     function ensureBadges(card) {
@@ -154,7 +154,7 @@
         button.setAttribute("aria-pressed", String(isResolved));
     }
 
-    /* ---------- Moving cards, counts and empty states ---------- */
+    /*  Moving cards, counts and empty states  */
 
     function moveCard(card, status) {
         const targetId = status === STATUS.RESOLVED ? RESOLVED_LIST_ID : ACTIVE_LIST_ID;
@@ -189,7 +189,7 @@
         });
     }
 
-    /* ---------- The core status change ---------- */
+    /*  The core status change  */
 
     /**
      * Change one card's status everywhere: screen, shared data, saved state.
@@ -238,7 +238,7 @@
         applyStatus(card, isResolved ? getPreviousStatus(card.dataset.itemId) : STATUS.RESOLVED);
     }
 
-    /* ---------- Confirm dialog ---------- */
+    /*  Confirm dialog  */
 
     function buildDialog() {
         if (dialogEl) return;
@@ -322,7 +322,7 @@
         }
     }
 
-    /* ---------- Message at the bottom of the screen ---------- */
+    /*  Message at the bottom of the screen  */
 
     function announce(message) {
         if (!toastEl) {
@@ -339,7 +339,7 @@
         toastTimer = setTimeout(() => toastEl.classList.remove("status-toast--visible"), 3500);
     }
 
-    /* ---------- Start up and public API ---------- */
+    /*  Start up and public API  */
 
     /** Scan every card: add badges and buttons, put it in the right list. */
     function refresh() {

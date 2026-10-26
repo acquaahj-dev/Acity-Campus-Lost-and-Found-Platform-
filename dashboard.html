@@ -31,11 +31,11 @@
   </head>
 
   <body>
-    <!-- ===================================================================
+    <!-- 
          HEADER + NAV  (copied from Group 7's index.html)
          HOOK (Group 7 / Group 8): if the global header changes, replace this
          block with the new one. Keep aria-current="page" on My Dashboard.
-         =================================================================== -->
+          -->
     <header>
       <h1>ACity Lost &amp; Found</h1>
 
@@ -51,11 +51,11 @@
       </nav>
     </header>
 
-    <!-- ===================================================================
+    <!----> 
          MAIN CONTENT  (Group 6 – User Activity Dashboard)
          IDs and data-attributes below are a contract between the five roles.
          Do not rename them without telling the whole group.
-         =================================================================== -->
+          -->
     <main id="dashboard">
       <div class="dash-shell">
         <!-- Page title and quick actions -->
@@ -247,26 +247,16 @@
       </div>
     </main>
 
-    <!-- ===================================================================
+    <!-- 
          FOOTER  (copied from Group 7's index.html)
          HOOK (Group 7 / Group 8): replace if the global footer changes.
-         =================================================================== -->
+          -->
     <footer id="contact">
       <h2>ACity Lost and Found</h2>
       <p>Helping Students reconnect with their belongings.</p>
       <p>&copy; 2026 Academic City University. All rights reserved.</p>
     </footer>
 
-    <!-- ===================================================================
-         SCRIPTS – ORDER MATTERS
-         1. mock-data.js        data + helpers          (Role 5)
-         2. dashboard-store.js  saves / restores state  (shared)
-         3. dashboard-tabs.js   tab switching           (Role 1)
-         4. reported-items.js   draws the item cards    (Role 2)
-         5. pending-claims.js   draws the claims        (Role 3)
-         6. messages-panel.js   draws the messages      (Role 5)
-         7. status-controls.js  badges + resolve logic  (Role 4)  <-- ALWAYS LAST
-         =================================================================== -->
     <script src="mock-data.js"></script>
     <script src="dashboard-store.js"></script>
     <script src="dashboard-tabs.js"></script>

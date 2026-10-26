@@ -1,9 +1,9 @@
-/* ==========================================================================
+/* 
    GROUP 6 — ROLE 3: PENDING CLAIMS
    The claim-* naming convention is an integration boundary: preserve these
    selectors because pending-claims.js renders them and status actions bind
    to their data attributes. All tones are derived from Group 7's palette.
-   ========================================================================== */
+    */
 
 .claim-summary {
   max-width: none;
@@ -175,7 +175,7 @@
   .claim-row, .claim-btn { animation: none; transition: none; }
   .claim-row:hover, .claim-btn:hover { transform: none; }
 }
-/* ULTRA-MODERN CLAIMS — structured rows, restrained emphasis, crisp actions. */
+/* ULTRA-MODERN CLAIMS structured rows, restrained emphasis, crisp actions. */
 .claim-summary {
   padding: 1.15rem 1.3rem;
   border: 1px solid var(--dash-line);

@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* .
    Group 6 – User Activity Dashboard
    Role 5: Messages Panel
    File:   messages-panel.js
@@ -12,7 +12,7 @@
 
    HOOK (Group 4): the link paths come from dashboardData.links.messages in
    mock-data.js. Each conversation opens  messages.html?item=ITEM_ID.
-   ========================================================================== */
+   . */
 
 (function () {
     "use strict";
@@ -29,7 +29,7 @@
         return;
     }
 
-    /* ---------- Small DOM helper ---------- */
+    /*  Small DOM helper  */
 
     function createElement(tag, className, text) {
         const element = document.createElement(tag);
@@ -38,7 +38,7 @@
         return element;
     }
 
-    /* ---------- Page pieces that are created once ---------- */
+    /*  Page pieces that are created once  */
 
     const liveRegion = createElement("p", "messages-sr-only");
     liveRegion.setAttribute("role", "status");
@@ -47,7 +47,7 @@
     const contentEl = createElement("div", "messages-content"); // rebuilt on every render()
     container.append(liveRegion, contentEl);
 
-    /* ---------- Building the pieces ---------- */
+    /*  Building the pieces  */
 
     /** Top bar: unread count, "Mark all as read" and the link to Group 4. */
     function buildToolbar(unreadCount) {
@@ -132,7 +132,7 @@
         return row;
     }
 
-    /* ---------- Drawing everything ---------- */
+    /*  Drawing everything  */
 
     function render() {
         const unread = helpers.getUnreadCount();
@@ -156,7 +156,7 @@
         });
     }
 
-    /* ---------- Managing messages ---------- */
+    /*  Managing messages  */
 
     function setUnread(message, unread) {
         message.unread = unread;

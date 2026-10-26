@@ -1,9 +1,9 @@
-/* ==========================================================================
+/* 
    GROUP 6 — ROLE 5: MESSAGES PANEL
    All messages-* selectors are consumed by messages-panel.js. The panel is
    a privacy-conscious conversation summary, not the full Group 4 chat UI.
    Use existing global palette and shared dash-* tokens only.
-   ========================================================================== */
+    */
 
 .messages-toolbar {
   display: flex;
@@ -160,7 +160,7 @@
   .messages-btn, .messages-item, .messages-item__link, .messages-item__toggle { transition: none; }
   .messages-btn:hover { transform: none; }
 }
-/* ULTRA-MODERN MESSAGES SUMMARY — still a summary surface, not Group 4 chat. */
+
 .messages-toolbar { margin-bottom: 1.2rem; }
 .messages-toolbar__summary { letter-spacing: -.025em; }
 .messages-btn {

@@ -1,7 +1,7 @@
-/* ==========================================================================
-   Group 6 – User Activity Dashboard
+/* 
+   Group 6 User Activity Dashboard
    Shared: Dashboard Store
-   File:   dashboard-store.js     (load SECOND, right after mock-data.js)
+   File:   dashboard-store.js  (load SECOND, right after mock-data.js)
 
    WHY THIS FILE EXISTS
    Before, each role saved its own data in localStorage in its own way, and
@@ -15,7 +15,7 @@
    As soon as this file loads it copies the saved changes back into
    window.dashboardData, so every script that renders afterwards sees the
    correct, up-to-date values. No backend: everything lives in localStorage.
-   ========================================================================== */
+    */
 
 (function () {
     "use strict";
@@ -26,7 +26,7 @@
     const ITEM_STATUSES = ["Open", "Claimed", "Resolved"];
     const CLAIM_STATUSES = ["Pending", "Approved", "Rejected"];
 
-    /* ---------- Reading and writing localStorage safely ---------- */
+    /* Reading and writing localStorage safely */
 
     const createEmptyState = () => ({ items: {}, claims: {}, messages: {} });
 
@@ -52,7 +52,7 @@
 
     let state = readState();
 
-    /* ---------- Saving changes ---------- */
+    /* Saving changes */
 
     /**
      * Remember an item's status.
@@ -80,7 +80,7 @@
         return record && record.previous ? record.previous : null;
     }
 
-    /* ---------- Restoring saved changes into the mock data ---------- */
+    /* Restoring saved changes into the mock data */
 
     function hydrate(data) {
         if (!data) return;

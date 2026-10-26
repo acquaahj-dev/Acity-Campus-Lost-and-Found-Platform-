@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* 
    Group 6 – User Activity Dashboard
    Role 1: Page Shell & Tabs
    File:   dashboard-tabs.js
@@ -10,8 +10,8 @@
      - Mouse click or keyboard Left / Right / Home / End arrows switch tabs
      - Only the selected tab is in the Tab key order (roving tabindex)
      - Panels are HIDDEN, never removed, so cards inside a closed tab still
-       exist and Role 4's script can keep counting them.
-   ========================================================================== */
+      exist and Role 4's script can keep counting them.
+    */
 
 (function () {
     "use strict";
@@ -21,7 +21,7 @@
 
     if (tabs.length === 0) return; // Not on the dashboard page.
 
-    /* ---------- Showing one tab ---------- */
+    /*  Showing one tab  */
 
     /**
      * Select a tab and show its panel.
@@ -59,7 +59,7 @@
         return tabs.find((tab) => tab.dataset.tab === name) || null;
     }
 
-    /* ---------- Mouse and keyboard ---------- */
+    /*  Mouse and keyboard  */
 
     tabs.forEach((tab, index) => {
         tab.addEventListener("click", () => showTab(tab));
@@ -84,12 +84,12 @@
         if (tab) showTab(tab, { updateHash: false });
     });
 
-    /* ---------- Start up ---------- */
+    /*  Start up  */
 
     // Open the tab named in the URL (dashboard.html#claims), else the first.
     showTab(findTabByName(location.hash.slice(1)) || tabs[0], { updateHash: false });
 
-    /* ---------- Page-level controls ---------- */
+    /*  Page-level controls  */
 
     // "Reset demo data": forgets every saved change so the demo starts fresh.
     document.querySelectorAll('[data-action="reset-demo"]').forEach((button) => {
