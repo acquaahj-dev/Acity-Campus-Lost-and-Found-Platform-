@@ -105,7 +105,7 @@ const items = [
         location: "A3",
         dateReported: "2026-10-23",
         description: "Brown leather bi-fold wallet. Owner should verify private details upon claiming.",
-        icon: "👛"
+        icon: "💼"
     },
     {
         id: "AC-010",
