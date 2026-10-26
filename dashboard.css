@@ -1,80 +1,427 @@
-/* Group 6 - Role 1: page shell and tabs.
-   Colours come from the ux-ui.css variables; classes use the dash- prefix. */
+/* ==========================================================================
+   Group 6 – User Activity Dashboard
+   Role 1: Page Shell, Layout & Design Tokens
+   File:   dashboard.css          (load AFTER ux-ui.css, BEFORE the role files)
+
+   DESIGN DIRECTION
+   Calm, editorial and a little luxurious: warm off-white canvas, white
+   surfaces, hairline borders, soft shadows, a serif display face for
+   headings and Group 7's red + gold used sparingly as accents.
+
+   HOW THIS AGREES WITH GROUP 7
+   - ux-ui.css is NOT edited. Its variables (--red, --dark-red, --black,
+     --white, --light-gray, --border, --gold) are reused below.
+   - Header, nav and footer stay exactly as Group 7 designed them.
+   - Everything here is scoped by a dash-* class or #dashboard, so it can
+     never change another group's page.
+
+   NOTE ON ux-ui.css QUIRKS (handled below)
+   - main is text-align:center      -> reset to left inside the dashboard
+   - section has padding 45px 7%    -> overridden on our own sections
+   - "* { padding: 0 }"             -> every component sets its own padding
+   - "body header" is styled black  -> never use <header> inside <main>
+   ========================================================================== */
+
+/* ---------- 1. Design tokens (shared by ALL Group 6 css files) ---------- */
+
+:root {
+  /* Surfaces and text */
+  --dash-bg: #f6f4f0;
+  --dash-surface: #ffffff;
+  --dash-ink: var(--black);
+  --dash-muted: #6a665f;
+  --dash-line: #e6e1d8;
+  --dash-line-strong: #cfc8ba;
+
+  /* Status colours (muted, to sit quietly next to Group 7's red) */
+  --dash-open: #2d5b88;
+  --dash-open-bg: #e8eff7;
+  --dash-claimed: #8f6410;
+  --dash-claimed-bg: #faf0d8;
+  --dash-resolved: #2c6b4b;
+  --dash-resolved-bg: #e3f1e9;
+
+  /* Shape and depth */
+  --dash-radius: 14px;
+  --dash-radius-sm: 8px;
+  --dash-shadow:
+    0 1px 2px rgba(34, 34, 34, 0.05), 0 10px 28px -14px rgba(34, 34, 34, 0.18);
+  --dash-shadow-hover:
+    0 2px 4px rgba(34, 34, 34, 0.06), 0 18px 36px -16px rgba(34, 34, 34, 0.28);
+
+  /* Type */
+  --dash-font-display: "Inter", sans-serif;
+}
+
+/* ---------- 2. Page canvas and shared basics ---------- */
 
 #dashboard {
-  max-width: 1100px;
+  background-color: var(--dash-bg);
+  text-align: left; /* ux-ui.css centres <main>; the dashboard reads left-to-right */
+}
+
+.dash-shell {
+  max-width: 1140px;
   margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem) 4rem;
 }
 
-/* Summary cards */
-.dash-summary {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-.dash-summary .card {
-  background: var(--light-gray);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.25rem;
-  text-align: left;
-}
-.dash-summary .card h3 {
-  margin: 0 0 0.25rem;
-  font-size: 0.95rem;
-  
-}
-.dash-summary .card p { margin: 0; }
-.dash-summary .card strong {
-  font-size: 2rem;
- color: var(--red);
-}
-
-/* Tabs as pills */
-.dash-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  gap: 0.5rem;
-  margin: 1rem 0;
-}
-.dash-tabs button {
-  padding: 0.6rem 1.1rem;
-  border: none;
-  border-radius: 999px;
-  background: #e4e4e4;
-  color: var(--black);
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.dash-tabs button:hover,
-.dash-tabs button[aria-selected="true"]:hover {
-  background: #d0d0d0;
-}
-.dash-tabs button[aria-selected="true"] {
-  background: #d0d0d0;
-  font-weight: 700;
-}
-.dash-tabs button:focus-visible {
+/* One consistent, visible keyboard focus ring for the whole dashboard. */
+#dashboard :focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 2px;
 }
 
-/* Panels: ux-ui.css centres main, so reset alignment here */
-.dash-panel { text-align: left; }
-.dash-panel h2 { margin-top: 0; }
+/* Current page in Group 7's nav (ux-ui.css has no style for this state). */
+header nav a[aria-current="page"] {
+  color: var(--gold);
+}
 
-/* Grid that Roles 2 and 4 render cards into */
+/* ---------- 3. Hero: title and quick actions ---------- */
+
+.dash-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(2.25rem, 5vw, 3.5rem) 0 1.75rem;
+}
+
+.dash-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* A short gold rule before the eyebrow text */
+.dash-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background-color: var(--gold);
+}
+
+.dash-title {
+  margin: 0;
+  font-family: var(--dash-font-display);
+  font-size: clamp(2rem, 4.5vw, 2.9rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.dash-subtitle {
+  max-width: 52ch;
+  margin: 0.85rem 0 0;
+  color: var(--dash-muted);
+  font-size: 1.02rem;
+}
+
+.dash-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ---------- 4. Buttons shared by the page (dash-btn) ---------- */
+
+.dash-btn {
+  display: inline-block;
+  padding: 0.7rem 1.25rem;
+  border: 1.5px solid var(--black);
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.4;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.dash-btn:hover {
+  transform: translateY(-2px);
+}
+
+.dash-btn--primary {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.dash-btn--primary:hover {
+  background-color: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+
+.dash-btn--secondary {
+  background-color: transparent;
+  color: var(--black);
+}
+
+.dash-btn--secondary:hover {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+/* ---------- 5. Summary tiles ---------- */
+
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 0; /* cancels the global section padding */
+}
+
+.dash-stat {
+  position: relative;
+  padding: 1.25rem 1.35rem 1.15rem;
+  overflow: hidden;
+  background-color: var(--dash-surface);
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius);
+  box-shadow: var(--dash-shadow);
+}
+
+/* Thin coloured bar along the top: the only colour each tile carries. */
+.dash-stat::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background-color: var(--dash-line-strong);
+}
+
+.dash-stat--open::before {
+  background-color: var(--dash-open);
+}
+.dash-stat--claimed::before {
+  background-color: var(--dash-claimed);
+}
+.dash-stat--resolved::before {
+  background-color: var(--dash-resolved);
+}
+.dash-stat--total::before {
+  background-color: var(--red);
+}
+
+.dash-stat__label {
+  margin: 0;
+  color: var(--dash-muted);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dash-stat__value {
+  max-width: none;
+  margin: 0.35rem 0 0;
+  font-family: var(--dash-font-display);
+  font-size: 2.6rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+/* ---------- 6. Tabs (underline style) ---------- */
+
+.dash-workspace {
+  margin-top: 2.25rem;
+}
+
+.dash-tabs {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto; /* scrolls sideways on very small phones instead of wrapping */
+  border-bottom: 1px solid var(--dash-line-strong);
+}
+
+.dash-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.95rem 1.15rem;
+  border: 0;
+  background: none;
+  color: var(--dash-muted);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.dash-tab:hover {
+  color: var(--dash-ink);
+}
+
+/* Red underline marks the selected tab. */
+.dash-tab::after {
+  content: "";
+  position: absolute;
+  right: 1.15rem;
+  bottom: -1px;
+  left: 1.15rem;
+  height: 2px;
+  background-color: var(--red);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.dash-tab[aria-selected="true"] {
+  color: var(--dash-ink);
+  font-weight: 600;
+}
+
+.dash-tab[aria-selected="true"]::after {
+  transform: scaleX(1);
+}
+
+/* Small number chip inside each tab */
+.dash-tab__count {
+  min-width: 1.5rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background-color: #e9e4da;
+  color: var(--dash-ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.dash-tab[aria-selected="true"] .dash-tab__count {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+/* ---------- 7. Panels and grids ---------- */
+
+.dash-panel {
+  padding: 2rem 0 0; /* overrides the global "section" padding */
+  text-align: left;
+}
+
+.dash-panel[hidden] {
+  display: none;
+}
+
+.dash-panel__title {
+  margin: 0;
+  font-family: var(--dash-font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.dash-panel__intro {
+  margin: 0.4rem 0 1.5rem;
+  color: var(--dash-muted);
+  font-size: 0.97rem;
+}
+
+/* Grid the item cards are drawn into (Role 2) and moved between (Role 4) */
 .dash-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.35rem;
+}
+
+/* ---------- 8. Footer note and small text button ---------- */
+
+.dash-demo-tools {
+  max-width: none;
+  margin: 3rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--dash-line);
+  color: var(--dash-muted);
+  font-size: 0.85rem;
+}
+
+.dash-link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--red);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.dash-link-button:hover {
+  color: var(--dark-red);
+}
+
+/* ---------- 9. Responsive ---------- */
+
+@media (max-width: 900px) {
+  .dash-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 700px) {
-  .dash-summary { grid-template-columns: repeat(2, 1fr); }
+  .dash-hero {
+    align-items: flex-start;
+  }
+
+  .dash-hero__actions {
+    width: 100%;
+  }
+
+  .dash-hero__actions .dash-btn {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .dash-stat__value {
+    font-size: 2.1rem;
+  }
+
+  .dash-tab {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .dash-tab::after {
+    right: 0.9rem;
+    left: 0.9rem;
+  }
+
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .dash-stats {
+    gap: 0.75rem;
+  }
+
+  .dash-stat {
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-btn,
+  .dash-tab,
+  .dash-tab::after {
+    transition: none;
+  }
+
+  .dash-btn:hover {
+    transform: none;
+  }
 }

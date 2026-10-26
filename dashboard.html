@@ -1,71 +1,278 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Dashboard | Campus Lost & Found</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="ux-ui.css">
-  <link rel="stylesheet" href="dashboard.css">
-  <link rel="stylesheet" href="reported-items.css">
-  <link rel="stylesheet" href="pending-claims.css">
-  <link rel="stylesheet" href="status-controls.css">
-  <link rel="stylesheet" href="messages-panel.css">
-</head>
-<body>
-  <!-- PASTE the <header> and <nav> from Group 7's index.html here -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <main id="dashboard">
-    <section aria-labelledby="dash-title">
-      <h2 id="dash-title">My Dashboard</h2>
+    <title>My Dashboard | ACity Lost &amp; Found</title>
 
-      <!-- Summary cards: Role 4's script fills in the numbers -->
-      <div class="dash-summary">
-        <article class="card"><h3>Open</h3><p><strong data-count="open">0</strong></p></article>
-        <article class="card"><h3>Claimed</h3><p><strong data-count="claimed">0</strong></p></article>
-        <article class="card"><h3>Resolved</h3><p><strong data-count="resolved">0</strong></p></article>
-        <article class="card"><h3>Total reports</h3><p><strong data-count="total">0</strong></p></article>
-      </div>
+    <!-- Fonts: Inter (global body font) + Fraunces (dashboard headings only) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-      <!-- Tabs -->
-      <nav class="dash-tabs" role="tablist" aria-label="Dashboard sections">
-        <button type="button" role="tab" id="tabbtn-reported" aria-controls="tab-reported" aria-selected="true" data-tab="reported">Reported Items</button>
-        <button type="button" role="tab" id="tabbtn-claims" aria-controls="tab-claims" aria-selected="false" data-tab="claims">Pending Claims</button>
-        <button type="button" role="tab" id="tabbtn-resolved" aria-controls="tab-resolved" aria-selected="false" data-tab="resolved">Resolved</button>
-        <button type="button" role="tab" id="tabbtn-messages" aria-controls="tab-messages" aria-selected="false" data-tab="messages">Messages</button>
+    <!-- GROUP 7: global styles. Do not edit ux-ui.css from Group 6. -->
+    <link rel="stylesheet" href="ux-ui.css" />
+
+    <!-- GROUP 6 styles. Order matters: shared tokens first, then each role. -->
+    <link rel="stylesheet" href="dashboard.css" />
+    <!-- Role 1: tokens, layout, tabs -->
+    <link rel="stylesheet" href="reported-items.css" />
+    <!-- Role 2: item cards -->
+    <link rel="stylesheet" href="pending-claims.css" />
+    <!-- Role 3: claims -->
+    <link rel="stylesheet" href="status-controls.css" />
+    <!-- Role 4: badges, buttons, dialog -->
+    <link rel="stylesheet" href="messages-panel.css" />
+    <!-- Role 5: messages -->
+  </head>
+
+  <body>
+    <!-- ===================================================================
+         HEADER + NAV  (copied from Group 7's index.html)
+         HOOK (Group 7 / Group 8): if the global header changes, replace this
+         block with the new one. Keep aria-current="page" on My Dashboard.
+         =================================================================== -->
+    <header>
+      <h1>ACity Lost &amp; Found</h1>
+
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Lost Item</a>
+        <a href="found.html">Report Found Item</a>
+        <a href="items.html">Browse Items</a>
+        <a href="item-details.html">Item Details</a>
+        <a href="messages.html">Messages</a>
+        <a href="locations.html">Collection Points</a>
+        <a href="dashboard.html" aria-current="page">My Dashboard</a>
       </nav>
-    </section>
+    </header>
 
-    <section id="tab-reported" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-reported" data-tab-panel="reported">
-      <h2>My Reported Items</h2>
-      <p class="empty-state" data-empty-for="reported-items-list" hidden>No active reports yet.</p>
-      <div id="reported-items-list" class="dash-grid"></div> <!-- Role 2 fills -->
-    </section>
+    <!-- ===================================================================
+         MAIN CONTENT  (Group 6 – User Activity Dashboard)
+         IDs and data-attributes below are a contract between the five roles.
+         Do not rename them without telling the whole group.
+         =================================================================== -->
+    <main id="dashboard">
+      <div class="dash-shell">
+        <!-- Page title and quick actions -->
+        <section class="dash-hero" aria-labelledby="dash-title">
+          <div class="dash-hero__text">
+            <p class="dash-eyebrow">Your dashboard</p>
+            <h2 id="dash-title" class="dash-title">My Activity</h2>
+            <p class="dash-subtitle">
+              Track your reports, review claims and keep your conversations in
+              one place.
+            </p>
+          </div>
 
-    <section id="tab-claims" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-claims" data-tab-panel="claims" hidden>
-      <h2>Pending Claims</h2>
-      <div id="claims-list"></div> <!-- Role 3 fills -->
-    </section>
+          <div class="dash-hero__actions">
+            <!-- HOOK (Group 1): report forms -->
+            <a class="dash-btn dash-btn--primary" href="report.html"
+              >Report lost item</a
+            >
+            <a class="dash-btn dash-btn--secondary" href="found.html"
+              >Report found item</a
+            >
+          </div>
+        </section>
 
-    <section id="tab-resolved" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-resolved" data-tab-panel="resolved" hidden>
-      <h2>Resolved Items</h2>
-      <p class="empty-state" data-empty-for="resolved-items-list">Nothing resolved yet.</p>
-      <div id="resolved-items-list" class="dash-grid"></div> <!-- Role 4 moves cards here -->
-    </section>
+        <!-- Summary numbers: status-controls.js fills every data-count -->
+        <section class="dash-stats" aria-label="Summary of your reports">
+          <article class="dash-stat dash-stat--open">
+            <h3 class="dash-stat__label">Open</h3>
+            <p class="dash-stat__value" data-count="open">0</p>
+          </article>
+          <article class="dash-stat dash-stat--claimed">
+            <h3 class="dash-stat__label">Claimed</h3>
+            <p class="dash-stat__value" data-count="claimed">0</p>
+          </article>
+          <article class="dash-stat dash-stat--resolved">
+            <h3 class="dash-stat__label">Resolved</h3>
+            <p class="dash-stat__value" data-count="resolved">0</p>
+          </article>
+          <article class="dash-stat dash-stat--total">
+            <h3 class="dash-stat__label">Total reports</h3>
+            <p class="dash-stat__value" data-count="total">0</p>
+          </article>
+        </section>
 
-    <section id="tab-messages" class="dash-panel" role="tabpanel" aria-labelledby="tabbtn-messages" data-tab-panel="messages" hidden>
-      <h2>Messages</h2>
-      <div id="messages-panel"></div> <!-- Role 5 fills -->
-    </section>
-  </main>
+        <!-- Tabs + panels -->
+        <div class="dash-workspace">
+          <div class="dash-tabs" role="tablist" aria-label="Dashboard sections">
+            <button
+              type="button"
+              role="tab"
+              id="tabbtn-reported"
+              class="dash-tab"
+              aria-controls="tab-reported"
+              aria-selected="true"
+              data-tab="reported"
+            >
+              Reported Items
+              <span class="dash-tab__count" data-count="active">0</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="tabbtn-claims"
+              class="dash-tab"
+              aria-controls="tab-claims"
+              aria-selected="false"
+              data-tab="claims"
+            >
+              Pending Claims
+              <span class="dash-tab__count" data-tab-count="claims">0</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="tabbtn-resolved"
+              class="dash-tab"
+              aria-controls="tab-resolved"
+              aria-selected="false"
+              data-tab="resolved"
+            >
+              Resolved
+              <span class="dash-tab__count" data-count="resolved">0</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="tabbtn-messages"
+              class="dash-tab"
+              aria-controls="tab-messages"
+              aria-selected="false"
+              data-tab="messages"
+            >
+              Messages
+              <span class="dash-tab__count" data-tab-count="messages">0</span>
+            </button>
+          </div>
 
-  <!-- PASTE the <footer> from Group 7's index.html here -->
+          <!-- ROLE 2 fills #reported-items-list.  ROLE 4 adds badges and buttons. -->
+          <section
+            id="tab-reported"
+            class="dash-panel"
+            role="tabpanel"
+            aria-labelledby="tabbtn-reported"
+            data-tab-panel="reported"
+          >
+            <h2 class="dash-panel__title">My Reported Items</h2>
+            <p class="dash-panel__intro">
+              Everything you have reported as lost or found that is still
+              active.
+            </p>
+            <p class="empty-state" data-empty-for="reported-items-list" hidden>
+              You have no active reports.
+              <a href="report.html">Report an item</a> to get started.
+            </p>
+            <div id="reported-items-list" class="dash-grid"></div>
+          </section>
 
-  <script src="mock-data.js"></script>
- <script src="dashboard-tabs.js"></script>
-  <script src="reported-items.js"></script>
-  <script src="pending-claims.js"></script>
-  <script src="messages-panel.js"></script>
-  <script src="status-controls.js"></script> <!-- ALWAYS LAST -->
-</body>
+          <!-- ROLE 3 fills #claims-list. -->
+          <section
+            id="tab-claims"
+            class="dash-panel"
+            role="tabpanel"
+            aria-labelledby="tabbtn-claims"
+            data-tab-panel="claims"
+            hidden
+          >
+            <h2 class="dash-panel__title">Pending Claims</h2>
+            <p class="dash-panel__intro">
+              Review claims on your items and follow the claims you have made.
+            </p>
+            <div id="claims-list"></div>
+          </section>
+
+          <!-- ROLE 4 moves cards here when an item is marked Resolved / Returned. -->
+          <section
+            id="tab-resolved"
+            class="dash-panel"
+            role="tabpanel"
+            aria-labelledby="tabbtn-resolved"
+            data-tab-panel="resolved"
+            hidden
+          >
+            <h2 class="dash-panel__title">Resolved Items</h2>
+            <p class="dash-panel__intro">
+              Items that were returned or recovered. You can reopen an item at
+              any time.
+            </p>
+            <p class="empty-state" data-empty-for="resolved-items-list" hidden>
+              Nothing resolved yet. Items you mark as resolved or returned will
+              appear here.
+            </p>
+            <div id="resolved-items-list" class="dash-grid"></div>
+          </section>
+
+          <!-- ROLE 5 fills #messages-panel. Full chat lives on GROUP 4's page. -->
+          <section
+            id="tab-messages"
+            class="dash-panel"
+            role="tabpanel"
+            aria-labelledby="tabbtn-messages"
+            data-tab-panel="messages"
+            hidden
+          >
+            <h2 class="dash-panel__title">Messages</h2>
+            <p class="dash-panel__intro">
+              A summary of your latest conversations about lost and found items.
+            </p>
+            <div id="messages-panel"></div>
+          </section>
+        </div>
+
+        <!-- Demo helper for the presentation: clears saved changes. -->
+        <p class="dash-demo-tools">
+          This dashboard uses sample data.
+          <button
+            type="button"
+            class="dash-link-button"
+            data-action="reset-demo"
+          >
+            Reset demo data
+          </button>
+        </p>
+
+        <noscript>
+          <p class="empty-state">
+            JavaScript is required to show your dashboard.
+          </p>
+        </noscript>
+      </div>
+    </main>
+
+    <!-- ===================================================================
+         FOOTER  (copied from Group 7's index.html)
+         HOOK (Group 7 / Group 8): replace if the global footer changes.
+         =================================================================== -->
+    <footer id="contact">
+      <h2>ACity Lost and Found</h2>
+      <p>Helping Students reconnect with their belongings.</p>
+      <p>&copy; 2026 Academic City University. All rights reserved.</p>
+    </footer>
+
+    <!-- ===================================================================
+         SCRIPTS – ORDER MATTERS
+         1. mock-data.js        data + helpers          (Role 5)
+         2. dashboard-store.js  saves / restores state  (shared)
+         3. dashboard-tabs.js   tab switching           (Role 1)
+         4. reported-items.js   draws the item cards    (Role 2)
+         5. pending-claims.js   draws the claims        (Role 3)
+         6. messages-panel.js   draws the messages      (Role 5)
+         7. status-controls.js  badges + resolve logic  (Role 4)  <-- ALWAYS LAST
+         =================================================================== -->
+    <script src="mock-data.js"></script>
+    <script src="dashboard-store.js"></script>
+    <script src="dashboard-tabs.js"></script>
+    <script src="reported-items.js"></script>
+    <script src="pending-claims.js"></script>
+    <script src="messages-panel.js"></script>
+    <script src="status-controls.js"></script>
+  </body>
 </html>

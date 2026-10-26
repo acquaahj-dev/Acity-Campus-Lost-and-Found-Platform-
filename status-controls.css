@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Group 6 – User Activity Dashboard
+   Role 4: Status Controls & Resolve Logic
+   File:   status-controls.css          (load AFTER dashboard.css)
+
+   Styles: status + type badges, the Mark as Resolved button, the confirm
+   dialog, the toast message and the shared .empty-state box.
+
+   The var(--dash-x, #fallback) pattern means this file still looks right if
+   it is ever opened without dashboard.css.
+   ========================================================================== */
+
+/* ---------- Status accent (used by the card's top line) ---------- */
+
+.item-card[data-status="Open"] { --item-accent: var(--dash-open, #2D5B88); }
+.item-card[data-status="Claimed"] { --item-accent: var(--dash-claimed, #8F6410); }
+.item-card[data-status="Resolved"] { --item-accent: var(--dash-resolved, #2C6B4B); }
+
+/* A resolved card is visually "done": calmer picture, soft background. */
+.item-card[data-status="Resolved"] {
+    background-color: var(--light-gray, #F5F5F5);
+}
+
+.item-card[data-status="Resolved"] .item-card__image {
+    filter: grayscale(0.7) opacity(0.85);
+}
+
+/* ---------- Badges ---------- */
+
+/* Badge row floats over the top-left corner of the card picture. */
+.item-card__badges {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(34, 34, 34, 0.18);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Lost / Found */
+.badge--lost {
+    background-color: var(--white, #FFF);
+    border-color: var(--red, #CC3634);
+    color: var(--red, #CC3634);
+}
+
+.badge--found {
+    background-color: var(--black, #222);
+    border-color: var(--black, #222);
+    color: var(--white, #FFF);
+}
+
+/* Open / Claimed / Resolved */
+.badge--open {
+    background-color: var(--dash-open-bg, #E8EFF7);
+    border-color: var(--dash-open, #2D5B88);
+    color: var(--dash-open, #2D5B88);
+}
+
+.badge--claimed {
+    background-color: var(--dash-claimed-bg, #FAF0D8);
+    border-color: var(--dash-claimed, #8F6410);
+    color: var(--dash-claimed, #8F6410);
+}
+
+.badge--resolved {
+    background-color: var(--dash-resolved-bg, #E3F1E9);
+    border-color: var(--dash-resolved, #2C6B4B);
+    color: var(--dash-resolved, #2C6B4B);
+}
+
+/* ---------- Actions row and toggle button ---------- */
+
+.item-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.9rem 1.2rem 1.2rem;
+}
+
+.btn-status-toggle {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: 1.5px solid var(--black, #222);
+    border-radius: 999px;
+    background-color: var(--black, #222);
+    color: var(--white, #FFF);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+
+.btn-status-toggle:hover {
+    background-color: var(--dash-resolved, #2C6B4B);
+    border-color: var(--dash-resolved, #2C6B4B);
+    transform: translateY(-1px);
+}
+
+.btn-status-toggle:active {
+    transform: scale(0.98);
+}
+
+/* "Reopen item" is the quieter, secondary action. */
+.btn-status-toggle--reopen {
+    background-color: transparent;
+    color: var(--black, #222);
+}
+
+.btn-status-toggle--reopen:hover {
+    background-color: var(--black, #222);
+    border-color: var(--black, #222);
+}
+
+/* ---------- Empty state (shared by every list) ---------- */
+
+.empty-state {
+    max-width: none;
+    margin: 0 0 1.25rem;
+    padding: 1.6rem;
+    background-color: var(--dash-surface, #FFF);
+    border: 1px dashed var(--dash-line-strong, #CFC8BA);
+    border-radius: var(--dash-radius, 14px);
+    color: var(--dash-muted, #6A665F);
+    text-align: center;
+}
+
+.empty-state[hidden] {
+    display: none;
+}
+
+/* ---------- Confirm dialog ---------- */
+
+.confirm-dialog {
+    width: min(92vw, 440px);
+    padding: 0;
+    border: 0;
+    border-top: 4px solid var(--red, #CC3634);
+    border-radius: var(--dash-radius, 14px);
+    background-color: var(--white, #FFF);
+    color: var(--black, #222);
+    box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.45);
+}
+
+.confirm-dialog::backdrop {
+    background-color: rgba(34, 34, 34, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.confirm-dialog[open] {
+    animation: dialog-in 0.22s ease;
+}
+
+.confirm-dialog__body {
+    padding: 1.75rem;
+    text-align: left;
+}
+
+.confirm-dialog__title {
+    margin: 0 0 0.6rem;
+    font-family: var(--dash-font-display, "Inter", sans-serif);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.confirm-dialog__text {
+    margin: 0 0 1.5rem;
+    color: var(--dash-muted, #6A665F);
+}
+
+.confirm-dialog__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.6rem;
+}
+
+.confirm-dialog__cancel,
+.confirm-dialog__confirm {
+    padding: 0.65rem 1.3rem;
+    border: 1.5px solid var(--black, #222);
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.confirm-dialog__cancel {
+    background-color: transparent;
+    color: var(--black, #222);
+}
+
+.confirm-dialog__cancel:hover {
+    background-color: var(--light-gray, #F5F5F5);
+}
+
+.confirm-dialog__confirm {
+    background-color: var(--black, #222);
+    color: var(--white, #FFF);
+}
+
+.confirm-dialog__confirm:hover {
+    background-color: var(--red, #CC3634);
+    border-color: var(--red, #CC3634);
+}
+
+.confirm-dialog :focus-visible,
+.btn-status-toggle:focus-visible {
+    outline: 3px solid var(--gold, #D4AF37);
+    outline-offset: 2px;
+}
+
+@keyframes dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ---------- Toast message ---------- */
+
+.status-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    z-index: 1000;
+    max-width: 90vw;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    background-color: var(--black, #222);
+    color: var(--white, #FFF);
+    font-size: 0.92rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 12px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.status-toast--visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+    .confirm-dialog__body {
+        padding: 1.4rem;
+    }
+
+    .confirm-dialog__buttons {
+        flex-direction: column-reverse;
+    }
+
+    .confirm-dialog__cancel,
+    .confirm-dialog__confirm {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-status-toggle,
+    .confirm-dialog[open],
+    .confirm-dialog__cancel,
+    .confirm-dialog__confirm,
+    .status-toast {
+        animation: none;
+        transition: none;
+    }
+}

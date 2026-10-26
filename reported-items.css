@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Group 6 – User Activity Dashboard
+   Role 2: My Reported Items – card layout
+   File:   reported-items.css
+
+   Styles the structure created by reported-items.js:
+
+     .item-card
+       .item-card__badges     (added by Role 4, floats over the picture)
+       .item-card__image
+       .item-card__body > .item-card__title, .item-card__meta, .item-card__link
+       .item-card__actions    (added by Role 4: the Mark as Resolved button)
+
+   Uses the tokens from dashboard.css. The coloured top line comes from the
+   --item-accent variable, which status-controls.css sets for each status.
+   ========================================================================== */
+
+.item-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--dash-surface);
+    border: 1px solid var(--dash-line);
+    border-top: 3px solid var(--item-accent, var(--dash-line-strong));
+    border-radius: var(--dash-radius);
+    box-shadow: var(--dash-shadow);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--dash-shadow-hover);
+}
+
+/* ---------- Picture ---------- */
+
+.item-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background-color: var(--light-gray);
+    transition: filter 0.3s ease;
+}
+
+/* ---------- Text ---------- */
+
+.item-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.1rem 1.2rem 0.5rem;
+}
+
+.item-card__title {
+    margin: 0 0 0.25rem;
+    color: var(--dash-ink);
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.item-card__meta {
+    max-width: none;
+    margin: 0;
+    color: var(--dash-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.item-card__label {
+    color: var(--dash-ink);
+    font-weight: 600;
+}
+
+.item-card__link {
+    align-self: flex-start;
+    margin-top: 0.6rem;
+    padding-bottom: 2px;
+    border-bottom: 1.5px solid transparent;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.item-card__link:hover {
+    border-bottom-color: currentColor;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+    .item-card__image {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .item-card,
+    .item-card__image {
+        transition: none;
+    }
+
+    .item-card:hover {
+        transform: none;
+    }
+}
