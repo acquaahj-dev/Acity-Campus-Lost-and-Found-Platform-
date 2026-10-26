@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Academic City University Lost and Found Platform.">
+    <title>Academic City Lost & Found Platform</title>
+
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- JavaScript -->
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+
+    <!-- SITE HEADER -->
+    <header class="site-header">
+        <a class="brand" href="#" aria-label="Academic City Lost and Found home">
+            <span class="brand-mark">AC</span>
+            <span class="brand-copy">
+                <span class="eyebrow">ACADEMIC CITY UNIVERSITY</span>
+                <span class="brand-title">Lost & Found Portal</span>
+            </span>
+        </a>
+
+        <nav class="header-nav">
+            <a class="nav-link active" href="#catalog">Catalog Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- CATALOG SECTION -->
+        <section class="catalog-section" id="catalog">
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CAMPUS DISCOVERY CATALOG</p>
+                    <h2>Browse Lost & Found Items</h2>
+                    <p class="section-description">
+                        Filter by campus locations, status, categories, or keywords.
+                    </p>
+                </div>
+
+                <div class="catalog-count" aria-live="polite">
+                    <strong id="result-count">0</strong>
+                    <span>items listed</span>
+                </div>
+            </div>
+
+            <div class="catalog-layout">
+
+                <!-- SIDEBAR FILTERS -->
+                <aside class="filter-panel" aria-label="Catalog filters">
+
+                    <div class="filter-title-row">
+                        <h3>Filter Items</h3>
+                        <button class="text-button" id="clear-filters" type="button">
+                            Clear All
+                        </button>
+                    </div>
+
+                    <label class="field-label" for="keyword">Search Keyword</label>
+                    <div class="search-field">
+                        <span aria-hidden="true">⌕</span>
+                        <input id="keyword" type="search" placeholder="Search item title or description..." autocomplete="off">
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <label class="field-label" for="location">Campus Location</label>
+                    <select id="location">
+                        <option value="">All Locations</option>
+                        <option value="Library">Library</option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="A3">A3</option>
+                        <option value="L1">L1</option>
+                        <option value="L2">L2</option>
+                        <option value="L3">L3</option>
+                        <option value="L4">L4</option>
+                        <option value="L5">L5</option>
+                        <option value="L6">L6</option>
+                        <option value="L7">L7</option>
+                        <option value="L8">L8</option>
+                        <option value="L9">L9</option>
+                        <option value="L10">L10</option>
+                        <option value="L11">L11</option>
+                        <option value="L12">L12</option>
+                        <option value="Computer Lab 1">Computer Lab 1</option>
+                        <option value="Computer Lab 2">Computer Lab 2</option>
+                    </select>
+
+                    <label class="field-label" for="category">Category</label>
+                    <select id="category">
+                        <option value="">All Categories</option>
+                    </select>
+
+                    <label class="field-label" for="item-type">Item Type</label>
+                    <select id="item-type" disabled>
+                        <option value="">All Item Types</option>
+                    </select>
+
+                    <label class="field-label" for="colour">Colour</label>
+                    <select id="colour" disabled>
+                        <option value="">All Colours</option>
+                    </select>
+
+                    <div class="filter-divider"></div>
+
+                    <label class="field-label" for="status">Status</label>
+                    <select id="status">
+                        <option value="">All Statuses</option>
+                        <option value="Lost">Lost</option>
+                        <option value="Found">Found</option>
+                    </select>
+
+                    <div class="date-label-row">
+                        <span class="field-label">Date Reported</span>
+                        <span class="optional-label">Optional</span>
+                    </div>
+
+                    <label class="sr-only" for="date-from">From Date</label>
+                    <input id="date-from" type="date" aria-label="Reported from date">
+
+                    <label class="sr-only" for="date-to">To Date</label>
+                    <input id="date-to" type="date" aria-label="Reported to date">
+
+                    <button class="clear-button" id="clear-filters-bottom" type="button">
+                        Reset All Filters
+                    </button>
+
+                </aside>
+
+                <!-- RESULTS GRID & TOOLBAR -->
+                <div class="results-area">
+
+                    <div class="results-toolbar">
+                        <p id="results-summary" aria-live="polite">Showing 0 items</p>
+
+                        <label class="sort-control" for="sort">
+                            Sort By
+                            <select id="sort">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="name-asc">Name: A–Z</option>
+                                <option value="name-desc">Name: Z–A</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="items-grid" id="items-grid" aria-live="polite"></div>
+
+                    <!-- EMPTY STATE -->
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-icon" aria-hidden="true">⌕</div>
+                        <h3>No Items Match Your Filter</h3>
+                        <p>Try selecting another campus location or clearing your filters.</p>
+                        <button class="primary-button" id="empty-clear" type="button">
+                            Reset Filters
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <span>Academic City University College — Campus Lost & Found</span>
+        <span>Group 2 — Search & Filter Module</span>
+    </footer>
+
+    <!-- ITEM DETAILS MODAL -->
+    <dialog id="item-dialog" class="item-dialog" aria-labelledby="dialog-title">
+        <button class="dialog-close" id="dialog-close" type="button" aria-label="Close details">×</button>
+        <div id="dialog-content"></div>
+    </dialog>
+
+</body>
+</html>
