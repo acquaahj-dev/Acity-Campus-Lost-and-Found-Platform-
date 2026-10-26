@@ -1,5 +1,3 @@
-// JOEL - "How to claim and hand off": four expandable steps with a progress bar.
-// No dependencies. Works on its own page and inside the sidebar.
 (function () {
     const root = document.getElementById('claim-handoff');
     if (!root) return;

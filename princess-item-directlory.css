@@ -1,6 +1,3 @@
-/* PRINCESS - open/closed status badges + the hub directory.
-   Every badge colour is a variable, so only three values change per state.
-   Uses Group 7's ux-ui.css tokens, with fallbacks so it also works on its own. */
 
 /* ---------- Status badge (also used on Damien's cards and in the directory) ---------- */
 .status-badge {

@@ -1,5 +1,3 @@
-// OSMAN - safety guidelines: expand/collapse all + "Which hub should I use?" helper.
-// Needs: group5.js (HUBS). Optional: princess-item-directory.js (HoursStatus) so the helper knows who is open now.
 (function () {
     const root = document.getElementById('guidelines');
     if (!root) return;

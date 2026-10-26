@@ -1,5 +1,3 @@
-// DAMIEN - hub cards, built from HUBS so hours and details are never typed twice.
-// Needs: group5.js (HUBS, g5Url) and princess-item-directory.js (HoursStatus fills the badge + hours text).
 (function () {
     const list = document.getElementById('hub-cards');
     if (!list) return;

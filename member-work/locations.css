@@ -1,12 +1,9 @@
-/* Shared portal styles for the Collection Points page.
-   Order matters: Princess's file holds the status badges, and Joel's responsive rules must come last. */
 @import url("../kelvina-safe-hand-off.css");
 @import url("../princess-item-directlory.css");
 @import url("../damien-hub%20list.css");
 @import url("../osman-safety-help.css");
 @import url("../joel-claim-handoff.css");
 
-/* ---------- accessibility helpers used by locations.html ---------- */
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;

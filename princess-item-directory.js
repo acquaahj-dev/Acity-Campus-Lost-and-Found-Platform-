@@ -1,10 +1,3 @@
-/* PRINCESS - princess-item-directory.js
-   PART 1: HoursStatus engine. Works out Open / Closing soon / Closed for every hub from its hours.
-           (Built on the hours-status module delivered earlier. Read it so you can explain it in the viva.)
-   PART 2: Hub directory with search box and filter chips (All / Open now / 24/7).
-   Needs: group5.js (HUBS) loaded first.
-   Other files use the engine: HoursStatus.getHubStatus(hub), HoursStatus.refresh(). */
-
 /* ================= PART 1: HoursStatus engine ================= */
 (function (root) {
     'use strict';

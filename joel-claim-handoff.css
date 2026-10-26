@@ -1,6 +1,3 @@
-/* JOEL - (1) shared tokens + fixes for Group 7's global rules, (2) "How to claim" steps, (3) responsive layout.
-   Keep this file LAST in the import order so the responsive rules can override the others.
-   700px matches the mobile breakpoint in Group 7's ux-ui.css. */
 
 /* ===== 1. Tokens + fixes ===== */
 :root {
