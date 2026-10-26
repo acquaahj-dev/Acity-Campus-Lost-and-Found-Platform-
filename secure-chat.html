@@ -1,86 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Secure messaging</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="secure-chat.css">
-<script src="secure-chat.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secure Chat</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/secure.css">
+  <script src="js/demo.js" defer></script>
+  <script src="js/app.js" defer></script>
 </head>
 <body>
 
-<!-- 1. Identity -->
-<section class="gate" id="gate">
-  <div class="gate__card">
-    <span class="gate__rule"></span>
-    <h1>Talk privately. Leave no trace.</h1>
-    <p>Pick a nickname to start. This demo stores session data in this browser tab and does not use a messaging server.</p>
-    <form id="nickForm">
-      <input class="field" id="nick" maxlength="20" placeholder="Nickname" autocomplete="off" aria-label="Nickname">
-      <p class="err" id="nickErr" role="alert"></p>
-      <button class="btn" type="submit">Start session</button>
-    </form>
-    <small>No account or email is required. This demo is not end-to-end encrypted.</small>
-  </div>
-</section>
-
-<!-- 2. App -->
-<div class="app hidden" id="app">
-  <aside class="side" id="side">
-    <div class="side__top">
-      <div class="brand">Secure<i></i>chat</div>
-      <div class="me"><div class="avatar" id="meAvatar"></div><div><b id="meNick"></b><span id="meId"></span></div></div>
-    </div>
-    <div class="side__actions">
-      <button class="btn" id="createRoom">New room</button>
-      <form class="joinrow" id="joinForm">
-        <input class="field" id="joinId" placeholder="Room ID or link" aria-label="Room ID or invite link" autocomplete="off">
-        <button class="btn btn--ghost btn--small" type="submit">Join</button>
+  <!-- PROFILE GATE -->
+  <section class="gate" id="gate">
+    <div class="gate__card">
+      <span class="rule"></span>
+      <h1 id="gateTitle">Welcome to Chat</h1>
+      <p>Choose a display name and avatar color.</p>
+      <div class="avatar avatar--lg" id="avatarPreview">?</div>
+      <form id="profileForm" novalidate>
+        <input class="field" id="nameInput" maxlength="20" placeholder="Nickname (2-20 characters)" autocomplete="off" aria-label="Nickname">
+        <p class="err" id="nameError" role="alert"></p>
+        <div class="swatches" id="swatches" role="radiogroup" aria-label="Avatar color"></div>
+        <button class="btn btn--full" type="submit" id="profileBtn">Start chatting</button>
+        <button class="btn btn--ghost btn--full hidden" type="button" id="cancelProfile">Cancel</button>
       </form>
+      <small>Each browser tab is a separate user. Open a second tab to chat with yourself. Not end-to-end encrypted.</small>
     </div>
-    <div class="label">Conversations</div>
-    <ul class="rooms" id="rooms"></ul>
-    <div class="side__actions"><button class="btn btn--ghost btn--small" id="endSession">End session and delete identity</button></div>
-  </aside>
+  </section>
 
-  <main class="main">
-    <header class="head">
-      <button class="iconbtn btn btn--ghost btn--small" id="openSide" aria-label="Conversations">Menu</button>
-      <div class="head__title"><b id="roomTitle">No room selected</b><span id="roomCount" class="hidden"></span></div>
-      <button class="iconbtn members-toggle btn btn--ghost btn--small" id="openMembers">People</button>
-      <button class="btn btn--ghost btn--small hidden" id="leaveRoom">Leave</button>
-    </header>
+  <!-- APP -->
+  <div class="app hidden" id="app">
+    <div class="backdrop hidden" id="backdrop"></div>
 
-    <div id="banners"></div>
-    <div class="thread" id="thread" aria-live="polite"></div>
-
-    <form class="composer" id="composer">
-      <div class="preview hidden" id="preview">
-        <img id="previewImg" alt="Image to send">
-        <p id="previewInfo"></p>
-        <button class="btn btn--ghost btn--small" type="button" id="cancelImg">Remove</button>
+    <aside class="side" id="side">
+      <div class="side__top">
+        <div class="brand">Secure<i></i>chat</div>
+        <div class="me">
+          <div class="avatar" id="myAvatar"></div>
+          <div><b id="myName"></b><button class="link" id="editProfile" type="button">Change profile</button></div>
+        </div>
       </div>
-      <div class="composer__row">
-        <button class="attach" type="button" id="attachBtn" aria-label="Attach image" title="Attach image">+</button>
-        <input type="file" id="file" accept="image/*" class="hidden">
-        <input class="field" id="text" placeholder="Write a message" autocomplete="off" aria-label="Message">
-        <button class="btn" type="submit" id="sendBtn">Send</button>
+
+      <div class="section">
+        <div class="section__head"><span class="label">Public Rooms</span><button class="text-btn" id="newRoomBtn" type="button">+ New</button></div>
+        <ul class="rooms" id="publicRooms"></ul>
+      </div>
+
+      <div class="section">
+        <div class="section__head"><span class="label">Private Rooms</span><button class="text-btn" id="newPrivateBtn" type="button">+ Private</button></div>
+        <ul class="rooms" id="privateRooms"></ul>
+      </div>
+
+      <div class="section section--grow">
+        <div class="section__head">
+          <span class="label">Members <span class="count" id="memberCount">0</span></span>
+          <span>
+            <button class="text-btn" id="addGuestBtn" type="button">+ Guest</button>
+            <button class="text-btn text-btn--muted hidden" id="removeGuestsBtn" type="button">Remove</button>
+          </span>
+        </div>
+        <ul class="members" id="members"></ul>
+      </div>
+
+      <div class="side__foot">
+        <label class="toggle"><input type="checkbox" id="offlineToggle" role="switch"><span class="toggle__track"></span>Simulate offline</label>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="head">
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu">☰</button>
+        <div class="head__title"><b id="roomTitle"># General</b><span id="roomSub">Public room</span></div>
+        <button class="btn btn--ghost btn--small hidden" id="backBtn" type="button">← General</button>
+        <span class="status status--connected" id="status"><i></i><span id="statusText">Connected</span></span>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme" style="font-size:20px">◐</button>
+      </header>
+
+      <div class="invite hidden" id="invite" role="alert">
+        <p id="inviteText"></p>
+        <button class="btn btn--small" id="inviteJoin" type="button">Join</button>
+        <button class="btn btn--small btn--ghost" id="inviteDismiss" type="button">Dismiss</button>
+      </div>
+      <div id="banners"></div>
+
+      <div class="thread" id="thread" aria-live="polite"></div>
+      <div class="typing" id="typing"></div>
+
+      <form class="composer" id="composer">
+        <div class="preview hidden" id="preview">
+          <img id="previewImg" alt="Image to send">
+          <p id="previewInfo"></p>
+          <button class="btn btn--ghost btn--small" type="button" id="removeImg">Remove</button>
+        </div>
+        <div class="composer__row">
+          <button class="icon-btn icon-btn--lg" type="button" id="attachBtn" aria-label="Attach image" title="Attach image">🖼</button>
+          <input type="file" id="fileInput" accept="image/*" class="hidden">
+          <textarea class="composer__input" id="msgInput" rows="1" maxlength="500" placeholder="Write a message..." aria-label="Message"></textarea>
+          <button class="btn" type="submit" id="sendBtn">Send</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <!-- NEW PUBLIC ROOM -->
+  <dialog class="dialog" id="roomDialog">
+    <form id="roomForm">
+      <h3>Create new room</h3>
+      <p>2-24 letters, numbers, spaces, _ or -.</p>
+      <input class="field" id="roomInput" maxlength="24" placeholder="e.g. Announcements" autocomplete="off">
+      <p class="err" id="roomError" role="alert"></p>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--ghost btn--small" data-close>Cancel</button>
+        <button type="submit" class="btn btn--small">Create</button>
       </div>
     </form>
-  </main>
+  </dialog>
 
-  <aside class="members" id="members">
-    <h3 id="memTitle">People online</h3>
-    <ul id="memList"></ul>
-    <div class="invite hidden" id="invite">
-      <b>Invite link</b>
-      <p>Anyone with this link can join. Share it only with people you trust.</p>
-      <code id="inviteLink"></code>
-      <button class="btn btn--small" id="copyLink">Copy link</button>
-      <button class="btn btn--small" id="demoGuest" style="margin-top:8px;background:#2a2a2d;color:#fff">Add demo guest</button>
-    </div>
-  </aside>
-</div>
+  <!-- NEW PRIVATE ROOM -->
+  <dialog class="dialog" id="privateDialog">
+    <form id="privateForm">
+      <h3>Private room</h3>
+      <p id="privatePrompt">Pick someone from General to talk to privately.</p>
+      <select class="field" id="privateSelect" aria-label="Person to invite"></select>
+      <div class="dialog__actions">
+        <button type="button" class="btn btn--ghost btn--small" data-close>Cancel</button>
+        <button type="submit" class="btn btn--small" id="privateOk">Start private chat</button>
+      </div>
+    </form>
+  </dialog>
+
 </body>
 </html>
