@@ -39,7 +39,7 @@ of every item through to "Resolved / Returned".
 | `mock-data.js` | 5 | Sample users, items, claims, messages and helpers |
 | `messages-panel.js` / `.css` | 5 | Messages summary |
 | `dashboard-store.js` | Shared | Saves and restores user changes in `localStorage` |
-| `images/items/*.svg` | 5 | Placeholder pictures for the sample items |
+| `images/items/*.png` | 5 | Placeholder pictures for the sample items |
 
 Scripts load in this order (the last one must stay last):
 `mock-data.js` → `dashboard-store.js` → `dashboard-tabs.js` → `reported-items.js` → `pending-claims.js` → `messages-panel.js` → `status-controls.js`

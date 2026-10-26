@@ -64,6 +64,11 @@
         return !(claim.status === CLAIM.PENDING && item && item.status === "Resolved");
     }
 
+    /** True once any claim on this item has been approved (the item has its owner). */
+    function hasApprovedClaim(itemId) {
+        return data.claims.some((claim) => claim.itemId === itemId && claim.status === CLAIM.APPROVED);
+    }
+
     /** Pending first, then newest first. */
     function sortClaims(claims) {
         return claims.slice().sort((a, b) =>
@@ -126,7 +131,7 @@
         const box = createElement("div", "claim-row__actions");
 
         // 1. Pending claim on MY item: I decide.
-        if (role === "owner" && claim.status === CLAIM.PENDING) {
+        if (role === "owner" && claim.status === CLAIM.PENDING && !hasApprovedClaim(claim.itemId)) {
             const who = helpers.getDisplayName(claim.claimant);
             box.append(
                 buildButton("Approve", "claim-btn claim-btn--approve", "Approve claim by " + who + " for " + title, () => decide(claim, CLAIM.APPROVED)),
@@ -147,7 +152,9 @@
                 Rejected: "The owner could not verify this claim."
             }
         };
-        box.append(createElement("p", "claim-row__outcome", messages[role][claim.status]));
+        const blocked = role === "owner" && claim.status === CLAIM.PENDING;
+        box.append(createElement("p", "claim-row__outcome",
+            blocked ? "Another claim on this item was already approved." : messages[role][claim.status]));
 
         // Approved claims lead to a hand-off, so link to Group 4's messaging page.
         if (claim.status === CLAIM.APPROVED) {
@@ -220,12 +227,22 @@
     /* ---------- Approve / Reject ---------- */
 
     function decide(claim, newStatus) {
+        // Safety net: never approve a second claim for the same item.
+        if (newStatus === CLAIM.APPROVED && hasApprovedClaim(claim.itemId)) return;
+
         claim.status = newStatus;
         if (store) store.saveClaimStatus(claim.id, newStatus);
 
         // Approving a claim makes the item "Claimed" (Role 4's function).
         // Rejecting a claim leaves the item exactly as it was.
         if (newStatus === CLAIM.APPROVED) {
+            // Only one person can get the item, so reject every other pending claim on it.
+            data.claims.forEach((other) => {
+                if (other.itemId === claim.itemId && other.id !== claim.id && other.status === CLAIM.PENDING) {
+                    other.status = CLAIM.REJECTED;
+                    if (store) store.saveClaimStatus(other.id, CLAIM.REJECTED);
+                }
+            });
             if (window.StatusControls) {
                 window.StatusControls.setStatus(claim.itemId, "Claimed");
             } else {
