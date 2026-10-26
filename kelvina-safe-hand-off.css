@@ -1,0 +1,103 @@
+/* KELVINA - campus map (virtual tour + Google Maps), tabs, route controls and the sidebar shell.
+   Colours, fonts, body and header come from Group 7's ux-ui.css, so they are NOT redefined here.
+   Keep --sheet-h equal to the height of the mobile bottom sheet in joel-claim-handoff.css (76px). */
+:root {
+  --sidebar-w-closed: 72px;
+  --sidebar-w-open: min(380px, 90vw);
+  --sheet-h: 76px;
+}
+
+/* ux-ui.css pads and centres bare <main> and <section>, so those are undone on our portal */
+.portal {
+  position: relative; height: min(80vh, 760px); min-height: 560px; overflow: hidden;
+  padding: 0; background: transparent; text-align: left;
+}
+.campus-map { position: absolute; inset: 0; padding: 0; }
+
+/* The map starts after the closed sidebar, so the sidebar never hides the embedded map's own buttons */
+.campus-map-frame { position: absolute; top: 0; right: 0; bottom: 0; left: var(--sidebar-w-closed); overflow: hidden; }
+.campus-map__view { position: absolute; inset: 0; }
+.campus-map__view[hidden] { display: none; }
+.campus-map_iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; z-index: 0; }
+.live-campus-map { position: absolute; inset: 0; z-index: 0; background: #e8e6df; }
+.leaflet-container { font-family: "Inter", sans-serif; }
+.leaflet-popup-content { line-height: 1.5; }
+.leaflet-hub-marker { color: var(--red); font-weight: 700; }
+.leaflet-user-marker { color: #1463d6; font-weight: 700; }
+
+/* ---- map tabs ---- */
+.campus-map__controls { position: absolute; top: 1rem; right: 1rem; z-index: 5; display: flex; gap: 0.5rem; }
+.campus-map__tab {
+  padding: 0.55rem 0.8rem; border: 1px solid var(--white); border-radius: 6px;
+  background: rgba(34, 34, 34, 0.9); color: var(--white);
+  font: 600 0.85rem "Inter", sans-serif; cursor: pointer;
+}
+.campus-map__tab:hover, .campus-map__tab.is-active { background: var(--red); }
+
+/* ---- note + link on top of the map ---- */
+.campus-map__note {
+  position: absolute; top: 1rem; left: calc(var(--sidebar-w-closed) + 1rem); z-index: 4;
+  width: min(520px, 48vw); margin: 0; padding: 0.5rem 0.75rem; border-radius: 6px;
+  background: rgba(34, 34, 34, 0.88); color: var(--white); font-size: 0.75rem; line-height: 1.4;
+}
+.map-tour-link {
+  position: absolute; left: calc(var(--sidebar-w-closed) + 1rem); bottom: 1rem; z-index: 4;
+  display: inline-block; max-width: 45%; padding: 0.5rem 0.75rem; border-radius: 6px;
+  background: rgba(34, 34, 34, 0.88); color: var(--white); font-size: 0.8rem;
+}
+.map-tour-link:hover { background: var(--red); color: var(--white); }
+
+/* ---- Live map controls ---- */
+.google-route-controls {
+  position: absolute; left: calc(var(--sidebar-w-closed) + 1rem); bottom: 3.25rem; z-index: 4;
+  display: grid; gap: 0.45rem; width: min(340px, calc(100% - var(--sidebar-w-closed) - 2rem));
+  padding: 0.85rem; border: 1px solid rgba(34, 34, 34, 0.16); border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96); color: var(--black); box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+}
+.google-route-controls label { margin: 0; font-size: 0.82rem; font-weight: 700; }
+.google-route-controls select {
+  width: 100%; margin: 0; padding: 0.55rem; background: var(--white); color: var(--black);
+  font: 400 0.82rem "Inter", sans-serif;
+}
+.google-route-controls button {
+  width: 100%; padding: 0.55rem 0.7rem; border: 0; border-radius: 6px;
+  background: var(--red); color: var(--white); font: 600 0.82rem "Inter", sans-serif; cursor: pointer;
+}
+.google-route-controls button:hover { background: var(--dark-red, #A92321); }
+.google-route-controls p { margin: 0; color: #555; font-size: 0.72rem; line-height: 1.4; }
+.google-route-controls a { font-size: 0.78rem; font-weight: 700; }
+
+/* ---- sidebar shell (the panels inside it belong to the other members) ---- */
+.sidebar {
+  position: absolute; top: 0; left: 0; bottom: 0; z-index: 4;
+  width: var(--sidebar-w-closed);
+  background: rgba(34, 34, 34, 0.94); color: var(--white);
+  transition: width 0.25s ease; overflow-y: auto;
+}
+.sidebar.is-open { width: var(--sidebar-w-open); }
+.sidebar__nav { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem; }
+.sidebar__btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%;
+  background: transparent; color: inherit; border: 1px solid transparent;
+  padding: 0.7rem; border-radius: 10px; cursor: pointer; font: 600 0.9rem "Inter", sans-serif; text-align: left;
+}
+.sidebar__btn > span:first-child { display: inline-grid; place-items: center; width: 1.5rem; flex: 0 0 1.5rem; font-size: 1.15rem; }
+.sidebar__btn:hover, .sidebar__btn[aria-expanded="true"] { background: var(--red); }
+.sidebar__label { display: none; }
+.sidebar.is-open .sidebar__label { display: inline; }
+.sidebar.is-open .sidebar__btn { justify-content: flex-start; }
+.sidebar__panel { padding: 0.75rem; }
+.sidebar:not(.is-open) .sidebar__panel { display: none; }
+
+/* ---- phones: the sidebar becomes a bottom sheet (its layout is in joel-claim-handoff.css) ---- */
+@media (max-width: 700px) {
+  .campus-map-frame { left: 0; bottom: var(--sheet-h); }
+  .campus-map__controls { top: 0.5rem; right: 0.5rem; left: 0.5rem; }
+  .campus-map__tab { flex: 1; padding: 0.5rem; font-size: 0.75rem; }
+  .campus-map__note { top: 3.8rem; left: 0.5rem; width: calc(100% - 1rem); max-width: none; font-size: 0.68rem; }
+  .map-tour-link { right: 0.5rem; left: 0.5rem; bottom: calc(var(--sheet-h) + 0.5rem); max-width: none; text-align: center; }
+  .google-route-controls {
+    right: 0.5rem; left: 0.5rem; width: auto; bottom: calc(var(--sheet-h) + 3.25rem);
+    max-height: 42%; overflow-y: auto;
+  }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find the safest on-campus places to hand over and collect lost and found items at Academic City.">
+  <title>Safety Help | Osman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ux-ui.css">
+  <link rel="stylesheet" href="princess-item-directory.css">
+  <link rel="stylesheet" href="osman-safety-help.css">
+</head>
+<body>
+  <main class="preview">
+        <!-- ===== OSMAN: safety guidelines + hub helper (osman-safety-help.js) ===== -->
+        <div id="guidelines" class="guidelines">
+          <h2 class="panel-title">Hand-off Guidelines</h2>
+          <p class="guidelines__intro">Follow these steps every time you return or collect an item. They protect your privacy and stop fraudulent claims.</p>
+          <p class="guidelines__alert" role="note"><strong>Golden rule:</strong> hand items over only at a campus hand-off hub. Never in a hostel room, a car or a quiet corner.</p>
+
+          <button type="button" class="guidelines__toggle" id="guidelines-toggle">Expand all</button>
+
+          <details class="guideline" open>
+            <summary>1. Before you meet</summary>
+            <ul class="guideline__list">
+              <li>Use the in-app anonymous chat only. Do not share your phone number, email, room number or social media handles.</li>
+              <li>Agree on one hub and a time inside its opening hours. Check that its badge says Open.</li>
+              <li>Tell a friend or roommate where and when you are going.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>2. Choose the right hub</summary>
+            <ul class="guideline__list">
+              <li>For phones, laptops, wallets, ID cards or anything valuable, pick a 24/7 security post.</li>
+              <li>After dark, always use a 24/7 security post.</li>
+              <li>Hostel desks, the Library and the SCA Office are fine for everyday items during their opening hours.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>3. Prove ownership</summary>
+            <ul class="guideline__list">
+              <li>The owner must answer the secret verification question set when the item was reported.</li>
+              <li>Finders: do not reveal details of the item in advance. Let the owner describe it first.</li>
+              <li>Bring your student ID to the hub so the desk can confirm who you are.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>4. At the hub</summary>
+            <ul class="guideline__list">
+              <li>Hand the item over in front of the desk or security staff.</li>
+              <li>Check the item together before you leave.</li>
+              <li>Never pay or accept payment for returning an item.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>5. After the hand-off</summary>
+            <ul class="guideline__list">
+              <li>Mark the item as Resolved / Returned on your dashboard.</li>
+              <li>Close the chat so the conversation does not stay open.</li>
+              <li>Report anything that felt wrong to campus security.</li>
+            </ul>
+          </details>
+
+          <p class="guidelines__alert guidelines__alert--warning" role="note"><strong>Red flags - stop and walk away:</strong> the person cannot answer the verification question, asks you to meet somewhere else, asks for your phone number, or rushes you. Take the item to the nearest security post instead.</p>
+
+          <section class="helper" aria-labelledby="helper-title">
+            <h3 id="helper-title">Which hub should I use?</h3>
+            <label for="helper-item">What are you handing over?</label>
+            <select id="helper-item">
+              <option value="everyday">An everyday item (notebook, bottle, umbrella)</option>
+              <option value="valuable">A valuable item (phone, laptop, wallet, ID)</option>
+            </select>
+            <label for="helper-dark">Is it after dark?</label>
+            <select id="helper-dark">
+              <option value="no">No, it is daytime</option>
+              <option value="yes">Yes, it is evening or night</option>
+            </select>
+            <button type="button" class="helper__go" id="helper-go">Recommend a hub</button>
+            <div class="helper__result" id="helper-result" role="status" aria-live="polite"></div>
+          </section>
+
+          <p class="guidelines__footer">Not sure what to do? Go to the nearest 24/7 security post and ask for help.</p>
+        </div>
+  </main>
+
+  <script src="../group5.js"></script>
+  <script src="princess-item-directory.js"></script>
+  <script src="osman-safety-help.js"></script>
+</body>
+</html>
