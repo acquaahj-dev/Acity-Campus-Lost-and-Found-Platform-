@@ -3,6 +3,7 @@ A streamlined go-to platform for finding lost items or reporting found belonging
 Group 5: Safe Hand-off Locations Portal
 As part of the Campus Lost & Found Platform Web Technologies mid-semester project,Group 5 was tasked to build the page where students find the safest on-campus places to hand over and collect lost items.
 1. What the module does
+
 | Feature | Where | What the user sees |
 |---|---|---|
 | Campus Map | Map area | Two views switched by tabs: the Academic City virtual campus tour and Google Maps. A note says hub positions are approximate. |
