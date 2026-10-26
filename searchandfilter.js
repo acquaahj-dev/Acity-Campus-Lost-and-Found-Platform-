@@ -4,11 +4,11 @@ const items = [
         name: "Student ID Card",
         category: "Documents",
         itemType: "ID Card",
-        colour: "white",
+        colour: "White",
         status: "Found",
         location: "Library",
         dateReported: "2026-10-22",
-        description: "Academic City University student ID card found on the ground floor.",
+        description: "Academic City University student ID card found near the quiet study section on the ground floor.",
         icon: "🪪"
     },
     {
@@ -25,14 +25,14 @@ const items = [
     },
     {
         id: "AC-003",
-        name: "Headphones",
+        name: "Wireless Headphones",
         category: "Electronics",
         itemType: "Headphones",
         colour: "White",
         status: "Lost",
         location: "A1",
         dateReported: "2026-10-20",
-        description: "White Apple Headphones. Small scratch on the headphone.",
+        description: "White Wireless Headphones with a small scratch on the left earcup.",
         icon: "🎧"
     },
     {
@@ -56,7 +56,7 @@ const items = [
         status: "Found",
         location: "Computer Lab 2",
         dateReported: "2026-10-22",
-        description: "Black 65W HP laptop power adapter left plugged into socket row 3.",
+        description: "HP Laptop Charger found in Computer Lab 2.",
         icon: "🔌"
     },
     {
@@ -85,10 +85,10 @@ const items = [
     },
     {
         id: "AC-008",
-        name: "White Wireless Mouse",
+        name: "Black Wireless Mouse",
         category: "Electronics",
         itemType: "Computer Accessory",
-        colour: "White",
+        colour: "Black",
         status: "Lost",
         location: "Library",
         dateReported: "2026-10-16",
@@ -97,15 +97,15 @@ const items = [
     },
     {
         id: "AC-009",
-        name: "Brown Leather Laptop Bag",
+        name: "Brown Leather Wallet",
         category: "Accessories",
-        itemType: "Laptop Bag",
+        itemType: "Wallet",
         colour: "Brown",
         status: "Lost",
         location: "A3",
         dateReported: "2026-10-23",
         description: "Brown leather bi-fold wallet. Owner should verify private details upon claiming.",
-        icon: "💼"
+        icon: "👛"
     },
     {
         id: "AC-010",
@@ -119,23 +119,13 @@ const items = [
         description: "SanDisk 32GB flash drive found plugged into workstation 12.",
         icon: "💾"
     },
-    {
-        id: "AC-011",
-        name: "Red Pencil Case",
-        category: "Stationery",
-        itemType: "Pencil Case",
-        colour: "Red",
-        status: "Found",
-        location: "L12",
-        dateReported: "2026-10-15",
-        description: "Red zipped stationery pouch containing pens and highlighters.",
-        icon: "📦"
-    }
 ];
+
+// Active State Tracker for Category Pill
+let selectedCategory = "";
 
 // Get HTML Elements
 const keywordInput = document.querySelector("#keyword");
-const categorySelect = document.querySelector("#category");
 const typeSelect = document.querySelector("#item-type");
 const colourSelect = document.querySelector("#colour");
 const statusSelect = document.querySelector("#status");
@@ -143,6 +133,9 @@ const locationSelect = document.querySelector("#location");
 const dateFromInput = document.querySelector("#date-from");
 const dateToInput = document.querySelector("#date-to");
 const sortSelect = document.querySelector("#sort");
+
+const pillsContainer = document.querySelector("#category-pills");
+const pillButtons = document.querySelectorAll(".pill");
 
 const itemsGrid = document.querySelector("#items-grid");
 const emptyState = document.querySelector("#empty-state");
@@ -170,9 +163,7 @@ function createElement(tag, className, text) {
 function fillSelect(select, values, defaultLabel) {
     const previousValue = select.value;
     select.replaceChildren(new Option(defaultLabel, ""));
-    values.forEach(value => {
-        select.add(new Option(value, value));
-    });
+    values.forEach(value => select.add(new Option(value, value)));
     if (values.includes(previousValue)) {
         select.value = previousValue;
     }
@@ -180,11 +171,7 @@ function fillSelect(select, values, defaultLabel) {
 
 function uniqueValues(records, key) {
     return [
-        ...new Set(
-            records
-                .map(item => item[key])
-                .filter(Boolean)
-        )
+        ...new Set(records.map(item => item[key]).filter(Boolean))
     ].sort((a, b) => a.localeCompare(b));
 }
 
@@ -197,14 +184,8 @@ function formatDate(dateString) {
     });
 }
 
-// Initialise Filters
-function initialiseFilters() {
-    fillSelect(categorySelect, uniqueValues(items, "category"), "All Categories");
-    updateDependentFilters();
-}
-
+// Dependent Filters
 function updateDependentFilters() {
-    const selectedCategory = categorySelect.value;
     const categoryItems = selectedCategory
         ? items.filter(item => item.category === selectedCategory)
         : items;
@@ -249,7 +230,6 @@ function createItemCard(item) {
 
     const title = createElement("h3", "card-title", item.name);
     const description = createElement("p", "card-description", item.description);
-
     const location = createElement("p", "card-location", `📍 Location: ${item.location}`);
 
     const meta = createElement("div", "card-meta");
@@ -268,10 +248,9 @@ function createItemCard(item) {
     return card;
 }
 
-// Search & Filter Logic
+// Filter & Sort Logic
 function getFilteredItems() {
     const keyword = keywordInput.value.trim().toLowerCase();
-    const category = categorySelect.value;
     const type = typeSelect.value;
     const colour = colourSelect.value;
     const status = statusSelect.value;
@@ -287,7 +266,7 @@ function getFilteredItems() {
         ].join(" ").toLowerCase();
 
         return (!keyword || searchableText.includes(keyword))
-            && (!category || item.category === category)
+            && (!selectedCategory || item.category === selectedCategory)
             && (!type || item.itemType === type)
             && (!colour || item.colour === colour)
             && (!status || item.status === status)
@@ -313,7 +292,7 @@ function getFilteredItems() {
     return filtered;
 }
 
-// Render Results
+// Render Grid
 function renderItems() {
     const filtered = getFilteredItems();
     itemsGrid.replaceChildren();
@@ -333,12 +312,16 @@ function renderItems() {
 // Clear Filters
 function clearFilters() {
     keywordInput.value = "";
-    categorySelect.value = "";
+    selectedCategory = "";
     statusSelect.value = "";
     locationSelect.value = "";
     dateFromInput.value = "";
     dateToInput.value = "";
     sortSelect.value = "newest";
+
+    pillButtons.forEach(button => {
+        button.classList.toggle("active", button.dataset.category === "");
+    });
 
     updateDependentFilters();
     typeSelect.value = "";
@@ -347,7 +330,7 @@ function clearFilters() {
     renderItems();
 }
 
-// Item Details Popup
+// Modal Controls
 function openItemDetails(item) {
     dialogContent.replaceChildren();
 
@@ -404,14 +387,20 @@ function closeDialog() {
     }
 }
 
-// Event Listeners
-[keywordInput, statusSelect, locationSelect, dateFromInput, dateToInput, sortSelect].forEach(control => {
-    control.addEventListener("input", renderItems);
+// Event Listeners For Category Pills
+pillButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        pillButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        selectedCategory = button.dataset.category;
+        updateDependentFilters();
+        renderItems();
+    });
 });
 
-categorySelect.addEventListener("change", () => {
-    updateDependentFilters();
-    renderItems();
+// Event Listeners For Controls
+[keywordInput, statusSelect, locationSelect, dateFromInput, dateToInput, sortSelect].forEach(control => {
+    control.addEventListener("input", renderItems);
 });
 
 typeSelect.addEventListener("change", () => {
@@ -435,6 +424,6 @@ document.addEventListener("keydown", event => {
     if (event.key === "Escape" && itemDialog.open) closeDialog();
 });
 
-// Initialise Application
-initialiseFilters();
+// Initialize
+updateDependentFilters();
 renderItems();

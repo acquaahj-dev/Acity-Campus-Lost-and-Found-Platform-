@@ -12,10 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="searchandfilter.css">
 
     <!-- JavaScript -->
-    <script src="app.js" defer></script>
+    <script src="searchandfilter.js" defer></script>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
                     <p class="eyebrow">CAMPUS DISCOVERY CATALOG</p>
                     <h2>Browse Lost & Found Items</h2>
                     <p class="section-description">
-                        Filter by campus locations, status, categories, or keywords.
+                        Filter by campus locations, categories, status, or search keywords.
                     </p>
                 </div>
 
@@ -52,6 +52,17 @@
                     <strong id="result-count">0</strong>
                     <span>items listed</span>
                 </div>
+            </div>
+
+            <!-- CATEGORY FILTER PILLS -->
+            <div class="category-pills-container" id="category-pills">
+                <button type="button" class="pill active" data-category="">All Categories</button>
+                <button type="button" class="pill" data-category="Documents">Documents</button>
+                <button type="button" class="pill" data-category="Electronics">Electronics</button>
+                <button type="button" class="pill" data-category="Bags">Bags</button>
+                <button type="button" class="pill" data-category="Personal Items">Personal Items</button>
+                <button type="button" class="pill" data-category="Accessories">Accessories</button>
+                <button type="button" class="pill" data-category="Stationery">Stationery</button>
             </div>
 
             <div class="catalog-layout">
@@ -97,11 +108,6 @@
                         <option value="Computer Lab 2">Computer Lab 2</option>
                     </select>
 
-                    <label class="field-label" for="category">Category</label>
-                    <select id="category">
-                        <option value="">All Categories</option>
-                    </select>
-
                     <label class="field-label" for="item-type">Item Type</label>
                     <select id="item-type" disabled>
                         <option value="">All Item Types</option>
@@ -144,6 +150,7 @@
                     <div class="results-toolbar">
                         <p id="results-summary" aria-live="polite">Showing 0 items</p>
 
+                        <!-- SORTING DROPDOWN -->
                         <label class="sort-control" for="sort">
                             Sort By
                             <select id="sort">
