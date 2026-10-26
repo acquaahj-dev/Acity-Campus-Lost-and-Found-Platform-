@@ -20,8 +20,6 @@
   const nearestHubReadout = document.getElementById("nearest-hub-readout");
   const nearestHubDirections = document.getElementById("nearest-hub-directions");
   const googleDirectionsLink = document.getElementById("google-directions-link");
-  const officialCampusPage = "https://acity.edu.gh/";
-  const officialCampusPhoto = "https://acity.edu.gh/wp-content/uploads/2026/08/IMG_1261-scaled-960x480.jpg";
   let selectedGoogleHubId = "";
   let selectedGoogleOriginHubId = "";
   let locationWatchId = null;
@@ -131,12 +129,10 @@
   }
 
   function isHubOpen(hub) {
-    return window.HoursStatus
-      ? HoursStatus.getHubStatus(hub).state !== "closed"
-      : isOpenNow();
-  }
-
+  return window.HoursStatus ? HoursStatus.getHubStatus(hub).state !== "closed" : true;
+}
   function switchMapView(viewName) {
+    if (!document.getElementById("map-view-" + viewName)) viewName = "google";
     mapViews.forEach(function (view) {
       view.hidden = view.id !== "map-view-" + viewName;
     });
@@ -157,14 +153,13 @@
     if (!liveMapElement || liveMap) return;
     if (!window.L) {
       setGoogleStatus("The interactive map library did not load. Check your internet connection and reload this page.");
-      return;
+      return
     }
 
     liveMap = window.L.map(liveMapElement).setView([5.6887607, -0.2087597], 18);
-    window.L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      subdomains: "abcd",
+    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 20,
-      attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors &copy; <a href="https://carto.com">CARTO</a>'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(liveMap);
 
     if (typeof HUBS !== "undefined") {
