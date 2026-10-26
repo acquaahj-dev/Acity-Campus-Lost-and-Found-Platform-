@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" initial-scale="1.0"/>
+    <meta name="description" content="Safe hand-off locations in Academic City University ">
+    <title>Safe Hand-Off Locations</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="princess-item-directlory.css">
+    <link rel="stylesheet" href="kelvina-safe-hand-off.css">
+    <link rel="stylesheet" href="../ux-ui.css">
+
+</head>
+<body>
+    <header>
+        <div class="header-content">
+        <h1>Academic City Hand-off Hubs</h1>
+        </div>
+    </header>
+
+    <main class="portal">
+        <section class="campus-map" id="campus-map" aria-label="Campus Virtual Tour Map">
+            <div class="campus-map-frame">
+                <iframe
+                class="campus-map_iframe"
+                id="virtual-tour-iframe"
+                src="https://acity.edu.gh/virtual-tour/" 
+                title="Academic City Virtual Campus Tour"
+                    loading="lazy">
+                </iframe>
+            </div>
+        </section>
+
+        <aside class="sidebar" id="sidebar" aria-label="Hand-Off Menu">
+            <nav class="sidebar__nav" aria-label="Hand-Off Sections">
+                <button class="sidebar__btn" data-panel="locations" aria-expanded="false">
+                    <span aria-hidden="true"></span><span class="sidebar__label">Hand-Off Location Points</span>
+                </button>
+                <button class="sidebar__btn" data-panel="hours" aria-expanded="false">
+                    <span aria-hidden="true"></span><span class="sidebar__label">Working Hours</span>
+                </button>
+                <button class="sidebar__btn" data-panel="guidelines" aria-expanded="false">
+                    <span aria-hidden="true"></span><span class="sidebar__label">Hand-Off Guidelines</span>
+                </button>
+                <button class="sidebar__btn" data-panel="claim" aria-expanded="false">
+                    <span aria-hidden="true"></span><span class="sidebar__label">Claim</span>
+                </button>
+            </nav>
+
+            <div class="sidebar__panel" id="panel-locations" hidden>
+                <div class="location-tools">
+                    <label class="location-search">
+                        <span>Search by</span>
+                        <select data-search-by>
+                            <option value="name">Location name</option>
+                            <option value="description">Description</option>
+                        </select>
+                        <input type="search" data-location-search placeholder="Search locations">
+                    </label>
+                    <label class="location-filter">
+                        <span>Filter by hours</span>
+                        <select data-hours-filter>
+                            <option value="all">Any hours</option>
+                            <option value="open">Open now</option>
+                            <option value="closed">Closed now</option>
+                        </select>
+                    </label>
+                    <button class="location-sort" type="button" data-nearest-sort aria-pressed="false">Closest to me</button>
+                    <p class="location-status" data-location-status role="status" aria-live="polite"></p>
+                </div>
+                <div class="location-list" data-location-list="locations"></div>
+            </div>
+
+            <div class="sidebar__panel" id="panel-hours" hidden>
+                <div class="location-tools">
+                    <label class="location-search">
+                        <span>Search by</span>
+                        <select data-search-by>
+                            <option value="name">Location name</option>
+                            <option value="description">Description</option>
+                        </select>
+                        <input type="search" data-location-search placeholder="Search locations">
+                    </label>
+                    <label class="location-filter">
+                        <span>Filter by hours</span>
+                        <select data-hours-filter>
+                            <option value="all">Any hours</option>
+                            <option value="open">Open now</option>
+                            <option value="closed">Closed now</option>
+                        </select>
+                    </label>
+                    <button class="location-sort" type="button" data-nearest-sort aria-pressed="false">Closest to me</button>
+                    <p class="location-status" data-location-status role="status" aria-live="polite"></p>
+                </div>
+                <div class="location-list" data-location-list="hours"></div>
+            </div>
+            <div class="sidebar__panel" id="panel-guidelines" hidden>
+                <p class="panel-placeholder"></p>
+            </div>
+            <div class="sidebar__panel" id="panel-claim" hidden>
+                <p class="panel-placeholder"></p>
+            </div>
+        </aside>
+    </main>
+    <script src="group5.js"></script>
+    <script src="kelvina-safe-hand-off.js"></script>
+    <script src="princess-item-directory.js"></script>
+</body>
+</html>

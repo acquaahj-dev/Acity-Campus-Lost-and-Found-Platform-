@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find the safest on-campus places to hand over and collect lost and found items at Academic City.">
+  <title>Hub Directory | Princess</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ux-ui.css">
+  <link rel="stylesheet" href="princess-item-directory.css">
+</head>
+<body>
+  <main class="preview">
+        <!-- ===== PRINCESS: hub directory + hours (built by princess-item-directory.js) ===== -->
+        <h2 class="panel-title">Hub Directory &amp; Hours</h2>
+        <div id="hours-directory" class="directory">
+          <p class="directory__intro">Opening hours and live status for every hand-off hub, in campus time (Accra).</p>
+          <div class="directory__controls" role="search">
+            <label for="directory-search">Search hubs</label>
+            <input type="search" id="directory-search" placeholder="e.g. library">
+            <div class="directory__filters" role="group" aria-label="Filter hubs">
+              <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" class="chip" data-filter="open" aria-pressed="false">Open now</button>
+              <button type="button" class="chip" data-filter="247" aria-pressed="false">24/7</button>
+            </div>
+          </div>
+          <p class="directory__count" id="directory-count" role="status" aria-live="polite"></p>
+          <ul class="directory__list" id="directory-list"></ul>
+        </div>
+  </main>
+
+  <script src="../group5.js"></script>
+  <script src="princess-item-directory.js"></script>
+</body>
+</html>

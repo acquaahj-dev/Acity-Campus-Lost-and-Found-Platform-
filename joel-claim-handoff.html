@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find the safest on-campus places to hand over and collect lost and found items at Academic City.">
+  <title>Claim and Hand-off | Joel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ux-ui.css">
+  <link rel="stylesheet" href="joel-claim-handoff.css">
+</head>
+<body>
+  <main class="preview">
+        <!-- ===== JOEL: how to claim and hand off ===== -->
+        <div id="claim-handoff" class="claim">
+          <h2 class="panel-title">How to Claim &amp; Hand Off</h2>
+          <p class="claim__intro">Four steps from finding your item to closing the case safely.</p>
+          <p class="claim__progress-label" id="claim-progress-label">0 of 4 steps done</p>
+          <div class="claim__bar" id="claim-bar" role="progressbar" aria-labelledby="claim-progress-label" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><span id="claim-bar-fill"></span></div>
+          <ol class="claim__steps">
+            <li class="claim__step" data-step="1">
+              <button type="button" class="claim__toggle" aria-expanded="true" aria-controls="claim-step-1"><span class="claim__num">1</span><span>Find your item</span></button>
+              <div class="claim__body" id="claim-step-1">
+                <p>Search the catalog by category, location and date, then open the item page and read its description and photo.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+            <li class="claim__step" data-step="2">
+              <button type="button" class="claim__toggle" aria-expanded="false" aria-controls="claim-step-2"><span class="claim__num">2</span><span>Verify ownership</span></button>
+              <div class="claim__body" id="claim-step-2" hidden>
+                <p>Press Claim and answer the ownership question shown on the item page. Only the real owner will know the answer.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+            <li class="claim__step" data-step="3">
+              <button type="button" class="claim__toggle" aria-expanded="false" aria-controls="claim-step-3"><span class="claim__num">3</span><span>Arrange the hand-off</span></button>
+              <div class="claim__body" id="claim-step-3" hidden>
+                <p>Use the anonymous chat to agree on a hub and a time inside its opening hours. Never share your phone number or email.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+            <li class="claim__step" data-step="4">
+              <button type="button" class="claim__toggle" aria-expanded="false" aria-controls="claim-step-4"><span class="claim__num">4</span><span>Meet and close the case</span></button>
+              <div class="claim__body" id="claim-step-4" hidden>
+                <p>Hand the item over in front of the hub staff, then mark it Resolved / Returned on your dashboard.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+          </ol>
+          <button type="button" class="claim__reset" id="claim-reset">Start again</button>
+        </div>
+  </main>
+
+  <script src="joel-claim-handoff.js"></script>
+</body>
+</html>

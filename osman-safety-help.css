@@ -1,0 +1,67 @@
+/* OSMAN - safety guidelines + "Which hub should I use?" helper.
+   ux-ui.css sets * { padding: 0 }, so list spacing and bullets are set explicitly here. */
+.guidelines__intro { margin: 0 0 0.9rem; font-size: 0.9rem; line-height: 1.6; color: #e9e9e9; }
+
+.guidelines__alert {
+  margin: 0 0 1rem; padding: 0.8rem 1rem; border-radius: 8px;
+  background: var(--red, #CC3634); color: var(--white, #FFFFFF);
+  font-size: 0.9rem; line-height: 1.5;
+}
+.guidelines__alert--warning { background: var(--white, #FFFFFF); color: var(--black, #222222); border-left: 6px solid var(--red, #CC3634); margin-top: 1rem; }
+.guidelines__alert--warning strong { color: var(--red, #CC3634); }
+
+.guidelines__toggle {
+  margin: 0 0 0.75rem; padding: 0.35rem 0.8rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid #8a8a8a; background: transparent; color: var(--white, #FFFFFF);
+  font: 600 0.78rem "Inter", sans-serif;
+}
+.guidelines__toggle:hover { border-color: var(--gold, #D4AF37); }
+
+.guideline {
+  margin-bottom: 0.65rem; border-radius: 8px; overflow: hidden;
+  background: var(--white, #FFFFFF); color: var(--black, #222222);
+  border-left: 4px solid var(--gold, #D4AF37);
+}
+.guideline[open] { border-left-color: var(--red, #CC3634); }
+.guideline summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 0.8rem 1rem; cursor: pointer; list-style: none; font-size: 0.95rem; font-weight: 600;
+}
+.guideline summary::-webkit-details-marker { display: none; }
+.guideline summary::after { content: "+"; font-size: 1.3rem; line-height: 1; color: var(--red, #CC3634); }
+.guideline[open] summary::after { content: "\2212"; }
+
+.guideline__list { list-style: none; margin: 0; padding: 0 1rem 0.9rem; }
+.guideline__list li { position: relative; margin-bottom: 0.45rem; padding-left: 1.1rem; font-size: 0.88rem; line-height: 1.55; }
+.guideline__list li::before {
+  content: ""; position: absolute; left: 0; top: 0.55em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--gold, #D4AF37);
+}
+
+/* ---- hub helper ---- */
+.helper { margin: 1.1rem 0 0.5rem; padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid #555; }
+.helper h3 { margin: 0 0 0.6rem; font-size: 1rem; color: var(--white, #FFFFFF); }
+.helper label { color: var(--white, #FFFFFF); font-size: 0.85rem; }
+.helper select { margin-bottom: 0.7rem; background: var(--white, #FFFFFF); color: var(--black, #222222); }
+.helper__go {
+  padding: 0.55rem 1rem; border: none; border-radius: 6px; cursor: pointer;
+  background: var(--red, #CC3634); color: var(--white, #FFFFFF); font: 600 0.85rem "Inter", sans-serif;
+}
+.helper__go:hover { background: var(--dark-red, #A92321); }
+.helper__result { margin-top: 0.8rem; }
+.helper__reason { margin: 0 0 0.6rem; font-size: 0.85rem; color: #e9e9e9; }
+.helper__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.helper__item {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem;
+  padding: 0.6rem 0.8rem; border-radius: 8px; background: var(--white, #FFFFFF); color: var(--black, #222222);
+  font-size: 0.85rem; font-weight: 600;
+}
+.helper__item button {
+  padding: 0.35rem 0.7rem; border: none; border-radius: 6px; cursor: pointer;
+  background: var(--red, #CC3634); color: var(--white, #FFFFFF); font: 600 0.75rem "Inter", sans-serif;
+}
+
+.guidelines__footer { margin: 1rem 0 0; font-size: 0.85rem; color: #e9e9e9; }
+
+/* standalone preview only (member-work page) */
+.preview { max-width: 420px; margin: 2rem auto; padding: 0.75rem; border-radius: 12px; background: rgba(34,34,34,0.94); color: var(--white, #FFFFFF); }
