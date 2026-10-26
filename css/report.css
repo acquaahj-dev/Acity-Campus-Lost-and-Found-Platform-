@@ -1,11 +1,6 @@
-/* =====================================================
-   GROUP 1: REPORT PAGES
-   - Every class starts with "report-" so it cannot clash
-     with another group's CSS.
-   - Colours, fonts and the .btn button come from global.css.
-   - We style for PHONES first. The @media (min-width: 721px)
-     blocks then change the layout for tablets and computers.
-   ===================================================== */
+/* /*  Every class starts with "report-" so it cannot clash with other groups, */
+/* Colours, fonts and the .btn button come from global.css. */
+
 
 /* Makes the "hidden" attribute always work */
 [hidden] {
@@ -17,7 +12,6 @@
   --report-border: #D2D2D7;
 }
 
-/* ---------- Page basics ---------- */
 .report-page {
   padding-top: 24px;
   padding-bottom: 64px;

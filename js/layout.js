@@ -1,18 +1,10 @@
 "use strict";
 
-/* =====================================================
-   SHARED HEADER AND FOOTER
-   Edit the links below ONCE and every page updates.
-   (This file belongs to the whole class, not just Group 1.)
-   ===================================================== */
-
 const siteName = "Acity Lost and Found";
 
-// The links in the menu. Change the file names to match your pages.
 const menuLinks = [
   { text: "Home", file: "index.html" },
-  { text: "Report Lost Items", file: "report.html" },
-  { text: "Report Found Items", file: "report.html" },
+  { text: "Report Items", file: "report-type.html" },
   { text: "Browse Items", file: "dashboard.html" },
   { text: "Item Details", file: "items.html" },
   { text: "Messages", file: "chat.html" },

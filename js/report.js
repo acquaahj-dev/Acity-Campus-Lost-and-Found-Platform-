@@ -1,15 +1,14 @@
 "use strict";
 
-/* =====================================================
-   REPORT FORM (report.html)
+/*
    What this file does:
      1. Switches between the Lost form and the Found form
      2. Shows a preview of the chosen photo
      3. Checks every box and shows errors
      4. Saves the answers and goes to the review page
-   ===================================================== */
+*/
 
-/* ---------- 1. Find the parts of the page ---------- */
+
 const pageTitle = document.getElementById("page-title");
 const lostButton = document.getElementById("lost-button");
 const foundButton = document.getElementById("found-button");
@@ -48,6 +47,7 @@ const removePhotoButton = document.getElementById("remove-photo-button");
 const photoError = document.getElementById("photo-error");
 
 const cancelButton = document.getElementById("cancel-button");
+
 
 /* ---------- 2. Settings and starting values ---------- */
 const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png"];
@@ -120,9 +120,8 @@ locationSelect.addEventListener("change", () => {
   }
 });
 
-/* ---------- 4. Date picker ---------- */
 
-// Today's date as text like "2026-10-24", the way a date input wants it
+// Saves today's date as text like "2026-10-24"
 function getTodayText() {
   const today = new Date();
   const year = today.getFullYear();
@@ -131,7 +130,7 @@ function getTodayText() {
   return `${year}-${month}-${day}`;
 }
 
-// The calendar pop-up will not let people pick a future date
+// will not let people pick a future date
 dateInput.max = getTodayText();
 dateInput.min = EARLIEST_DATE;
 
