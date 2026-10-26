@@ -1,5 +1,4 @@
 (() => {
-    const STORAGE_KEY = 'acityLostFoundItems';
     const message = document.getElementById('message');
     const itemsContainer = document.getElementById('items');
     const claimDialog = document.getElementById('claim-dialog');
@@ -17,33 +16,45 @@
     }
 
     function createItemCard(item) {
+        const itemName = item.itemName ?? item.name ?? 'Unnamed item';
+        const itemType = item.reportType ?? item.type ?? 'lost';
+        const itemPhoto = item.photo ?? item.image ?? '';
+        const itemLocation = item.location ?? '';
+
         const card = document.createElement('article');
         card.className = 'item-card';
 
         const heading = document.createElement('h2');
-        heading.textContent = item.name || 'Unnamed item';
+        heading.textContent = itemName;
         card.appendChild(heading);
 
         const type = document.createElement('p');
         type.className = 'item-type';
-        type.textContent = item.type === 'found' ? 'Found item' : 'Lost item';
+        type.textContent = itemType === 'found' ? 'Found item' : 'Lost item';
         card.appendChild(type);
 
-        if (item.image) {
+        if (itemPhoto) {
             const image = document.createElement('img');
             image.className = 'item-image';
-            image.src = item.image;
-            image.alt = `Photo of ${item.name || 'reported item'}`;
+            image.src = itemPhoto;
+            image.alt = `Photo of ${itemName}`;
+            image.loading = 'lazy';
             card.appendChild(image);
         }
 
         const details = document.createElement('dl');
         details.className = 'item-details';
+        const dateLabel = itemType === 'found' ? 'Date found' : 'Date lost';
         [
+            ...createDetail('Reference ID', item.referenceId),
+            ...createDetail('Status', item.status),
             ...createDetail('Description', item.description),
-            ...createDetail('Date', item.date),
+            ...createDetail(dateLabel, formatDate(item.date)),
             ...createDetail('Category', item.category),
-            ...createDetail('Location', item.location)
+            ...createDetail('Location', itemLocation || getLocationText(item)),
+            ...(itemType === 'found'
+                ? createDetail('Hand-off location', item.handoffLocation)
+                : [])
         ].forEach((element) => details.appendChild(element));
         card.appendChild(details);
 
@@ -52,7 +63,7 @@
         claimButton.type = 'button';
         claimButton.textContent = 'Claim';
         claimButton.addEventListener('click', () => {
-            claimItemName.textContent = `Item: ${item.name || 'Unnamed item'}`;
+            claimItemName.textContent = `Item: ${item.itemName ?? item.name ?? 'Unnamed item'}`;
             claimFeedback.textContent = '';
             claimForm.reset();
             claimDialog.showModal();
@@ -74,10 +85,9 @@
     });
 
     try {
-        const storedItems = localStorage.getItem(STORAGE_KEY);
-        const items = storedItems ? JSON.parse(storedItems) : [];
+        const items = getAllReports();
         if (!Array.isArray(items)) {
-            throw new Error('Saved item data is not a list.');
+            throw new Error('Saved report data is not a list.');
         }
 
         if (items.length === 0) {
