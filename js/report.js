@@ -52,7 +52,7 @@ const cancelButton = document.getElementById("cancel-button");
 /* ---------- 2. Settings and starting values ---------- */
 const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png"];
 const MAX_PHOTO_SIZE = 5 * 1024 * 1024;   // 5MB
-const MAX_STORED_PHOTO_SIZE = 300 * 1024;
+const MAX_STORED_PHOTO_SIZE = 300 * 1024; // the photo is shrunk to fit this
 const MAX_PHOTO_DIMENSION = 1280;
 const EARLIEST_DATE = "2000-01-01";
 
@@ -60,8 +60,8 @@ const EARLIEST_DATE = "2000-01-01";
 let reportType = "lost";   // "lost" or "found"
 let photoData = "";        // the chosen photo, saved as text
 let photoName = "";        // the file name of the photo
-let photoPending = false;
-let photoRequest = 0;
+let photoPending = false;  // true while a photo is being shrunk
+let photoRequest = 0;      // counts photo choices so old ones are ignored
 
 // Did the person come back from the review page? Then we have a saved draft.
 let savedDraft = getDraft();
@@ -148,6 +148,9 @@ dateInput.addEventListener("click", () => {
 
 /* ---------- 5. Photo upload and preview ---------- */
 
+// Shrinks the photo until it fits MAX_STORED_PHOTO_SIZE and returns it as text.
+// Without this, a big photo is too large for the browser's storage and
+// is dropped when the report is submitted.
 async function preparePhoto(file) {
   const imageUrl = URL.createObjectURL(file);
 
@@ -179,6 +182,7 @@ async function preparePhoto(file) {
           }, "image/jpeg", quality);
         });
 
+        // The saved text is about 33% bigger than the blob, so keep this small
         if (blob.size <= MAX_STORED_PHOTO_SIZE) {
           return await new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -219,6 +223,7 @@ photoInput.addEventListener("change", () => {
     return;
   }
 
+  // Each choice gets a number, so a slow old photo cannot replace a newer one
   const request = ++photoRequest;
   photoPending = false;
   photoData = "";
@@ -226,20 +231,18 @@ photoInput.addEventListener("change", () => {
   showPhotoOrUploadBox();
 
   if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+    photoInput.value = "";
     photoError.textContent = "Please choose a JPG or PNG file.";
     return;
   }
 
   if (file.size > MAX_PHOTO_SIZE) {
     photoInput.value = "";
-    showPhotoOrUploadBox();
     photoError.textContent = "That file is over 5MB. Please choose a smaller one.";
     return;
   }
 
   photoPending = true;
-  photoError.textContent = "";
-  showPhotoOrUploadBox();
 
   preparePhoto(file).then((result) => {
     if (request !== photoRequest) {
@@ -253,6 +256,7 @@ photoInput.addEventListener("change", () => {
     if (request !== photoRequest) {
       return;
     }
+    photoInput.value = "";
     photoError.textContent = "Could not process that image. Please choose another JPG or PNG file.";
     console.error("Failed to process the uploaded item photo:", error);
   }).finally(() => {
@@ -268,6 +272,7 @@ removePhotoButton.addEventListener("click", () => {
   photoData = "";
   photoName = "";
   photoInput.value = "";
+  photoError.textContent = "";
   showPhotoOrUploadBox();
 });
 
@@ -347,19 +352,10 @@ function checkHandoff() {
   return true;
 }
 
+// The photo is optional, but it must not still be processing or have an error
 function checkPhoto() {
   if (photoPending) {
     photoError.textContent = "Please wait for the image to finish processing.";
-    return false;
-  }
-
-  const file = photoInput.files[0];
-  if (file !== undefined && file.size > MAX_PHOTO_SIZE) {
-    photoData = "";
-    photoName = "";
-    photoInput.value = "";
-    showPhotoOrUploadBox();
-    photoError.textContent = "That file is over 5MB. Please choose a smaller one.";
     return false;
   }
   if (photoError.textContent !== "") {
@@ -470,5 +466,5 @@ if (savedDraft !== null) {
 }
 
 setReportType(reportType);
-updateOtherLocationBox(); 
+updateOtherLocationBox();
 showPhotoOrUploadBox();
