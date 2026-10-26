@@ -11,9 +11,13 @@ const siteName = "Acity Lost and Found";
 // The links in the menu. Change the file names to match your pages.
 const menuLinks = [
   { text: "Home", file: "index.html" },
-  { text: "Browse", file: "browse.html" },
-  { text: "Safe Zones", file: "safe-zones.html" },
-  { text: "My Items", file: "dashboard.html" }
+  { text: "Report Lost Items", file: "report.html" },
+  { text: "Report Found Items", file: "report.html" },
+  { text: "Browse Items", file: "dashboard.html" },
+  { text: "Item Details", file: "items.html" },
+  { text: "Messages", file: "chat.html" },
+  { text: "Collection Points", file: "safe-zones.html" },
+  { text: "Dashboard", file: "items.html" }
 ];
 
 // The red "Report Item" button
@@ -42,7 +46,6 @@ function buildMenuLinks() {
 
 function buildHeader() {
   return `
-    <a class="skip-link" href="#main">Skip to content</a>
     <header class="header">
       <div class="container header__inner">
         <a class="logo" href="index.html">${siteName}<span class="logo__dot"></span></a>
@@ -54,7 +57,7 @@ function buildHeader() {
 
         <nav class="nav" id="site-menu" aria-label="Main">
           ${buildMenuLinks()}
-          <a class="btn btn--small" href="${reportButtonFile}">Report Item</a>
+          <a class="btn btn--small" href="$
         </nav>
       </div>
     </header>
@@ -64,10 +67,9 @@ function buildHeader() {
 function buildFooter() {
   return `
     <footer class="footer">
-      <div class="container footer__inner">
-        <span>&copy; 2026 ${siteName}</span>
-        <a href="find-report.html">Find my report</a>
-      </div>
+    <h2>ACity Lost and Found</h2>
+        <p>Helping Students reconnect with their belongings.</p>
+        <p>&copy; 2026 Academic City University. All rights reserved.</p>
     </footer>
   `;
 }

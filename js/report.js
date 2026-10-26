@@ -52,12 +52,16 @@ const cancelButton = document.getElementById("cancel-button");
 /* ---------- 2. Settings and starting values ---------- */
 const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png"];
 const MAX_PHOTO_SIZE = 5 * 1024 * 1024;   // 5MB
+const MAX_STORED_PHOTO_SIZE = 300 * 1024;
+const MAX_PHOTO_DIMENSION = 1280;
 const EARLIEST_DATE = "2000-01-01";
 
 // These values change while the person uses the page, so we use "let"
 let reportType = "lost";   // "lost" or "found"
 let photoData = "";        // the chosen photo, saved as text
 let photoName = "";        // the file name of the photo
+let photoPending = false;
+let photoRequest = 0;
 
 // Did the person come back from the review page? Then we have a saved draft.
 let savedDraft = getDraft();
@@ -144,6 +148,56 @@ dateInput.addEventListener("click", () => {
 
 /* ---------- 5. Photo upload and preview ---------- */
 
+async function preparePhoto(file) {
+  const imageUrl = URL.createObjectURL(file);
+
+  try {
+    const image = new Image();
+    image.src = imageUrl;
+    await image.decode();
+
+    let scale = Math.min(
+      1,
+      MAX_PHOTO_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight)
+    );
+    const canvas = document.createElement("canvas");
+    const qualities = [0.82, 0.72, 0.62, 0.52];
+
+    while (scale >= 0.25) {
+      canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+      canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      for (const quality of qualities) {
+        const blob = await new Promise((resolve, reject) => {
+          canvas.toBlob((result) => {
+            if (result === null) {
+              reject(new Error("The image could not be compressed."));
+              return;
+            }
+            resolve(result);
+          }, "image/jpeg", quality);
+        });
+
+        if (blob.size <= MAX_STORED_PHOTO_SIZE) {
+          return await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => resolve(reader.result), { once: true });
+            reader.addEventListener("error", () => reject(reader.error), { once: true });
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+
+      scale *= 0.8;
+    }
+
+    throw new Error("The image could not be reduced to a storable size.");
+  } finally {
+    URL.revokeObjectURL(imageUrl);
+  }
+}
+
 // Shows the preview if we have a photo, or the upload box if we do not
 function showPhotoOrUploadBox() {
   const hasPhoto = photoData !== "";
@@ -165,27 +219,52 @@ photoInput.addEventListener("change", () => {
     return;
   }
 
+  const request = ++photoRequest;
+  photoPending = false;
+  photoData = "";
+  photoName = "";
+  showPhotoOrUploadBox();
+
   if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
     photoError.textContent = "Please choose a JPG or PNG file.";
     return;
   }
 
   if (file.size > MAX_PHOTO_SIZE) {
+    photoInput.value = "";
+    showPhotoOrUploadBox();
     photoError.textContent = "That file is over 5MB. Please choose a smaller one.";
     return;
   }
 
-  // Read the file so we can show it
-  const reader = new FileReader();
-  reader.addEventListener("load", () => {
-    photoData = reader.result;
+  photoPending = true;
+  photoError.textContent = "";
+  showPhotoOrUploadBox();
+
+  preparePhoto(file).then((result) => {
+    if (request !== photoRequest) {
+      return;
+    }
+    photoData = result;
     photoName = file.name;
+    photoError.textContent = "";
     showPhotoOrUploadBox();
+  }).catch((error) => {
+    if (request !== photoRequest) {
+      return;
+    }
+    photoError.textContent = "Could not process that image. Please choose another JPG or PNG file.";
+    console.error("Failed to process the uploaded item photo:", error);
+  }).finally(() => {
+    if (request === photoRequest) {
+      photoPending = false;
+    }
   });
-  reader.readAsDataURL(file);
 });
 
 removePhotoButton.addEventListener("click", () => {
+  photoRequest++;
+  photoPending = false;
   photoData = "";
   photoName = "";
   photoInput.value = "";
@@ -268,6 +347,27 @@ function checkHandoff() {
   return true;
 }
 
+function checkPhoto() {
+  if (photoPending) {
+    photoError.textContent = "Please wait for the image to finish processing.";
+    return false;
+  }
+
+  const file = photoInput.files[0];
+  if (file !== undefined && file.size > MAX_PHOTO_SIZE) {
+    photoData = "";
+    photoName = "";
+    photoInput.value = "";
+    showPhotoOrUploadBox();
+    photoError.textContent = "That file is over 5MB. Please choose a smaller one.";
+    return false;
+  }
+  if (photoError.textContent !== "") {
+    return false;
+  }
+  return true;
+}
+
 function checkDate() {
   // The value looks like "2026-10-10", or "" if nothing was chosen.
   // Dates written like this can be compared like normal text.
@@ -304,6 +404,7 @@ function checkWholeForm() {
     checkLocation(),
     checkOtherLocation(),
     checkHandoff(),
+    checkPhoto(),
     checkDate()
   ];
 

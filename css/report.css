@@ -481,6 +481,7 @@ button.btn {
   .report-lookup {
     flex-direction: row;
     align-items: flex-end;
+    align-content: center;
   }
 
   .report-lookup-field {
