@@ -58,13 +58,14 @@ main p {
 
 /* =====================================================
    PART 2: SHARED HEADER (built by layout.js)
+   Dark background, white text.
    ===================================================== */
 
 body header.header {
   padding: 0;
-  background: var(--white);
-  color: var(--report-ink);
-  border-bottom: 1px solid var(--report-border);
+  background: var(--black);
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .header__inner {
@@ -78,9 +79,9 @@ body header.header {
   margin: 0 auto;
 }
 
-/* App name: bold */
+/* App name: bold and white */
 .header .logo {
-  color: var(--report-ink);
+  color: var(--white);
   font-size: 1.4rem;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -88,7 +89,7 @@ body header.header {
 }
 
 .header .logo:hover {
-  color: var(--report-ink);
+  color: var(--white);
 }
 
 .logo__dot {
@@ -111,7 +112,7 @@ body header.header {
 .header .nav a {
   padding: 8px 12px;
   border-radius: var(--report-pill);
-  color: var(--report-ink);
+  color: var(--white);
   font-size: 0.92rem;
   font-weight: 500;
   white-space: nowrap;
@@ -121,25 +122,25 @@ body header.header {
 /* Highlight when you point at a link or tab to it */
 .header .nav a:hover,
 .header .nav a:focus-visible {
-  background: var(--report-surface);
-  color: var(--report-ink);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
 }
 
 .header .nav a:focus-visible {
-  outline: 2px solid var(--red);
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
 /* Highlight while the link is being clicked */
 .header .nav a:active {
-  background: var(--report-red-soft);
-  color: var(--red);
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--white);
 }
 
 /* Highlight for the page you are on (layout.js adds aria-current) */
 .header .nav a[aria-current="page"] {
-  background: var(--report-red-soft);
-  color: var(--red);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
   font-weight: 700;
 }
 
@@ -173,8 +174,8 @@ body header.header {
   width: 44px;
   height: 44px;
   padding: 0 11px;
-  background: var(--white);
-  border: 1px solid var(--report-border);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 14px;
   cursor: pointer;
 }
@@ -182,7 +183,7 @@ body header.header {
 .nav-toggle span {
   display: block;
   height: 2px;
-  background: var(--report-ink);
+  background: var(--white);
   border-radius: 2px;
 }
 
@@ -966,10 +967,10 @@ body header.header {
     align-items: stretch;
     gap: 4px;
     padding: 12px;
-    background: var(--white);
-    border: 1px solid var(--report-border);
+    background: var(--black);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 24px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
   }
 
   .header .nav.nav--open {
