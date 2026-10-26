@@ -8,10 +8,10 @@ This part of the project (Group 1) covers reporting an item, reviewing it, and f
 
 All pages are in the project root, so a link is just the file name.
 
-| Choose Lost or Found | `report-type.html` |
-| Lost form | `report.html` | `<a href="report.html?type=lost">Report lost</a>` |
-| Found form | `report.html` | `<a href="report.html?type=found">Report found</a>` |
-| Find a report | `find-report.html` | `<a href="find-report.html">Find my report</a>` |
+First page: Choose Lost or Found : `report-type.html` 
+Lost form :  `report.html` 
+Found form : `report.html` 
+Find a report : `find-report.html` 
 
 
 ## How to link to other pages of the app
