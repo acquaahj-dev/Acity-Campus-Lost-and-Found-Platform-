@@ -55,13 +55,6 @@
   outline-offset: 3px;
 }
 
-/* Current navigation item remains compatible with Group 7's shared header. */
-header nav a[aria-current="page"] {
-  color: var(--gold);
-  text-decoration: underline;
-  text-underline-offset: 5px;
-}
-
 /* ---------- Hero / page title ---------- */
 .dash-hero {
   display: flex;
@@ -418,52 +411,7 @@ header nav a[aria-current="page"] {
   padding-bottom: clamp(3.5rem, 7vw, 6rem);
 }
 
-/* The inherited global header gets a more composed dashboard-only treatment. */
-body > header {
-  position: relative;
-  z-index: 20;
-  padding: 1.25rem max(1.75rem, calc((100vw - 1320px) / 2));
-  border-bottom: 1px solid rgba(255,255,255,.10);
-  background: var(--black);
-  box-shadow: 0 10px 34px rgba(34,34,34,.10);
-}
-body > header h1 {
-  margin-bottom: .9rem;
-  letter-spacing: -.035em;
-}
-body > header nav {
-  align-items: center;
-  gap: .35rem;
-}
-body > header nav a {
-  position: relative;
-  padding: .6rem .8rem;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  transition: color var(--dash-motion), background-color var(--dash-motion),
-    border-color var(--dash-motion), transform var(--dash-motion);
-}
-body > header nav a:hover {
-  background: rgba(255,255,255,.07);
-  transform: translateY(-1px);
-}
-body > header nav a[aria-current="page"] {
-  border-color: rgba(212,175,55,.42);
-  background: rgba(212,175,55,.12);
-  color: var(--gold);
-  text-decoration: none;
-}
-body > header nav a[aria-current="page"]::after {
-  position: absolute;
-  right: .8rem;
-  bottom: .2rem;
-  left: .8rem;
-  height: 1px;
-  background: var(--gold);
-  content: "";
-  transform-origin: left;
-  animation: dash-nav-underline 520ms cubic-bezier(.2,.75,.25,1) both;
-}
+/* Global header and navigation intentionally inherit ux-ui.css unchanged. */
 
 /* Hero: strong type, generous whitespace, and a quiet accent rule. */
 .dash-hero {
@@ -678,9 +626,6 @@ body > header nav a[aria-current="page"]::after {
 
 /* Respect operating-system motion preferences; interaction remains clear. */
 @media (max-width: 1050px) {
-  body > header { padding-inline: 1.5rem; }
-  body > header nav { gap: .2rem; }
-  body > header nav a { padding: .55rem .65rem; }
   .dash-shell { width: min(100% - 2.5rem, 1320px); }
 }
 @media (max-width: 900px) {
@@ -689,10 +634,6 @@ body > header nav a[aria-current="page"]::after {
   .dash-tabs { overflow-x: auto; }
 }
 @media (max-width: 700px) {
-  body > header { padding: 1.1rem 1rem; }
-  body > header h1 { font-size: 1.35rem; }
-  body > header nav { gap: .3rem; }
-  body > header nav a { padding: .5rem .65rem; font-size: .82rem; }
   .dash-shell { width: calc(100% - 1.25rem); }
   .dash-hero { padding-top: 2.4rem; }
   .dash-title { font-size: clamp(2.7rem, 12vw, 4rem); }
@@ -717,11 +658,4 @@ body > header nav a[aria-current="page"]::after {
 }
 @media (prefers-reduced-motion: reduce) {
   #dashboard *, #dashboard *::before, #dashboard *::after,
-  body > header nav a[aria-current="page"]::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-    scroll-behavior: auto !important;
-    filter: none !important;
-  }
 }

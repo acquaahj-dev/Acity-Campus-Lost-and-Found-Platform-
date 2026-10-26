@@ -189,3 +189,50 @@
   .item-card, .item-card__image, .item-card__link { animation: none; transition: none; }
   .item-card:hover, .item-card:hover .item-card__image { transform: none; }
 }
+
+
+/* FIX: Badge chips are injected before the image by status-controls.js.
+   Keep them above the image and above decorative card layers so the Lost/Found
+   and Open/Claimed/Resolved labels remain readable in every reported item. */
+.item-card { position: relative; isolation: isolate; }
+.item-card::after { z-index: 0; pointer-events: none; }
+.item-card__badges {
+  position: absolute;
+  top: .8rem;
+  left: .8rem;
+  right: .8rem;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: .4rem;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: none;
+}
+.item-card__badges .badge {
+  position: relative;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+  min-height: 27px;
+  padding: .32rem .65rem;
+  overflow: visible;
+  white-space: nowrap;
+  line-height: 1.4;
+  opacity: 1;
+  visibility: visible;
+  color: var(--black);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(34,34,34,.09);
+}
+.item-card__badges .badge--lost { border-color: var(--red); color: var(--dark-red); }
+.item-card__badges .badge--found { border-color: var(--black); background: var(--black); color: var(--white); }
+.item-card__badges .badge--open { border-color: var(--black); }
+.item-card__badges .badge--claimed { border-color: var(--gold); }
+.item-card__badges .badge--resolved { border-color: var(--red); color: var(--dark-red); }

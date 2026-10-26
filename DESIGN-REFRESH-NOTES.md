@@ -1,38 +1,18 @@
-# Group 6 dashboard — ultra-modern visual layer
+# Group 6 dashboard — corrected ultra-modern visual layer
 
-## Design intent
-A high-polish, minimal SaaS dashboard with editorial typography, generous spacing,
-refined surfaces, restrained glass effects, micro-interactions, staggered entrances,
-and responsive layouts. The look is inspired by modern product dashboards, not a
-copy of any one site's assets or code.
+## Protected global design
+- `ux-ui.css` is preserved exactly as supplied in the project archive; its global theme, typography, header, and navigation rules are not redesigned here.
+- Dashboard-specific CSS no longer overrides header or navigation styles.
+- `global.html` was not modified. It was not included in the supplied ZIP, so no replacement was created.
+- Existing dashboard HTML, JavaScript, images, IDs, class names, script order, and refactored boundaries are preserved.
 
-## Protected files
-- `ux-ui.css` is byte-for-byte unchanged from the supplied ZIP.
-- `index.html` was not present in the supplied ZIP and has not been created or edited.
-- Existing HTML, JavaScript, mock data, images, script order, and refactored file boundaries are preserved.
-
-## Refined CSS files
-- `dashboard.css`: dashboard canvas, dashboard-only header refinement, hero, metrics,
-  workspace, tabs, panel entrances, reusable animation hooks and responsive rules.
-- `reported-items.css`: image-led item cards, hover depth, focus state and card metadata.
-- `pending-claims.css`: structured claim rows, accent rails, badges and action micro-interactions.
-- `status-controls.css`: pill-shaped status actions, confirmation dialog and toast.
-- `messages-panel.css`: conversation summary rows, unread indicators, avatar micro-interactions.
+## Rendering fix
+- Reported item badges are injected before the image by `status-controls.js`. The card overlay/decorative layer could visually cover them. The corrected CSS raises the badge row above the image and decorative layer and explicitly preserves visibility and readable contrast for Lost/Found and Open/Claimed/Resolved tags.
 
 ## Integration contract
-- Keep the existing IDs and attributes used by JavaScript: `#dashboard`,
-  `#reported-items-list`, `#resolved-items-list`, `#claims-list`, `#messages-panel`,
-  `data-count`, `data-tab`, `data-tab-panel`, `data-status`, and `data-unread`.
-- Existing class names consumed by scripts have not been renamed.
-- Shared `--dash-*` tokens remain aliases of Group 7's global palette. The CSS uses
-  only the global palette (`--red`, `--dark-red`, `--black`, `--white`, `--light-gray`,
-  `--border`, `--gold`) and the existing Inter font.
-- `.dash-btn`, `.dash-motion-in`, `.dash-grid`, `.dash-panel`, and `.empty-state`
-  remain reusable hooks for future modules.
-- Motion relies mainly on opacity and transforms and respects `prefers-reduced-motion`.
-- No new libraries, JavaScript, or build step are required.
+Keep all existing JavaScript selectors and IDs, including `#dashboard`, `#reported-items-list`, `#resolved-items-list`, `#claims-list`, `#messages-panel`, `data-count`, `data-tab`, `data-tab-panel`, `data-status`, and `data-unread`. No JavaScript or HTML selectors were renamed.
 
-## Run locally
-Extract the ZIP, open `group6-dashboard/dashboard.html` in VS Code with Live Server,
-and test the tabs, item status controls, claim actions, messaging interactions, and
-mobile layouts.
+The dashboard component styling and animations remain CSS-only, use the existing global palette and Inter font, and respect `prefers-reduced-motion`.
+
+## Validation
+CSS brace balance and archive contents were checked. Please verify the badges in a live browser using the actual project data and image assets.
