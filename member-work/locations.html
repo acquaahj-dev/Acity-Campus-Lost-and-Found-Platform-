@@ -9,11 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <link rel="stylesheet" href="ux-ui.css">
+  <link rel="stylesheet" href="../ui-ux.css">
   <link rel="stylesheet" href="locations.css">
-  <link rel="stylesheet" href="princess-item-directory.css">
-  <link rel="stylesheet" href="kelvina-safe-hand-off.css">  
-  <link rel="stylesheet" href="osman-safety-help.css">
 </head>
 <body>
   <header>
@@ -56,19 +53,24 @@
         <div class="campus-map__view" id="map-view-live" hidden>
           <div id="live-campus-map" class="live-campus-map" role="application" aria-label="Interactive map showing hand-off hubs and your live location"></div>
           <div class="google-route-controls" aria-label="Live location and directions">
+            <label for="google-route-origin">Starting point</label>
+            <select id="google-route-origin">
+              <option value="">My live location</option>
+            </select>
             <label for="google-route-destination">Choose a hand-off point</label>
             <select id="google-route-destination">
               <option value="">Select a destination</option>
             </select>
             <button type="button" id="google-track-button">Start live tracking</button>
-            <p id="google-location-status" role="status" aria-live="polite">Live location is off. Start tracking to show your position on the interactive map.</p>
+            <p id="google-location-status" role="status" aria-live="polite">Choose a starting point and destination. Use “My live location” to get directions from your device GPS.</p>
             <p id="google-coordinate-readout">Latitude: — · Longitude: — · Accuracy: —</p>
-            <p class="live-map-legend">Blue marker: your device location. Blue circle: reported GPS accuracy.</p>
-            <a id="google-directions-link" href="https://www.google.com/maps/search/?api=1&amp;query=Academic+City+University+Accra" target="_blank" rel="noopener noreferrer">Open walking directions in Google Maps</a>
+            <p id="nearest-hub-readout" role="status" aria-live="polite">Start live tracking to find the nearest hub.</p>
+            <button type="button" id="nearest-hub-directions" disabled>Directions to nearest hub</button>
+            <p class="live-map-legend">The “You” marker shows your device's reported location. The blue circle shows reported GPS accuracy.</p>
+            <a id="google-directions-link" href="#" aria-disabled="true" target="_blank" rel="noopener noreferrer">Get walking directions in Google Maps</a>
           </div>
         </div>
       </div>
-      <p class="campus-map__note">Hub positions are approximate campus estimates, not verified desk locations. Confirm each point with campus staff.</p>
     </section>
 
     <aside class="sidebar" id="sidebar" aria-label="Hand-off menu">
@@ -247,10 +249,10 @@
   <!-- ORDER MATTERS: data first, then the status engine, then everything that uses it -->
   <script src="locations.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="princess-item-directory.js"></script>
-  <script src="damien-hub list.js"></script>
-  <script src="kelvina-safe-hand-off.js"></script>
-  <script src="osman-safety-help.js"></script>
-  <script src="joel-claim-handoff.js"></script>
+  <script src="../princess-item-directory.js"></script>
+  <script src="../damien-hub%20list.js"></script>
+  <script src="../kelvina-safe-hand-off.js"></script>
+  <script src="../osman-safety-help.js"></script>
+  <script src="../joel-claim-handoff.js"></script>
 </body>
 </html>

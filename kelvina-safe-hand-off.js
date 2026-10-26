@@ -12,14 +12,18 @@
   const mapViewButtons = Array.from(document.querySelectorAll("[data-map-view]"));
   const mapViews = Array.from(document.querySelectorAll(".campus-map__view"));
   const liveMapElement = document.getElementById("live-campus-map");
+  const googleOrigin = document.getElementById("google-route-origin");
   const googleDestination = document.getElementById("google-route-destination");
   const googleTrackButton = document.getElementById("google-track-button");
   const googleLocationStatus = document.getElementById("google-location-status");
   const googleCoordinateReadout = document.getElementById("google-coordinate-readout");
+  const nearestHubReadout = document.getElementById("nearest-hub-readout");
+  const nearestHubDirections = document.getElementById("nearest-hub-directions");
   const googleDirectionsLink = document.getElementById("google-directions-link");
   const officialCampusPage = "https://acity.edu.gh/";
   const officialCampusPhoto = "https://acity.edu.gh/wp-content/uploads/2026/08/IMG_1261-scaled-960x480.jpg";
   let selectedGoogleHubId = "";
+  let selectedGoogleOriginHubId = "";
   let locationWatchId = null;
   let locationFixTimeoutId = null;
   let liveMap = null;
@@ -194,11 +198,40 @@
   function updateSelectedLiveHub() {
     liveHubMarkers.forEach(function (marker, hubId) {
       const selected = hubId === selectedGoogleHubId;
+      const nearest = Boolean(state.userLocation) && getNearestHub()?.hub.id === hubId;
       marker.setStyle({
         radius: selected ? 11 : 8,
-        fillColor: selected ? "#A92321" : "#CC3634"
+        fillColor: selected ? "#A92321" : nearest ? "#1E8A4F" : "#CC3634"
       });
     });
+  }
+
+  function getNearestHub() {
+    if (!state.userLocation || typeof HUBS === "undefined") return null;
+    return HUBS.reduce(function (nearest, hub) {
+      if (!Number.isFinite(hub.lat) || !Number.isFinite(hub.lng)) return nearest;
+      const distance = distanceFromUser({ hubId: hub.id });
+      return !nearest || distance < nearest.distance ? { hub: hub, distance: distance } : nearest;
+    }, null);
+  }
+
+  function updateNearestHubReadout() {
+    const nearest = getNearestHub();
+    if (!nearest) {
+      if (nearestHubReadout) nearestHubReadout.textContent = "Start live tracking to find the nearest hub.";
+      if (nearestHubDirections) nearestHubDirections.disabled = true;
+      return;
+    }
+
+    const distance = nearest.distance < 1
+      ? Math.round(nearest.distance * 1000) + " m"
+      : nearest.distance.toFixed(2) + " km";
+    if (nearestHubReadout) {
+      nearestHubReadout.textContent = "Nearest hub: " + (nearest.hub.shortName || nearest.hub.name)
+        + " · about " + distance + " away in a straight line.";
+    }
+    if (nearestHubDirections) nearestHubDirections.disabled = false;
+    updateSelectedLiveHub();
   }
 
   function updateLiveUserMarker(position) {
@@ -207,13 +240,17 @@
     const accuracy = Number.isFinite(position.accuracy) ? Math.max(0, position.accuracy) : 0;
 
     if (!liveUserMarker) {
-      liveUserMarker = window.L.circleMarker(point, {
-        radius: 9,
-        color: "#ffffff",
-        weight: 3,
-        fillColor: "#1463d6",
-        fillOpacity: 1
-      }).addTo(liveMap).bindPopup('<strong class="leaflet-user-marker">Your live location</strong>');
+      liveUserMarker = window.L.marker(point, {
+        title: "Your live location",
+        alt: "You",
+        icon: window.L.divIcon({
+          className: "live-user-marker-icon",
+          html: '<span class="live-user-marker">You</span>',
+          iconSize: [48, 32],
+          iconAnchor: [24, 32],
+          popupAnchor: [0, -32]
+        })
+      }).addTo(liveMap).bindPopup('<strong class="leaflet-user-marker">You are here</strong>');
       liveAccuracyCircle = window.L.circle(point, {
         radius: accuracy,
         color: "#1463d6",
@@ -238,6 +275,7 @@
     liveUserMarker = null;
     liveAccuracyCircle = null;
     hasCenteredOnUser = false;
+    updateNearestHubReadout();
   }
 
   mapViewButtons.forEach(function (button) {
@@ -256,16 +294,41 @@
   }
 
   function updateGoogleDirections(position) {
+    if (!googleDirectionsLink) return;
     const hub = getSelectedGoogleHub();
-    if (!hub || !googleDirectionsLink) return;
+    if (!hub) {
+      googleDirectionsLink.href = "#";
+      googleDirectionsLink.setAttribute("aria-disabled", "true");
+      return;
+    }
 
     const params = new URLSearchParams({ api: "1" });
-    if (position) {
+    const originHub = typeof HUBS === "undefined"
+      ? null
+      : HUBS.find(function (candidate) { return candidate.id === selectedGoogleOriginHubId; });
+    if (originHub) {
+      params.set("origin", originHub.lat + "," + originHub.lng);
+    } else if (position) {
       params.set("origin", position.latitude + "," + position.longitude);
+    } else {
+      googleDirectionsLink.href = "#";
+      googleDirectionsLink.setAttribute("aria-disabled", "true");
+      return;
     }
     params.set("destination", hub.lat + "," + hub.lng);
     params.set("travelmode", "walking");
     googleDirectionsLink.href = "https://www.google.com/maps/dir/?" + params.toString();
+    googleDirectionsLink.setAttribute("aria-disabled", "false");
+  }
+
+  function populateGoogleOrigins() {
+    if (!googleOrigin || typeof HUBS === "undefined") return;
+    HUBS.forEach(function (hub) {
+      const option = document.createElement("option");
+      option.value = hub.id;
+      option.textContent = hub.shortName || hub.name;
+      googleOrigin.appendChild(option);
+    });
   }
 
   function populateGoogleDestinations() {
@@ -287,12 +350,15 @@
     updateSelectedLiveHub();
     if (liveMap) liveMap.setView([hub.lat, hub.lng], Math.max(liveMap.getZoom(), 18));
 
-    if (state.userLocation) {
+    if (selectedGoogleOriginHubId) {
       updateGoogleDirections(state.userLocation);
-      setGoogleStatus("Your location is shown on the live map. Use the walking-directions link for a route to this hub.");
+      setGoogleStatus("Starting point and destination selected. Open walking directions to see the route.");
+    } else if (state.userLocation) {
+      updateGoogleDirections(state.userLocation);
+      setGoogleStatus("Your device location is the starting point. Open walking directions for the route to this hub.");
     } else {
       updateGoogleDirections(null);
-      setGoogleStatus("Destination selected. Start live tracking to show your position on the map, or open walking directions.");
+      setGoogleStatus("Destination selected. Start live tracking to use your current position as the starting point, or choose a campus hub above.");
     }
   }
 
@@ -313,7 +379,9 @@
     syncControls();
     renderLists();
     if (selectedGoogleHubId) updateGoogleDirections(null);
-    setGoogleStatus(message || "Live location stopped. Your position is no longer being updated.");
+    setGoogleStatus(message || (selectedGoogleOriginHubId
+      ? "Live location stopped. The selected campus hub remains the route starting point."
+      : "Live location stopped. Your position is no longer being updated."));
   }
 
   function startGoogleTracking() {
@@ -338,9 +406,9 @@
     locationFixTimeoutId = window.setTimeout(function () {
       locationFixTimeoutId = null;
       if (!state.userLocation) {
-        stopGoogleTracking("No location fix received. Check browser Location permission and device location services, then try again outdoors or near a window.");
+        stopGoogleTracking("No GPS fix received within 60 seconds. Check browser Location permission and device location services, then try again outdoors or near a window.");
       }
-    }, 20000);
+    }, 60000);
 
     try {
       locationWatchId = navigator.geolocation.watchPosition(
@@ -364,18 +432,22 @@
           setGoogleStatus("Your live position is shown on the interactive map; reported accuracy is ±"
             + Math.round(state.userLocation.accuracy) + " m."
             + (selectedGoogleHubId ? " Use walking directions for the route to your selected hub." : " Select a hub for walking directions."));
+          updateNearestHubReadout();
           syncControls();
           renderLists();
         },
         function (error) {
-          const messages = {
-            1: "Location permission was denied. Allow access in your browser settings, then try again.",
-            2: "Location is unavailable. Check device location services and your GPS signal.",
-            3: "Location request timed out. Try again outdoors or near a window."
-          };
-          stopGoogleTracking(messages[error.code] || "Could not read your current location.");
+          if (error.code === error.PERMISSION_DENIED) {
+            stopGoogleTracking("Location permission was denied. Allow access in your browser settings, then try again.");
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            setGoogleStatus("GPS signal is unavailable. Tracking will keep trying; check device location services or move outdoors.");
+          } else if (error.code === error.TIMEOUT) {
+            setGoogleStatus("GPS is taking longer than expected. Tracking will keep trying; wait for a location fix.");
+          } else {
+            stopGoogleTracking("Could not read your current location: " + error.message);
+          }
         },
-        { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+        { enableHighAccuracy: true, maximumAge: 5000, timeout: 60000 }
       );
     } catch (error) {
       stopGoogleTracking("Could not start location tracking: " + error.message);
@@ -383,15 +455,97 @@
   }
 
   if (googleDestination) {
+    populateGoogleOrigins();
     populateGoogleDestinations();
+    updateGoogleDirections(state.userLocation);
+    if (googleDirectionsLink) {
+      googleDirectionsLink.addEventListener("click", function (event) {
+        if (!selectedGoogleHubId) {
+          event.preventDefault();
+          setGoogleStatus("Choose a destination before opening walking directions.");
+          return;
+        }
+
+        if (selectedGoogleOriginHubId || state.userLocation) return;
+
+        event.preventDefault();
+        if (!window.isSecureContext || !navigator.geolocation) {
+          setGoogleStatus("To get directions from your current location, open this page over HTTPS or localhost and allow location access.");
+          return;
+        }
+
+        const directionsWindow = window.open("about:blank", "_blank");
+        if (!directionsWindow) {
+          setGoogleStatus("Allow pop-ups for this page, then click the directions link again.");
+          return;
+        }
+        directionsWindow.opener = null;
+        setGoogleStatus("Getting your current location before opening walking directions...");
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            state.userLocation = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy
+            };
+            initializeLiveMap();
+            updateLiveUserMarker(state.userLocation);
+            if (googleCoordinateReadout) {
+              googleCoordinateReadout.textContent = "Latitude: " + state.userLocation.latitude.toFixed(6)
+                + " · Longitude: " + state.userLocation.longitude.toFixed(6)
+                + " · Accuracy: ±" + Math.round(state.userLocation.accuracy) + " m";
+            }
+            updateGoogleDirections(state.userLocation);
+            updateNearestHubReadout();
+            syncControls();
+            renderLists();
+            setGoogleStatus("Your location is ready. Opening the walking route in Google Maps...");
+            directionsWindow.location.replace(googleDirectionsLink.href);
+          },
+          function (error) {
+            directionsWindow.close();
+            if (error.code === error.PERMISSION_DENIED) {
+              setGoogleStatus("Location permission was denied. Allow location access, then click the directions link again.");
+            } else if (error.code === error.TIMEOUT) {
+              setGoogleStatus("Could not get a GPS fix in time. Try again outdoors or near a window.");
+            } else {
+              setGoogleStatus("Your location is unavailable. Check device location services and try again.");
+            }
+          },
+          { enableHighAccuracy: true, maximumAge: 5000, timeout: 60000 }
+        );
+      });
+    }
+    if (googleOrigin) {
+      googleOrigin.addEventListener("change", function () {
+        selectedGoogleOriginHubId = googleOrigin.value;
+        if (selectedGoogleHubId) updateGoogleDirections(state.userLocation);
+        if (selectedGoogleOriginHubId) {
+          setGoogleStatus("Starting point selected. Choose a destination to prepare walking directions.");
+        } else if (state.userLocation) {
+          setGoogleStatus("Your device location will be used as the starting point.");
+        } else {
+          setGoogleStatus("Start live tracking to use your current position as the starting point.");
+        }
+      });
+    }
     googleDestination.addEventListener("change", function () {
       if (googleDestination.value) selectGoogleHub(googleDestination.value);
       else {
         selectedGoogleHubId = "";
-        googleDirectionsLink.href = "https://www.google.com/maps/search/?api=1&query=Academic+City+University+Accra";
+        updateGoogleDirections(state.userLocation);
         updateSelectedLiveHub();
-        setGoogleStatus("Choose a hand-off point to prepare directions.");
+        setGoogleStatus("Choose a starting point and destination to prepare directions.");
       }
+    });
+  }
+
+  if (nearestHubDirections) {
+    nearestHubDirections.addEventListener("click", function () {
+      const nearest = getNearestHub();
+      if (!nearest) return;
+      selectGoogleHub(nearest.hub.id);
+      setGoogleStatus("Nearest hub selected. Open walking directions to route from your live location.");
     });
   }
 
@@ -408,7 +562,7 @@
   function showGoogleRouteTo(hubId) {
     switchMapView("live");
     selectGoogleHub(hubId);
-    if (!state.userLocation) {
+    if (!state.userLocation && !selectedGoogleOriginHubId) {
       setGoogleStatus("Destination selected. Start live tracking to get directions from your current location.");
     }
   }

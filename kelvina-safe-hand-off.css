@@ -24,6 +24,12 @@
 .leaflet-popup-content { line-height: 1.5; }
 .leaflet-hub-marker { color: var(--red); font-weight: 700; }
 .leaflet-user-marker { color: #1463d6; font-weight: 700; }
+.live-user-marker-icon { background: transparent; border: 0; }
+.live-user-marker {
+  display: inline-block; padding: 0.25rem 0.5rem; border: 2px solid #fff; border-radius: 999px;
+  background: #1463d6; color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  font: 700 0.8rem "Inter", sans-serif; text-align: center;
+}
 
 /* ---- map tabs ---- */
 .campus-map__controls { position: absolute; top: 1rem; right: 1rem; z-index: 5; display: flex; gap: 0.5rem; }
@@ -64,6 +70,7 @@
   background: var(--red); color: var(--white); font: 600 0.82rem "Inter", sans-serif; cursor: pointer;
 }
 .google-route-controls button:hover { background: var(--dark-red, #A92321); }
+.google-route-controls button:disabled { cursor: not-allowed; opacity: 0.55; }
 .google-route-controls p { margin: 0; color: #555; font-size: 0.72rem; line-height: 1.4; }
 .google-route-controls a { font-size: 0.78rem; font-weight: 700; }
 
