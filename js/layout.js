@@ -5,19 +5,17 @@ const siteName = "Acity Lost and Found";
 const menuLinks = [
   { text: "Home", file: "index.html" },
   { text: "Report Items", file: "report-type.html" },
-  { text: "Browse Items", file: "dashboard.html" },
+  { text: "Browse Items", file: "catalog.html" },
   { text: "Item Details", file: "items.html" },
   { text: "Messages", file: "chat.html" },
   { text: "Collection Points", file: "safe-zones.html" },
-  { text: "Dashboard", file: "items.html" }
+  { text: "Dashboard", file: "dashboard.html" }
 ];
 
-// The red "Report Item" button
 const reportButtonFile = "report-type.html";
 
 // Finds the name of the page we are on, for example "report.html"
 function getCurrentFileName() {
-  // .at(-1) means "the last item"
   const fileName = window.location.pathname.split("/").at(-1);
   return fileName || "index.html";
 }

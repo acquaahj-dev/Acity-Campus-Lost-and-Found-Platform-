@@ -49,7 +49,7 @@ const photoError = document.getElementById("photo-error");
 const cancelButton = document.getElementById("cancel-button");
 
 
-/* ---------- 2. Settings and starting values ---------- */
+/* 2. Settings and starting values */
 const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png"];
 const MAX_PHOTO_SIZE = 5 * 1024 * 1024;   // 5MB
 const MAX_STORED_PHOTO_SIZE = 300 * 1024; // the photo is shrunk to fit this
@@ -57,7 +57,7 @@ const MAX_PHOTO_DIMENSION = 1280;
 const EARLIEST_DATE = "2000-01-01";
 
 // These values change while the person uses the page, so we use "let"
-let reportType = "lost";   // "lost" or "found"
+let reportType = "lost";   
 let photoData = "";        // the chosen photo, saved as text
 let photoName = "";        // the file name of the photo
 let photoPending = false;  // true while a photo is being shrunk
