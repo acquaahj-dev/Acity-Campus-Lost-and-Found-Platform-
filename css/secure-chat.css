@@ -111,7 +111,11 @@ select.field { border-radius: 12px; }
 .swatch[aria-checked="true"] { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--ink); }
 
 /* ---------- Layout ---------- */
-.app { height: 100vh; display: grid; grid-template-columns: 280px 1fr; }
+.app {
+  height: min(760px, max(420px, calc(100dvh - 200px)));
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
 .side { display: flex; flex-direction: column; min-height: 0; background: var(--surface); border-right: 1px solid var(--line); }
 .side__top { padding: 18px 16px 12px; border-bottom: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 700; }

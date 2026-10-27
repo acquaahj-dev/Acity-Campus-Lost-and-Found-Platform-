@@ -429,6 +429,7 @@
             + Math.round(state.userLocation.accuracy) + " m."
             + (selectedGoogleHubId ? " Use walking directions for the route to your selected hub." : " Select a hub for walking directions."));
           updateNearestHubReadout();
+          switchMapView("live");
           syncControls();
           renderLists();
         },
@@ -788,6 +789,7 @@
     });
   });
 
+  switchMapView("live");
   syncControls();
   renderLists();
   window.setInterval(renderLists, 60000);

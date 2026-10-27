@@ -43,13 +43,6 @@
   width: min(520px, 48vw); margin: 0; padding: 0.5rem 0.75rem; border-radius: 6px;
   background: rgba(34, 34, 34, 0.88); color: var(--white); font-size: 0.75rem; line-height: 1.4;
 }
-.map-tour-link {
-  position: absolute; left: calc(var(--sidebar-w-closed) + 1rem); bottom: 1rem; z-index: 4;
-  display: inline-block; max-width: 45%; padding: 0.5rem 0.75rem; border-radius: 6px;
-  background: rgba(34, 34, 34, 0.88); color: var(--white); font-size: 0.8rem;
-}
-.map-tour-link:hover { background: var(--red); color: var(--white); }
-
 /* ---- Live map controls ---- */
 .google-route-controls {
   position: absolute; left: calc(var(--sidebar-w-closed) + 1rem); bottom: 3.25rem; z-index: 4;
@@ -99,7 +92,6 @@
   .campus-map__controls { top: 0.5rem; right: 0.5rem; left: 0.5rem; }
   .campus-map__tab { flex: 1; padding: 0.5rem; font-size: 0.75rem; }
   .campus-map__note { top: 3.8rem; left: 0.5rem; width: calc(100% - 1rem); max-width: none; font-size: 0.68rem; }
-  .map-tour-link { right: 0.5rem; left: 0.5rem; bottom: calc(var(--sheet-h) + 0.5rem); max-width: none; text-align: center; }
   .google-route-controls {
     right: 0.5rem; left: 0.5rem; width: auto; bottom: calc(var(--sheet-h) + 3.25rem);
     max-height: 42%; overflow-y: auto;

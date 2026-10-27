@@ -25,18 +25,12 @@
 
   <main class="portal" id="main">
     <h1 class="visually-hidden">Campus hand-off map and safe zones</h1>
-    <!-- ===== KELVINA: campus map = Academic City virtual tour + trail layer ===== -->
-    <section class="campus-map" id="campus-map" aria-label="Campus virtual tour map">
+    <section class="campus-map" id="campus-map" aria-label="Campus hand-off map">
       <div class="campus-map__controls" role="group" aria-label="Choose a campus map">
-        <button type="button" class="campus-map__tab is-active" data-map-view="virtual" aria-pressed="true">Virtual campus tour</button>
+        <button type="button" class="campus-map__tab is-active" data-map-view="live" aria-pressed="true">Campus hubs map</button>
         <button type="button" class="campus-map__tab" data-map-view="google" aria-pressed="false">Google Maps</button>
-        <button type="button" class="campus-map__tab" data-map-view="live" aria-pressed="false">Live location &amp; hubs</button>
       </div>
       <div class="campus-map-frame">
-        <div class="campus-map__view is-active" id="map-view-virtual">
-          <iframe class="campus-map_iframe" id="virtual-tour-iframe" src="https://acity.edu.gh/virtual-tour/" title="Academic City Virtual Campus Tour" loading="lazy"></iframe>
-          <a class="map-tour-link" href="https://acity.edu.gh/virtual-tour/" target="_blank" rel="noopener noreferrer">Open the virtual tour in a new tab</a>
-        </div>
         <div class="campus-map__view" id="map-view-google" hidden>
           <iframe
             class="campus-map_iframe"
@@ -47,7 +41,7 @@
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
-        <div class="campus-map__view" id="map-view-live" hidden>
+        <div class="campus-map__view is-active" id="map-view-live">
           <div id="live-campus-map" class="live-campus-map" role="application" aria-label="Interactive map showing hand-off hubs and your live location"></div>
           <div class="google-route-controls" aria-label="Live location and directions">
             <label for="google-route-origin">Starting point</label>
