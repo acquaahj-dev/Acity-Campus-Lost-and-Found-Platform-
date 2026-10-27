@@ -47,7 +47,7 @@ function buildHeader() {
 
         <nav class="nav" id="site-menu" aria-label="Main">
           ${buildMenuLinks()}
-          <a class="btn btn--small" href="$
+          <a class="btn btn--small" href="${reportButtonFile}">Report Item</a>
         </nav>
       </div>
     </header>

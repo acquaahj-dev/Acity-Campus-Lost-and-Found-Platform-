@@ -309,7 +309,7 @@ function checkCategory() {
 
 function checkDescription() {
   if (descriptionInput.value.trim().length < 10) {
-    showError(descriptionInput, descriptionError, "Please write at least 20 characters.");
+    showError(descriptionInput, descriptionError, "Please write at least 10 characters.");
     return false;
   }
   clearError(descriptionInput, descriptionError);
