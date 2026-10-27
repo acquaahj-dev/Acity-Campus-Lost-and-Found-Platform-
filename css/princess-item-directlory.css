@@ -1,0 +1,58 @@
+
+/* ---------- Status badge (also used on Damien's cards and in the directory) ---------- */
+.status-badge {
+  --status-bg: var(--surface, #F5F5F5);
+  --status-fg: #424245;
+  --status-dot: var(--grey-light, #A1A1A6);
+  display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 8px;
+  max-width: 100%; padding: 5px 12px 5px 10px;
+  border-radius: var(--radius-pill, 999px);
+  background: var(--status-bg); color: var(--status-fg);
+  font-size: 13px; line-height: 1.3;
+}
+.status-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--status-dot); }
+.status-text { font-weight: 600; }
+.status-detail { font-weight: 400; }
+.status-detail::before { content: "\00b7"; margin-right: 8px; }
+
+.status-open         { --status-bg: #E6F4EC; --status-fg: #14532D; --status-dot: #1E8A4F; }
+.status-closing-soon { --status-bg: #FBF1D9; --status-fg: #6B4E0A; --status-dot: var(--gold, #D4AF37); }
+.status-closed       { --status-bg: #EEEEEE; --status-fg: #424245; --status-dot: var(--grey-light, #A1A1A6); }
+
+[data-hub-hours] { font-size: 14px; line-height: 1.4; color: var(--grey-text, #5F5F64); }
+
+/* ---------- Hub directory ---------- */
+.directory__intro { margin: 0 0 0.9rem; font-size: 0.9rem; line-height: 1.6; color: #e9e9e9; }
+.directory__controls label { color: var(--white, #FFFFFF); font-size: 0.85rem; }
+.directory__controls input[type="search"] { margin-bottom: 0.6rem; }
+
+.directory__filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
+.chip {
+  padding: 0.4rem 0.9rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid #8a8a8a; background: transparent; color: var(--white, #FFFFFF);
+  font: 600 0.8rem "Inter", sans-serif;
+}
+.chip:hover { border-color: var(--gold, #D4AF37); }
+.chip.is-active { background: var(--red, #CC3634); border-color: var(--red, #CC3634); }
+
+.directory__count { margin: 0 0 0.6rem; font-size: 0.8rem; color: #cfcfcf; }
+
+.directory__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+.directory-item {
+  padding: 0.85rem 1rem; border-radius: 8px;
+  background: var(--white, #FFFFFF); color: var(--black, #222222);
+  border-left: 4px solid var(--red, #CC3634);
+}
+.directory-item h3 { margin: 0 0 0.25rem; font-size: 1rem; color: var(--black, #222222); }
+.directory-item__place { margin: 0 0 0.35rem; font-size: 0.8rem; color: var(--text-muted, #6B7280); }
+.directory-item__hours { margin: 0 0 0.55rem; }
+.directory-item__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.directory-item__btn {
+  padding: 0.4rem 0.8rem; border: none; border-radius: 6px; cursor: pointer;
+  background: var(--red, #CC3634); color: var(--white, #FFFFFF); font: 600 0.8rem "Inter", sans-serif;
+}
+.directory-item__btn:hover { background: var(--dark-red, #A92321); }
+.directory__empty { margin: 0; padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.1); font-size: 0.9rem; }
+
+/* standalone preview only (member-work page) */
+.preview { max-width: 420px; margin: 2rem auto; padding: 0.75rem; border-radius: 12px; background: rgba(34,34,34,0.94); color: var(--white, #FFFFFF); }
