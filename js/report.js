@@ -48,6 +48,7 @@ const photoError = document.getElementById("photo-error");
 
 const cancelButton = document.getElementById("cancel-button");
 const saveError = document.getElementById("save-error");
+const draftStorageNote = document.getElementById("draft-storage-note");
 
 
 /* ---------- 2. Settings and starting values ---------- */
@@ -82,10 +83,20 @@ let savedDraft = null;
 try {
   savedDraft = getDraft();
 } catch (error) {
-  saveError.textContent = "We could not load your saved draft. You can continue with a new report.";
+  saveError.textContent = `${error.message} Start a new report or clear the browser's saved data and try again.`;
   saveError.hidden = false;
   console.error("Failed to load the report draft:", error);
 }
+
+function updateDraftStorageNote() {
+  const usingFallback = isDraftStorageFallbackInUse();
+  draftStorageNote.hidden = !usingFallback;
+  if (usingFallback) {
+    draftStorageNote.textContent = "This draft is using persistent browser storage and will remain until you submit or cancel it. Avoid using a shared device.";
+  }
+}
+
+updateDraftStorageNote();
 
 // Did the start page tell us which form to show? (report.html?type=found)
 const typeFromUrl = new URLSearchParams(window.location.search).get("type");
@@ -478,6 +489,7 @@ function saveAndGoToReview() {
   };
 
   saveDraft(report);
+  updateDraftStorageNote();
   window.location.href = "review.html";
 }
 
