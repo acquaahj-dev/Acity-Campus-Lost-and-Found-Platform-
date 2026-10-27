@@ -8,24 +8,27 @@ A frontend-only campus lost-and-found application assembled for Group 8's integr
 - **Search and catalog:** keyword search, dynamic category and location filters, status/date/type/colour filters, sorting, item cards, and an item-details dialog.
 - **Item details and claim demo:** reports from the catalog link to the detail/ownership-check page. Claims are a demo interaction, not authoritative verification.
 - **Anonymous messaging demo:** browser-only profile gate, conversation list, message thread, and privacy reminders. It does not provide server-backed delivery or end-to-end encryption.
-- **Safe zones:** campus map views, hand-off hub directory and hours, safety guidance, and claim/handoff checklist.
+- **Safe zones:** campus map views, hand-off hub directory and hours, safety guidance, and claim checklist.
 - **Activity dashboard:** reported items, pending-claim and message panels, and status controls synchronized with locally saved reports.
 - **Shared shell:** consistent header, responsive navigation, footer, skip links, and active-page indicators across all pages.
 
 ## Pages and shared files
 
-- `index.html` — integrated landing page.
-- `report-type.html`, `report.html`, `review.html`, `find-report.html` — Group 1 reporting flow.
-- `catalog.html` — Group 2 search and filter catalog.
-- `item.html` — Group 3 item list and mock ownership-check dialog.
-- `messages.html` — Group 4 anonymous chat demonstration.
-- `safe-zones.html` — Group 5 campus safe-zone map and hub tools.
-- `dashboard.html` — Group 6 activity dashboard.
-- `ux-ui.css`, `css/global.css`, `css/report.css`, `css/integration.css` — shared design system, reporting baseline, common navigation, and integration styles.
-- `js/layout.js` — shared header, responsive navigation, and footer.
-- `js/platform-data.js` — combines Group 2 fixtures with reports saved by Group 1.
-- `js/platform-dashboard-bridge.js` — adapts the report store to the dashboard and syncs status changes.
-- `data/mock-catalog-items.js` — separate catalog demo fixtures.
+- `index.html` — Landing page with links to reporting, catalog, safe zones, and dashboard.
+- `report-type.html` — Group 1 — Lost or found selection.
+- `report.html` — Group 1 — Report form.
+- `review.html` — Group 1 — Review and submit part.
+- `find-report.html` — Group 1 — Look up a report by reference ID.
+- `catalog.html` — Group 2 — Search and filter catalog.
+- `item.html` — Group 3 — Item list and mock ownership-check dialog.
+- `messages.html` — Group 4 — Anonymous chat demo.
+- `safe-zones.html` — Group 5 — Campus safe-zone map and hub tools.
+- `dashboard.html` — Group 6 — Activity dashboard.
+- `ux-ui.css`, `css/global.css`, `css/report.css`, `css/integration.css` — Shared design system, reporting baseline, common navigation, and integration styles.
+- `js/layout.js` — Shared header, responsive navigation, and footer.
+- `js/platform-data.js` — Combines Group 2 fixtures with reports saved by Group 1.
+- `js/platform-dashboard-bridge.js` — Adapts the report store to the dashboard and syncs status changes.
+- `data/mock-catalog-items.js` — Separate catalog demo fixtures.
 
 The original group folders are not required to run the integrated application.
 
