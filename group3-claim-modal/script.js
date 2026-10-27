@@ -1,4 +1,28 @@
+function getVerificationMessage() {
+    const savedMessages = localStorage.getItem('verificationMessages');
+    if (savedMessages === null) {
+        return {};
+    }
+
+    const parsedMessages = JSON.parse(savedMessages);
+    if (Array.isArray(parsedMessages)) {
+        return parsedMessages.reduce((messagesById, savedMessage) => {
+            if (savedMessage && savedMessage.referenceId) {
+                messagesById[savedMessage.referenceId] = savedMessage.response;
+            }
+            return messagesById;
+        }, {});
+    }
+
+    if (parsedMessages !== null && typeof parsedMessages === 'object') {
+        return parsedMessages;
+    }
+
+    throw new Error('Saved verification messages are not an object.');
+}
+
 (() => {
+    const verificationMessagesKey = 'verificationMessages';
     const message = document.getElementById('message');
     const itemsContainer = document.getElementById('items');
     const claimDialog = document.getElementById('claim-dialog');
@@ -6,6 +30,7 @@
     const claimItemName = document.getElementById('claim-item-name');
     const claimAnswer = document.getElementById('claim-answer');
     const claimFeedback = document.getElementById('claim-feedback');
+    let currentClaimItem = null;
 
     function createDetail(label, value) {
         const term = document.createElement('dt');
@@ -63,6 +88,7 @@
         claimButton.type = 'button';
         claimButton.textContent = 'Claim';
         claimButton.addEventListener('click', () => {
+            currentClaimItem = item;
             claimItemName.textContent = `Item: ${item.itemName ?? item.name ?? 'Unnamed item'}`;
             claimFeedback.textContent = '';
             claimForm.reset();
@@ -80,8 +106,24 @@
 
     claimForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        claimFeedback.textContent = 'Your response has been sent.';
-        window.setTimeout(() => claimDialog.close(), 2000);
+
+        if (!currentClaimItem) {
+            claimFeedback.textContent = 'Could not identify the item. Close this form and try again.';
+            return;
+        }
+
+        try {
+            const verificationMessages = getVerificationMessage();
+            const referenceId = currentClaimItem.referenceId ?? 'Not provided';
+            verificationMessages[referenceId] = claimAnswer.value.trim();
+
+            localStorage.setItem(verificationMessagesKey, JSON.stringify(verificationMessages));
+            claimFeedback.textContent = 'Your claim will be reviewed.';
+            window.setTimeout(() => claimDialog.close(), 2000);
+        } catch (error) {
+            claimFeedback.textContent = 'Could not save your verification message. Please try again.';
+            console.error('Failed to save verification message:', error);
+        }
     });
 
     try {
