@@ -19,6 +19,7 @@ const buttonsArea = document.getElementById("buttons-area");
 const submitButton = document.getElementById("submit-button");
 const submittedNote = document.getElementById("submitted-note");
 const submitError = document.getElementById("submit-error");
+const draftStorageNote = document.getElementById("draft-storage-note");
 
 const successBox = document.getElementById("success-box");
 const referenceIdText = document.getElementById("reference-id-text");
@@ -30,6 +31,7 @@ const viewReportLink = document.getElementById("view-report-link");
 let draft = null;
 try {
   draft = getDraft();
+  draftStorageNote.hidden = !isDraftStorageFallbackInUse();
 } catch (error) {
   submitError.textContent = "We could not load your saved draft. Start a new report or clear the browser's saved data and try again.";
   submitError.hidden = false;

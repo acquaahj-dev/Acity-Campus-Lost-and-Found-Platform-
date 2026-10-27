@@ -5,12 +5,15 @@
    There is no server, so we save things in the browser.
      - sessionStorage = the report being filled in (a "draft").
        It is forgotten when the tab is closed.
+       localStorage is used if temporary draft storage is blocked.
      - localStorage   = reports that were submitted.
        They stay until the browser data is cleared.
    ===================================================== */
 
 const DRAFT_KEY = "lostFoundDraft";
+const DRAFT_FALLBACK_KEY = "lostFoundDraftFallback";
 const REPORTS_KEY = "lostFoundReports";
+let draftStorageFallbackInUse = false;
 
 // Letters and numbers used in reference IDs.
 // We leave out ones that look alike (0, O, 1, I).
@@ -21,7 +24,9 @@ function readStoredJson(storageName, key, description) {
   try {
     text = window[storageName].getItem(key);
   } catch (error) {
-    throw new Error(`Your browser could not access the saved ${description}.`);
+    const accessError = new Error(`Your browser could not access the saved ${description}.`);
+    accessError.name = "StorageAccessError";
+    throw accessError;
   }
 
   if (text === null) {
@@ -39,31 +44,105 @@ function writeStoredJson(storageName, key, value, description) {
   try {
     window[storageName].setItem(key, JSON.stringify(value));
   } catch (error) {
-    throw new Error(`Your browser could not save the ${description}. Check available storage and try again.`);
+    const accessError = new Error(`Your browser could not save the ${description}. Check available storage and try again.`);
+    accessError.name = "StorageAccessError";
+    throw accessError;
   }
 }
 
 /* ---------- Draft (the report being filled in) ---------- */
 
 function saveDraft(report) {
-  writeStoredJson("sessionStorage", DRAFT_KEY, report, "report draft");
+  try {
+    writeStoredJson("sessionStorage", DRAFT_KEY, report, "report draft");
+  } catch (error) {
+    if (error.name !== "StorageAccessError") {
+      throw error;
+    }
+
+    try {
+      writeStoredJson("localStorage", DRAFT_FALLBACK_KEY, report, "fallback report draft");
+      draftStorageFallbackInUse = true;
+      console.warn("Temporary browser storage is unavailable; the report draft will use browser storage until submitted or canceled.", error);
+    } catch (fallbackError) {
+      throw new Error("Your browser could not save the report draft in temporary or fallback storage. Enable site storage and try again.");
+    }
+    return;
+  }
+
+  if (draftStorageFallbackInUse) {
+    try {
+      window.localStorage.removeItem(DRAFT_FALLBACK_KEY);
+      draftStorageFallbackInUse = false;
+    } catch (error) {
+      throw new Error("Your answers were saved for this tab, but an older fallback draft could not be cleared. Enable browser storage and try again.");
+    }
+  }
 }
 
 function getDraft() {
-  const draft = readStoredJson("sessionStorage", DRAFT_KEY, "report draft");
+  let draft;
+  try {
+    draft = readStoredJson("sessionStorage", DRAFT_KEY, "report draft");
+  } catch (error) {
+    if (error.name !== "StorageAccessError") {
+      throw error;
+    }
+    draft = null;
+    draftStorageFallbackInUse = true;
+    console.warn("Temporary browser storage is unavailable; checking browser storage for the report draft.", error);
+  }
+
+  if (draft === null) {
+    try {
+      draft = readStoredJson("localStorage", DRAFT_FALLBACK_KEY, "fallback report draft");
+      if (draft !== null) {
+        draftStorageFallbackInUse = true;
+      }
+    } catch (error) {
+      if (error.name !== "StorageAccessError") {
+        throw error;
+      }
+      if (!draftStorageFallbackInUse) {
+        console.warn("Persistent draft storage is unavailable; continuing with temporary storage.", error);
+        return null;
+      }
+      throw new Error("Your browser blocked both temporary and fallback storage. Enable site storage to save and review reports.");
+    }
+  }
+
   if (draft !== null && (typeof draft !== "object" || Array.isArray(draft))) {
     throw new Error("The saved report draft has an invalid format. Clear the browser's saved data and try again.");
   }
   return draft;
 }
 
+function isDraftStorageFallbackInUse() {
+  return draftStorageFallbackInUse;
+}
+
 function clearDraft() {
+  let sessionStorageCleared = false;
+  let sessionStorageBlocked = false;
+  let fallbackStorageCleared = false;
+  const fallbackWasInUse = draftStorageFallbackInUse;
+
   try {
     window.sessionStorage.removeItem(DRAFT_KEY);
-    return true;
+    sessionStorageCleared = true;
   } catch (error) {
-    return false;
+    sessionStorageBlocked = error.name === "SecurityError";
   }
+
+  try {
+    window.localStorage.removeItem(DRAFT_FALLBACK_KEY);
+    fallbackStorageCleared = true;
+  } catch (error) {
+    fallbackStorageCleared = false;
+  }
+  draftStorageFallbackInUse = false;
+  return (sessionStorageCleared || sessionStorageBlocked)
+    && (fallbackStorageCleared || !fallbackWasInUse);
 }
 
 /* ---------- Submitted reports ---------- */
