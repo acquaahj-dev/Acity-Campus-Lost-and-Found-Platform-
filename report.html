@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report an item - Acity Lost and Found</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ux-ui.css">
+
+  <!-- Shared styles first, then Group 1 styles -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+
+  <!-- The shared header appears here (added by layout.js) -->
+  <div id="site-header"></div>
+
+  <main id="main">
+    <div class="container report-page">
+
+      <a class="report-back" href="report-type.html">&larr; Back</a>
+      <h1 class="report-title" id="page-title">Report a lost item</h1>
+      <p class="report-intro">Fill in the details below. You can check everything before you submit.</p>
+
+      <aside class="report-safety" aria-label="Privacy and safety reminder">
+        <strong>Protect your privacy.</strong>
+        Do not include phone numbers, email addresses, student IDs, full serial numbers, or other private identifiers.
+        Use the platform's ownership-verification flow to confirm details safely.
+      </aside>
+
+      <fieldset class="report-toggle">
+        <legend class="visually-hidden">Report type</legend>
+        <button type="button" id="lost-button" aria-pressed="true">I lost an item</button>
+        <button type="button" id="found-button" aria-pressed="false">I found an item</button>
+      </fieldset>
+
+      <form id="report-form" class="card report-form-card" novalidate>
+        <p class="report-form-error" id="save-error" role="alert" hidden></p>
+        <fieldset class="report-fields">
+          <legend class="visually-hidden">Item details</legend>
+
+          <div class="report-field report-area-name">
+            <label for="item-name">Item name</label>
+            <input type="text" id="item-name" name="itemName" maxlength="60" placeholder="e.g. Android Charger" autocomplete="off" required aria-invalid="false" aria-describedby="item-name-error">
+            <p class="report-error" id="item-name-error" aria-live="polite"></p>
+          </div>
+
+          <div class="report-field report-area-category">
+            <label for="category">Category</label>
+            <select id="category" name="category" required aria-invalid="false" aria-describedby="category-error">
+              <option value="">Select one</option>
+            </select>
+            <p class="report-error" id="category-error" aria-live="polite"></p>
+          </div>
+
+          <div class="report-field report-area-description">
+            <label for="description">Description (at least 10 characters)</label>
+            <textarea id="description" name="description" maxlength="300" placeholder="Colour, brand, or any remarks" required aria-invalid="false" aria-describedby="description-error"></textarea>
+            <p class="report-error" id="description-error" aria-live="polite"></p>
+          </div>
+
+          <div class="report-field report-area-location">
+            <label for="location" id="location-label">Where did you lose it?</label>
+            <select id="location" name="location" required aria-invalid="false" aria-describedby="location-error">
+              <option value="">Select one</option>
+            </select>
+            <p class="report-error" id="location-error" aria-live="polite"></p>
+            <!-- Shown only when "Other" is chosen -->
+            <div class="report-other" id="other-location-box" hidden>
+              <label for="other-location">Type the specific place</label>
+              <input type="text" id="other-location" name="otherLocation" maxlength="80" placeholder="e.g. Behind the gym" autocomplete="off" aria-invalid="false" aria-describedby="other-location-error">
+              <p class="report-error" id="other-location-error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <!-- Only shown on the Found form -->
+          <div class="report-field report-area-handoff" id="handoff-box" hidden>
+            <label for="handoff">Hand-off location</label>
+            <select id="handoff" name="handoffLocation" aria-invalid="false" aria-describedby="handoff-error">
+              <option value="">Select one</option>
+            </select>
+            <p class="report-error" id="handoff-error" aria-live="polite"></p>
+          </div>
+
+          <div class="report-field report-area-date">
+            <label for="date" id="date-label">When did you lose it?</label>
+            <!-- type="date" gives a calendar pop-up. The limits are set in report.js -->
+            <input type="date" id="date" name="date" required aria-invalid="false" aria-describedby="date-error">
+            <p class="report-error" id="date-error" aria-live="polite"></p>
+          </div>
+
+          <div class="report-field report-area-photo">
+            <!-- Shown until a photo is chosen -->
+            <label class="report-upload" id="upload-box" for="photo-input">
+              <svg class="report-icon" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <span>Upload image (Optional)<br>JPG or PNG, max 5MB</span>
+              <input type="file" id="photo-input" name="photo" accept="image/png,image/jpeg" aria-invalid="false" aria-describedby="photo-error">
+            </label>
+
+            <!-- Shown after a photo is chosen -->
+            <div class="report-preview" id="preview-box" hidden>
+              <img id="preview-image" alt="Preview of your item">
+              <button type="button" class="report-link-button" id="remove-photo-button">Remove image</button>
+            </div>
+            <p class="report-error" id="photo-error" role="status" aria-live="polite"></p>
+          </div>
+
+        </fieldset>
+
+        <div class="report-actions">
+          <button type="button" class="button report-outline-button" id="cancel-button">Cancel</button>
+          <button type="submit" class="button">Review</button>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <!-- The shared footer appears here (added by layout.js) -->
+  <div id="site-footer"></div>
+
+  <!-- Scripts go last, layout.js first -->
+  <script src="js/layout.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="data/mock-report-options.js"></script>
+  <script src="js/report.js"></script>
+</body>
+</html>
