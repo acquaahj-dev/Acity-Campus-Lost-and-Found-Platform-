@@ -1,0 +1,480 @@
+
+/* General Styling including colors, text styling and highlighting */
+
+/* Global CSS variable used to reset the platform */
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+/* Global variables: Declaring and assigning CSS variables for colors used on the platform */
+
+:root {
+    --red: #CC3634;
+    --dark-red: #A92321;
+    --black: #222222;
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
+    --border: #DDDDDD;
+    --gold: #D4AF37;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+    color: var(--black);
+}
+
+::selection {
+    background-color: var(--gold);
+    color: var(--white);
+}
+
+/* Specialized styling for header, text and anchor elements */
+
+h1, h2, h3 {
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+}
+
+h1 {
+    font-size: 1.6rem;
+}
+
+h2 {
+    font-size: 2.1rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+a {
+    color: var(--red);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+a:hover {
+    color: var(--dark-red);
+}
+
+/* Header and logo styling */
+
+body header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px 25px;
+    padding: 14px 5%;
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-brand img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    padding: 3px;
+    background-color: var(--white);
+    border-radius: 5px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: 0.2px;
+}
+
+/* Navigation menu */
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+nav a {
+    padding: 7px 9px;
+    border-radius: 4px;
+    color: var(--white);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover {
+    color: var(--gold);
+}
+
+/* Styling of the main welcome area */
+
+main {
+    padding: 0;
+    background-color: var(--white);
+    text-align: center;
+}
+
+main > h2 {
+    margin: 0;
+    padding: 65px 20px 12px;
+    font-size: 2.4rem;
+    letter-spacing: -0.6px;
+}
+
+main > p {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 10px 25px 20px;
+    color: #666666;
+}
+
+/* Main buttons */
+
+.main-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 15px 20px 60px;
+}
+
+/* General button styling */
+
+.button {
+    display: inline-block;
+    padding: 11px 20px;
+    border: 1px solid var(--red);
+    border-radius: 5px;
+    background-color: var(--red);
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: var(--dark-red);
+    border-color: var(--dark-red);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button-secondary {
+    background-color: var(--white);
+    color: var(--red);
+}
+
+.button-secondary:hover {
+    background-color: var(--light-gray);
+    color: var(--dark-red);
+}
+
+/* Section styling */
+
+section {
+    padding: 50px 7%;
+}
+
+section h2 {
+    margin: 0 0 15px;
+}
+
+section p {
+    max-width: 800px;
+}
+
+.section-light {
+    background-color: var(--white);
+}
+
+.section-intro {
+    margin-bottom: 20px;
+    color: #666666;
+}
+
+/* Card styling */
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 30px;
+}
+
+.card {
+    flex: 1 1 250px;
+    padding: 25px;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--red);
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    background-color: var(--light-gray);
+    transform: translateY(-3px);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--red);
+    line-height: 1.4;
+}
+
+.card p {
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.card a {
+    display: inline-block;
+    padding: 9px 15px;
+    border-radius: 5px;
+    background-color: var(--red);
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.card a:hover {
+    background-color: var(--dark-red);
+    color: var(--white);
+}
+
+/* Campus section styling */
+
+#campus {
+    padding: 50px 8%;
+    background-color: var(--light-gray);
+    text-align: left;
+}
+
+#campus h2 {
+    margin: 0 0 15px;
+    font-size: 2rem;
+}
+
+#campus > p {
+    max-width: 750px;
+    margin: 0 0 25px;
+    color: #555555;
+}
+
+#campus article {
+    max-width: 800px;
+    margin: 0;
+    padding: 25px 30px;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    border-radius: 8px;
+}
+
+#campus article h3 {
+    margin: 0 0 12px;
+    color: var(--red);
+}
+
+#campus article p {
+    margin: 0 0 20px;
+}
+
+#campus article a {
+    display: inline-block;
+}
+
+/* Forms, input and label styling */
+
+form {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--red);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Footer styling */
+
+footer {
+    padding: 12px 5%;
+    background-color: var(--black);
+    color: var(--white);
+    text-align: center;
+}
+
+footer h2 {
+    margin: 0 0 3px;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+footer p {
+    margin: 2px 0;
+    color: #DDDDDD;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+/* Responsive CSS Styling for mobile and other small devices (Mobile Layout) */
+
+@media (max-width: 1100px) {
+    body header {
+        gap: 12px 18px;
+    }
+
+    .header-brand img {
+        width: 42px;
+        height: 42px;
+    }
+
+    header h1 {
+        font-size: 1.15rem;
+    }
+
+    nav {
+        gap: 3px;
+    }
+
+    nav a {
+        padding: 6px 7px;
+        font-size: 0.78rem;
+    }
+}
+
+@media (max-width: 850px) {
+    body header {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .header-brand {
+        justify-content: center;
+    }
+
+    nav {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 700px) {
+    body header {
+        padding: 14px 5%;
+    }
+
+    .header-brand {
+        gap: 10px;
+    }
+
+    .header-brand img {
+        width: 40px;
+        height: 40px;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+    }
+
+    nav {
+        justify-content: center;
+        gap: 5px;
+    }
+
+    nav a {
+        padding: 6px 8px;
+        font-size: 0.8rem;
+    }
+
+    main > h2 {
+        padding-top: 45px;
+        font-size: 2rem;
+    }
+
+    main > p {
+        padding: 10px 20px 20px;
+    }
+
+    section {
+        padding: 40px 5%;
+    }
+
+    section h2 {
+        font-size: 1.7rem;
+    }
+
+    .cards {
+        gap: 18px;
+    }
+
+    .card {
+        flex-basis: 100%;
+    }
+
+    #campus {
+        padding: 40px 5%;
+    }
+
+    #campus article {
+        padding: 20px;
+    }
+
+    footer {
+        padding: 20px 5%;
+    }
+}
