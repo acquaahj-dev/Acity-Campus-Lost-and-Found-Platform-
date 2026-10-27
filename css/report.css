@@ -1,0 +1,1062 @@
+/* =====================================================
+   GROUP 1: REPORT PAGES
+   - Classes start with "report-" so they cannot clash
+     with another group's CSS.
+   - This file loads AFTER global.css, so where the two
+     disagree, this file wins on the report pages.
+   - Phones first. The @media blocks at the bottom change
+     the layout for tablets and computers.
+   ===================================================== */
+
+:root {
+  --red: var(--color-primary, #CC3634);
+  --dark-red: var(--color-primary-strong, #A92321);
+  --black: var(--color-ink-inverse, #222222);
+  --white: var(--color-surface, #FFFFFF);
+  --light-gray: var(--color-surface-muted, #F5F5F5);
+  --border: var(--color-border, #DDDDDD);
+  --gold: var(--color-accent, #D4AF37);
+  --report-ink: var(--color-text, #1D1D1F);
+  --report-grey: var(--color-text-muted, #6E6E73);
+  --report-surface: var(--color-surface-subtle, #F5F5F7);
+  --report-border: var(--color-border, #DCDCE1);
+  --report-error: var(--color-error, #B3261E);
+  --report-error-surface: var(--color-error-surface, #FCE8E6);
+  --report-font-family: var(--font-family-base, "Inter", sans-serif);
+  --report-font-size-base: var(--font-size-base, 1rem);
+  --report-space-1: var(--space-1, 0.25rem);
+  --report-space-2: var(--space-2, 0.5rem);
+  --report-space-4: var(--space-4, 1rem);
+  --report-space-6: var(--space-6, 1.5rem);
+  --report-space-8: var(--space-8, 2rem);
+  --report-red-soft: rgba(204, 54, 52, 0.12);   /* highlight behind menu links */
+  --report-pill: var(--radius-pill, 999px);
+  --report-radius: var(--radius-control, 20px);
+  --report-radius-card: var(--radius-card-large, 40px);
+  --report-width: min(100% - var(--report-space-8), 1480px);
+}
+
+/* Makes the "hidden" attribute always work */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  font-family: var(--report-font-family);
+  font-size: var(--report-font-size-base);
+}
+
+/* =====================================================
+   PART 1: UNDO global.css RULES THAT SQUASH THE REPORT PAGES
+   global.css centres text inside <main>, makes every <form>
+   650px wide and adds a margin under every input.
+   ===================================================== */
+
+#main {
+  padding: 0;
+  background: var(--white);
+  text-align: left;
+}
+
+/* global.css: "main p" is centred and 650px wide */
+main p {
+  max-width: none;
+  margin: 0;
+}
+
+/* global.css: "form" is 650px wide and centred */
+.report-form-card,
+.report-lookup {
+  max-width: none;
+  margin: 0;
+}
+
+
+/* =====================================================
+   PART 2: SHARED HEADER (built by layout.js)
+   Dark background, white text.
+   ===================================================== */
+
+body header.header {
+  padding: 0;
+  background: var(--black);
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: var(--report-width);
+  min-height: 76px;
+  margin: 0 auto;
+}
+
+/* App name: bold and white */
+.header .logo {
+  color: var(--white);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.header .logo:hover {
+  color: var(--white);
+}
+
+.logo__dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-left: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+/* Menu links */
+.header .nav {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 2px;
+}
+
+.header .nav a {
+  padding: 8px 12px;
+  border-radius: var(--report-pill);
+  color: var(--white);
+  font-size: 0.92rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Highlight when you point at a link or tab to it */
+.header .nav a:hover,
+.header .nav a:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+}
+
+.header .nav a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Highlight while the link is being clicked */
+.header .nav a:active {
+  background: rgba(255, 255, 255, 0.28);
+  color: var(--white);
+}
+
+/* Highlight for the page you are on (layout.js adds aria-current) */
+.header .nav a[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  font-weight: 700;
+}
+
+/* The red "Report Item" button */
+.header .nav a.btn {
+  margin-left: 8px;
+  padding: 9px 20px;
+  background: var(--red);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.header .nav a.btn:hover,
+.header .nav a.btn:focus-visible {
+  background: var(--dark-red);
+  color: var(--white);
+}
+
+.header .nav a.btn:active {
+  background: var(--dark-red);
+  color: var(--white);
+  transform: scale(0.97);
+}
+
+/* The 3-line menu button (only shown on small screens) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0 11px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+}
+
+
+/* =====================================================
+   PART 3: PAGE BASICS
+   ===================================================== */
+
+.report-page {
+  width: var(--report-width);
+  margin: 0 auto;
+  padding: 28px 0 64px;
+}
+
+.report-back {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--report-grey);
+}
+
+.report-back:hover {
+  color: var(--report-ink);
+}
+
+.report-title {
+  margin-bottom: 8px;
+  font-size: clamp(34px, 5.5vw, 64px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.report-intro {
+  margin-bottom: 28px;
+  font-size: 1.1rem;
+  color: var(--report-grey);
+}
+
+.report-note {
+  margin-top: 24px;
+  color: var(--report-grey);
+}
+
+.report-empty {
+  margin: 24px 0;
+}
+
+/* Lost / Found switch */
+.report-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 24px;
+  padding: 6px;
+  background: var(--report-surface);
+  border-radius: var(--report-pill);
+  border: 0;
+  min-width: 0;
+}
+
+.report-fields {
+  min-width: 0;
+  border: 0;
+  padding: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.report-safety,
+.report-form-error {
+  margin: var(--report-space-6) 0;
+  padding: var(--report-space-4) var(--report-space-6);
+  border-radius: var(--report-radius);
+}
+
+.report-safety {
+  background: var(--report-surface);
+  border-left: 4px solid var(--gold);
+  color: var(--report-ink);
+}
+
+.report-form-error {
+  background: var(--report-error-surface);
+  color: var(--report-error);
+}
+
+.report-toggle button {
+  padding: 14px 8px;
+  background: transparent;
+  color: var(--report-ink);
+  border: 0;
+  border-radius: var(--report-pill);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.report-toggle button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.report-toggle button[aria-pressed="true"],
+.report-toggle button[aria-pressed="true"]:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
+.report-toggle button:focus-visible,
+.report-page a:focus-visible,
+.report-page button:focus-visible,
+.report-modal a:focus-visible,
+.report-modal button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+
+/* =====================================================
+   PART 4: THE FORM
+   ===================================================== */
+
+/* The big rounded grey box. It is also a .card, so we switch
+   off the red top line and the hover "jump" from global.css */
+.report-form-card,
+.report-form-card:hover,
+.report-form-card:active {
+  padding: 24px 20px;
+  background: var(--report-surface);
+  border: 0;
+  border-radius: 28px;
+  translate: none;
+  transform: none;
+}
+
+/* Phone: one column */
+.report-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.report-field label,
+.report-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.report-field input[type="text"],
+.report-field input[type="date"],
+.report-field select,
+.report-field textarea {
+  width: 100%;
+  margin: 0;                       /* global.css adds 18px here */
+  padding: 14px 18px;
+  background: var(--white);
+  color: var(--report-ink);
+  border: 1px solid var(--report-border);
+  border-radius: var(--report-radius);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.report-field input[type="date"] {
+  min-height: 52px;
+}
+
+.report-field select {
+  min-height: 52px;
+}
+
+.report-field textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.report-field input::placeholder,
+.report-field textarea::placeholder {
+  color: #8E8E93;
+}
+
+.report-field input:focus,
+.report-field select:focus,
+.report-field textarea:focus {
+  outline: 0;
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--report-red-soft);
+}
+
+/* Red border when a box has a mistake */
+.report-field input[aria-invalid="true"],
+.report-field select[aria-invalid="true"],
+.report-field textarea[aria-invalid="true"] {
+  border-color: var(--report-error);
+}
+
+/* The "type the specific place" box under the location list */
+.report-other {
+  margin-top: 12px;
+}
+
+.report-error {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--report-error);
+}
+
+.report-error:empty {
+  display: none;
+}
+
+/* ---------- Photo upload ---------- */
+.report-upload {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 220px;
+  margin: 0;
+  padding: 20px;
+  background: var(--white);
+  border: 2px dashed #CFCFD6;
+  border-radius: 28px;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--report-grey);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.report-upload:hover {
+  border-color: var(--red);
+}
+
+/* The real file input is hidden, the whole box is clickable */
+.report-upload input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.report-upload:focus-within {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--report-red-soft);
+}
+
+.report-icon {
+  color: var(--report-ink);
+}
+
+.report-preview img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 28px;
+}
+
+.report-link-button {
+  padding: 8px 0;
+  background: none;
+  border: 0;
+  color: var(--red);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   PART 5: BUTTONS (pill shaped)
+   ===================================================== */
+
+/* .button is used on the form pages, .btn on the start page and header */
+.report-page .button,
+.report-modal .button,
+.btn {
+  display: inline-block;
+  padding: 14px 30px;
+  background: var(--red);
+  color: var(--white);
+  border: 0;
+  border-radius: var(--report-pill);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  cursor: pointer;
+}
+
+.report-page .button:hover,
+.report-modal .button:hover,
+.btn:hover {
+  background: var(--dark-red);
+  color: var(--white);
+}
+
+/* White "Cancel" button */
+.report-page .button.report-outline-button {
+  background: var(--white);
+  color: var(--report-ink);
+  border: 1px solid var(--report-border);
+  font-weight: 500;
+}
+
+.report-page .button.report-outline-button:hover {
+  background: var(--report-surface);
+  color: var(--report-ink);
+}
+
+/* Phone: buttons are full width, the main button is on top */
+.report-actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.report-actions .button {
+  width: 100%;
+}
+
+
+/* =====================================================
+   PART 6: REVIEW CARD AND "FIND REPORT" RESULT
+   ===================================================== */
+
+.report-review,
+.report-review:hover,
+.report-review:active {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 24px 20px;
+  background: var(--report-surface);
+  border: 0;
+  border-radius: 28px;
+  translate: none;
+  transform: none;
+}
+
+/* global.css turns every link inside a card into a red button.
+   The small "Edit" link should stay a plain link. */
+.card .report-review-edit {
+  justify-self: end;
+  padding: 0;
+  background: none;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.card .report-review-edit:hover {
+  background: none;
+  color: var(--dark-red);
+}
+
+.report-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  overflow: hidden;
+  background: var(--white);
+  border-radius: 28px;
+  color: var(--report-grey);
+}
+
+.report-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.report-list {
+  margin: 0;
+}
+
+.report-list dt {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--red);
+}
+
+.report-list dt:first-child {
+  margin-top: 0;
+}
+
+.report-list dd {
+  margin: 2px 0 0;
+  font-size: 1.05rem;
+  word-break: break-word;
+}
+
+.report-submitted-note {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: var(--report-surface);
+  border-radius: var(--report-radius);
+}
+
+
+/* =====================================================
+   PART 7: FIND REPORT PAGE
+   ===================================================== */
+
+.report-lookup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.report-lookup label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.report-lookup input {
+  width: 100%;
+  margin: 0;
+  padding: 14px 18px;
+  background: var(--white);
+  border: 1px solid var(--report-border);
+  border-radius: var(--report-radius);
+  font-family: inherit;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.report-lookup input:focus {
+  outline: 0;
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--report-red-soft);
+}
+
+.report-lookup input[aria-invalid="true"] {
+  border-color: var(--report-error);
+}
+
+.report-lookup .button {
+  width: 100%;
+}
+
+
+/* =====================================================
+   PART 8: SUCCESS POP-UP
+   ===================================================== */
+
+.report-modal {
+  width: calc(100% - 32px);
+  max-width: 440px;
+  max-height: calc(100% - 32px);
+  overflow: auto;
+  padding: 32px 24px;
+  border: 0;
+  border-radius: 32px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.report-modal::backdrop {
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.report-modal .button {
+  display: block;
+  width: 100%;
+}
+
+.report-tick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 20px;
+  background: #E3F4EA;
+  color: #1E8E4E;
+  border-radius: 50%;
+}
+
+.report-modal-title {
+  margin-bottom: 8px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.report-modal-text {
+  margin-bottom: 20px;
+  color: var(--report-grey);
+}
+
+.report-reference {
+  margin-bottom: 8px;
+  padding: 16px;
+  background: var(--report-surface);
+  border-radius: var(--report-radius);
+}
+
+.report-reference-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--report-grey);
+}
+
+.report-reference-id {
+  margin: 4px 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  word-break: break-all;
+}
+
+.report-copy-message {
+  min-height: 18px;
+  font-size: 0.85rem;
+  color: var(--report-grey);
+}
+
+.report-reference-note {
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: var(--report-grey);
+}
+
+.report-modal-link {
+  display: block;
+  margin-top: 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--report-grey);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =====================================================
+   PART 9: START PAGE (report-type.html)
+   ===================================================== */
+
+#main > .hero {
+  width: var(--report-width);
+  margin: 0 auto;
+  padding: 32px 0 8px;
+}
+
+#main > .section {
+  padding: 24px 0 64px;
+}
+
+#main > .section > .container {
+  width: var(--report-width);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.hero__title {
+  margin-bottom: 12px;
+  font-size: clamp(34px, 5.5vw, 64px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.hero__text {
+  max-width: 640px;
+  font-size: 1.1rem;
+  color: var(--report-grey);
+}
+
+.grid--2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.card--large,
+.card--large:hover,
+.card--large:active {
+  padding: 32px 28px;
+  background: var(--report-surface);
+  border: 0;
+  border-radius: var(--report-radius-card);
+  translate: none;
+  transform: none;
+}
+
+.card--large.card--dark,
+.card--large.card--dark:hover,
+.card--large.card--dark:active {
+  background: var(--report-ink);
+  color: var(--white);
+}
+
+.card__label {
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.card--dark .card__label {
+  color: var(--gold);
+}
+
+.card__title {
+  margin-bottom: 8px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.card__text {
+  margin-bottom: 24px;
+  font-size: 1.05rem;
+  color: var(--report-grey);
+}
+
+.card--dark .card__text {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* global.css makes links in cards small red boxes. Make them pills. */
+.card .btn {
+  padding: 14px 30px;
+  border-radius: var(--report-pill);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card--dark .btn {
+  background: var(--white);
+  color: var(--report-ink);
+}
+
+.card--dark .btn:hover {
+  background: var(--report-surface);
+  color: var(--report-ink);
+}
+
+.link {
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   TABLET AND COMPUTER (screens wider than 720px)
+   ===================================================== */
+
+@media (min-width: 721px) {
+
+  .report-page {
+    padding: 40px 0 80px;
+  }
+
+  .report-form-card,
+  .report-form-card:hover,
+  .report-form-card:active {
+    padding: 48px;
+    border-radius: var(--report-radius-card);
+  }
+
+  /* Two columns. Each field goes in a named area. */
+  .report-fields {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 40px;
+    align-items: start;
+    grid-template-areas:
+      "name        category"
+      "description location"
+      "description handoff"
+      "date        photo";
+  }
+
+  .report-area-name        { grid-area: name; }
+  .report-area-category    { grid-area: category; }
+  .report-area-description { grid-area: description; }
+  .report-area-location    { grid-area: location; }
+  .report-area-handoff     { grid-area: handoff; }
+  .report-area-date        { grid-area: date; }
+  .report-area-photo       { grid-area: photo; }
+
+  .report-field input[type="text"],
+  .report-field input[type="date"],
+  .report-field select,
+  .report-field textarea {
+    padding: 16px 22px;
+    font-size: 1.05rem;
+  }
+
+  .report-field textarea {
+    min-height: 200px;
+  }
+
+  .report-upload {
+    min-height: 280px;
+  }
+
+  .report-preview img {
+    height: 280px;
+  }
+
+  /* Buttons go side by side */
+  .report-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 36px;
+  }
+
+  .report-actions .button {
+    width: auto;
+    min-width: 150px;
+  }
+
+  .report-actions-end {
+    justify-content: flex-end;
+  }
+
+  /* Review card: photo on the left, details on the right */
+  .report-review,
+  .report-review:hover,
+  .report-review:active {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    padding: 48px;
+    border-radius: var(--report-radius-card);
+  }
+
+  .card .report-review-edit {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+  }
+
+  .report-photo {
+    min-height: 300px;
+  }
+
+  /* Find report: input and button on one row */
+  .report-lookup {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .report-lookup-field {
+    flex: 1;
+  }
+
+  .report-lookup .button {
+    width: auto;
+  }
+
+  .report-modal {
+    padding: 40px 36px;
+  }
+
+  /* Start page: two cards side by side */
+  .grid--2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .card--large,
+  .card--large:hover,
+  .card--large:active {
+    padding: 48px;
+  }
+}
+
+
+/* =====================================================
+   SMALL LAPTOPS AND BELOW (1100px or less)
+   The menu folds into the 3-line button.
+   ===================================================== */
+
+@media (max-width: 1100px) {
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .header .nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 100;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px;
+    background: var(--black);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .header .nav.nav--open {
+    display: flex;
+  }
+
+  .header .nav a {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+
+  .header .nav a.btn {
+    margin: 8px 0 0;
+    text-align: center;
+  }
+}

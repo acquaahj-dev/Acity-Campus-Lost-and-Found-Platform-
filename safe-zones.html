@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find the safest on-campus places to hand over and collect lost and found items at Academic City.">
+  <title>Safe Hand-off Locations | Campus Lost &amp; Found</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ux-ui.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/report.css">
+  <link rel="stylesheet" href="css/princess-item-directlory.css">
+  <link rel="stylesheet" href="css/kelvina-safe-hand-off.css">
+  <link rel="stylesheet" href="css/damien-hub%20list.css">
+  <link rel="stylesheet" href="css/osman-safety-help.css">
+  <link rel="stylesheet" href="css/joel-claim-handoff.css">
+  <link rel="stylesheet" href="css/integration.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+  <a class="skip-link" href="#campus-map">Skip to campus map</a>
+  <div id="site-header"></div>
+
+  <main class="portal" id="main">
+    <h1 class="visually-hidden">Campus hand-off map and safe zones</h1>
+    <section class="campus-map" id="campus-map" aria-label="Campus hand-off map">
+      <div class="campus-map__controls" role="group" aria-label="Choose a campus map">
+        <button type="button" class="campus-map__tab is-active" data-map-view="live" aria-pressed="true">Campus hubs map</button>
+        <button type="button" class="campus-map__tab" data-map-view="google" aria-pressed="false">Google Maps</button>
+      </div>
+      <div class="campus-map-frame">
+        <div class="campus-map__view" id="map-view-google" hidden>
+          <iframe
+            class="campus-map_iframe"
+            id="google-map-iframe"
+            title="Google Maps location for Academic City University"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.1685993951287!2d-0.20875969999997576!3d5.688760699999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9a0e15522909%3A0xd17d2158761e22ef!2sAcademic%20City%20University!5e0!3m2!1sen!2sgh!4v1792934695968!5m2!1sen!2sgh"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="campus-map__view is-active" id="map-view-live">
+          <div id="live-campus-map" class="live-campus-map" role="application" aria-label="Interactive map showing hand-off hubs and your live location"></div>
+          <div class="google-route-controls" aria-label="Live location and directions">
+            <label for="google-route-origin">Starting point</label>
+            <select id="google-route-origin">
+              <option value="">My live location</option>
+            </select>
+            <label for="google-route-destination">Choose a hand-off point</label>
+            <select id="google-route-destination">
+              <option value="">Select a destination</option>
+            </select>
+            <button type="button" id="google-track-button">Start live tracking</button>
+            <p id="google-location-status" role="status" aria-live="polite">Choose a starting point and destination. Use “My live location” to get directions from your device GPS.</p>
+            <p id="google-coordinate-readout">Latitude: — · Longitude: — · Accuracy: —</p>
+            <p id="nearest-hub-readout" role="status" aria-live="polite">Start live tracking to find the nearest hub.</p>
+            <button type="button" id="nearest-hub-directions" disabled>Directions to nearest hub</button>
+            <p class="live-map-legend">The “You” marker shows your device's reported location. The blue circle shows reported GPS accuracy.</p>
+            <a id="google-directions-link" href="#" aria-disabled="true" target="_blank" rel="noopener noreferrer">Get walking directions in Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar" id="sidebar" aria-label="Hand-off menu">
+      <nav class="sidebar__nav" aria-label="Hand-off sections">
+        <button type="button" class="sidebar__btn" data-panel="locations" aria-expanded="false"><span aria-hidden="true">📍</span><span class="sidebar__label">Locations</span></button>
+        <button type="button" class="sidebar__btn" data-panel="hours" aria-expanded="false"><span aria-hidden="true">🕒</span><span class="sidebar__label">Hours</span></button>
+        <button type="button" class="sidebar__btn" data-panel="guidelines" aria-expanded="false"><span aria-hidden="true">🛡️</span><span class="sidebar__label">Guidelines</span></button>
+        <button type="button" class="sidebar__btn" data-panel="claim" aria-expanded="false"><span aria-hidden="true">🤝</span><span class="sidebar__label">Claim</span></button>
+      </nav>
+      <div class="sidebar__panel" id="panel-locations" hidden>
+        <!-- ===== DAMIEN: hub cards (built by damien-hub-list.js) ===== -->
+        <h2 class="panel-title">Hand-off Locations</h2>
+        <div class="location-tools">
+          <label class="location-search">
+            <span>Search by</span>
+            <select data-search-by>
+              <option value="name">Location name</option>
+              <option value="description">Description</option>
+              <option value="location">Campus area</option>
+              <option value="all">All details</option>
+            </select>
+            <input type="search" data-location-search placeholder="Search locations">
+          </label>
+          <label class="location-filter">
+            <span>Filter by hours</span>
+            <select data-hours-filter>
+              <option value="all">Any hours</option>
+              <option value="open">Open now</option>
+              <option value="closed">Closed now</option>
+            </select>
+          </label>
+          <button class="location-sort" type="button" data-nearest-sort aria-pressed="false">Closest to me</button>
+          <p class="location-status" data-location-status role="status" aria-live="polite"></p>
+          <p class="location-results-count" id="location-results-count" role="status" aria-live="polite"></p>
+        </div>
+        <div id="hub-cards"></div>
+      </div>
+      <div class="sidebar__panel" id="panel-hours" hidden>
+        <!-- ===== PRINCESS: hub directory + hours (built by princess-item-directory.js) ===== -->
+        <h2 class="panel-title">Hub Directory &amp; Hours</h2>
+        <div id="hours-directory" class="directory">
+          <p class="directory__intro">Opening hours and live status for every hand-off hub, in campus time (Accra).</p>
+          <div class="directory__controls" role="search">
+            <label for="directory-search">Search hubs</label>
+            <input type="search" id="directory-search" placeholder="e.g. library">
+            <div class="directory__filters" role="group" aria-label="Filter hubs">
+              <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" class="chip" data-filter="open" aria-pressed="false">Open now</button>
+              <button type="button" class="chip" data-filter="247" aria-pressed="false">24/7</button>
+            </div>
+          </div>
+          <p class="directory__count" id="directory-count" role="status" aria-live="polite"></p>
+          <ul class="directory__list" id="directory-list"></ul>
+        </div>
+      </div>
+      <div class="sidebar__panel" id="panel-guidelines" hidden>
+        <!-- ===== OSMAN: safety guidelines + hub helper (osman-safety-help.js) ===== -->
+        <div id="guidelines" class="guidelines">
+          <h2 class="panel-title">Hand-off Guidelines</h2>
+          <p class="guidelines__intro">Follow these steps every time you return or collect an item. They protect your privacy and stop fraudulent claims.</p>
+          <p class="guidelines__alert" role="note"><strong>Golden rule:</strong> hand items over only at a campus hand-off hub. Never in a hostel room, a car or a quiet corner.</p>
+
+          <button type="button" class="guidelines__toggle" id="guidelines-toggle">Expand all</button>
+
+          <details class="guideline" open>
+            <summary>1. Before you meet</summary>
+            <ul class="guideline__list">
+              <li>Use the in-app anonymous chat only. Do not share your phone number, email, room number or social media handles.</li>
+              <li>Agree on one hub and a time inside its opening hours. Check that its badge says Open.</li>
+              <li>Tell a friend or roommate where and when you are going.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>2. Choose the right hub</summary>
+            <ul class="guideline__list">
+              <li>For phones, laptops, wallets, ID cards or anything valuable, pick a 24/7 security post.</li>
+              <li>After dark, always use a 24/7 security post.</li>
+              <li>Hostel desks, the Library and the SCA Office are fine for everyday items during their opening hours.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>3. Prove ownership</summary>
+            <ul class="guideline__list">
+              <li>The owner must answer the secret verification question set when the item was reported.</li>
+              <li>Finders: do not reveal details of the item in advance. Let the owner describe it first.</li>
+              <li>Bring your student ID to the hub so the desk can confirm who you are.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>4. At the hub</summary>
+            <ul class="guideline__list">
+              <li>Hand the item over in front of the desk or security staff.</li>
+              <li>Check the item together before you leave.</li>
+              <li>Never pay or accept payment for returning an item.</li>
+            </ul>
+          </details>
+          <details class="guideline">
+            <summary>5. After the hand-off</summary>
+            <ul class="guideline__list">
+              <li>Mark the item as Resolved / Returned on your dashboard.</li>
+              <li>Close the chat so the conversation does not stay open.</li>
+              <li>Report anything that felt wrong to campus security.</li>
+            </ul>
+          </details>
+
+          <p class="guidelines__alert guidelines__alert--warning" role="note"><strong>Red flags - stop and walk away:</strong> the person cannot answer the verification question, asks you to meet somewhere else, asks for your phone number, or rushes you. Take the item to the nearest security post instead.</p>
+
+          <section class="helper" aria-labelledby="helper-title">
+            <h3 id="helper-title">Which hub should I use?</h3>
+            <label for="helper-item">What are you handing over?</label>
+            <select id="helper-item">
+              <option value="everyday">An everyday item (notebook, bottle, umbrella)</option>
+              <option value="valuable">A valuable item (phone, laptop, wallet, ID)</option>
+            </select>
+            <label for="helper-dark">Is it after dark?</label>
+            <select id="helper-dark">
+              <option value="no">No, it is daytime</option>
+              <option value="yes">Yes, it is evening or night</option>
+            </select>
+            <button type="button" class="helper__go" id="helper-go">Recommend a hub</button>
+            <div class="helper__result" id="helper-result" role="status" aria-live="polite"></div>
+          </section>
+
+          <p class="guidelines__footer">Not sure what to do? Go to the nearest 24/7 security post and ask for help.</p>
+        </div>
+      </div>
+      <div class="sidebar__panel" id="panel-claim" hidden>
+        <!-- ===== JOEL: how to claim and hand off (joel-claim-handoff.js) ===== -->
+        <div id="claim-handoff" class="claim">
+          <h2 class="panel-title">How to Claim &amp; Hand Off</h2>
+          <p class="claim__intro">Four steps from finding your item to closing the case safely.</p>
+          <p class="claim__progress-label" id="claim-progress-label">0 of 4 steps done</p>
+          <div class="claim__bar" id="claim-bar" role="progressbar" aria-labelledby="claim-progress-label" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><span id="claim-bar-fill"></span></div>
+          <ol class="claim__steps">
+            <li class="claim__step" data-step="1">
+              <button type="button" class="claim__toggle" aria-expanded="true" aria-controls="claim-step-1"><span class="claim__num">1</span><span>Find your item</span></button>
+              <div class="claim__body" id="claim-step-1">
+                <p>Search the catalog by category, location and date, then open the item page and read its description and photo.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+            <li class="claim__step" data-step="2">
+              <button type="button" class="claim__toggle" aria-expanded="false" aria-controls="claim-step-2"><span class="claim__num">2</span><span>Verify ownership</span></button>
+              <div class="claim__body" id="claim-step-2" hidden>
+                <p>Press Claim and answer the ownership question shown on the item page. Only the real owner will know the answer.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+            <li class="claim__step" data-step="3">
+              <button type="button" class="claim__toggle" aria-expanded="false" aria-controls="claim-step-3"><span class="claim__num">3</span><span>Arrange the hand-off</span></button>
+              <div class="claim__body" id="claim-step-3" hidden>
+                <p>Use the anonymous chat to agree on a hub and a time inside its opening hours. Never share your phone number or email.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+            <li class="claim__step" data-step="4">
+              <button type="button" class="claim__toggle" aria-expanded="false" aria-controls="claim-step-4"><span class="claim__num">4</span><span>Meet and close the case</span></button>
+              <div class="claim__body" id="claim-step-4" hidden>
+                <p>Hand the item over in front of the hub staff, then mark it Resolved / Returned on your dashboard.</p>
+                <button type="button" class="claim__done">Mark step done</button>
+              </div>
+            </li>
+          </ol>
+          <button type="button" class="claim__reset" id="claim-reset">Start again</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <!-- ORDER MATTERS: data first, then the status engine, then everything that uses it -->
+  <script src="js/layout.js"></script>
+  <script src="js/locations.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/princess-item-directory.js"></script>
+  <script src="js/damien-hub%20list.js"></script>
+  <script src="js/kelvina-safe-hand-off.js"></script>
+  <script src="js/osman-safety-help.js"></script>
+  <script src="js/joel-claim-handoff.js"></script>
+</body>
+</html>

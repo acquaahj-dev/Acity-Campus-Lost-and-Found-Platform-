@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reported Items | Acity Lost and Found</title>
+    <link rel="stylesheet" href="ux-ui.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/report.css">
+    <link rel="stylesheet" href="css/item-detail.css">
+    <link rel="stylesheet" href="css/integration.css">
+</head>
+<body>
+    <a class="skip-link" href="#items">Skip to items</a>
+    <div id="site-header"></div>
+    <main>
+        <section aria-labelledby="reported-items-heading">
+            <h1 class="visually-hidden">Reported lost and found items</h1>
+            <h2 id="reported-items-heading">Reported items</h2>
+            <p id="message" role="status">Loading reported items...</p>
+            <section id="items" aria-live="polite"></section>
+        </section>
+    </main>
+    <dialog id="claim-dialog" aria-labelledby="claim-title">
+        <form id="claim-form">
+            <h2 id="claim-title">Claim item</h2>
+            <p id="claim-item-name"></p>
+            <label for="claim-answer">What specific detail can you provide to verify this item belongs to you?</label>
+            <textarea id="claim-answer" name="claimAnswer" rows="4" required></textarea>
+            <p class="claim-note"></p>
+            <p id="claim-feedback" role="status" aria-live="polite"></p>
+            <section class="claim-actions">
+                <button class="claim-cancel" id="claim-cancel" type="button">Cancel</button>
+                <button class="claim-button" type="submit">Submit claim</button>
+            </section>
+        </form>
+    </dialog>
+    <div id="site-footer"></div>
+    <script src="js/layout.js" defer></script>
+    <script src="js/storage.js" defer></script>
+    <script src="data/mock-catalog-items.js" defer></script>
+    <script src="js/platform-data.js" defer></script>
+    <script src="js/item-detail.js" defer></script>
+</body>
+</html>
