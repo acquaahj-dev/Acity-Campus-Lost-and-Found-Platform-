@@ -62,4 +62,4 @@ Before merging a pull request:
 3. Run the JavaScript syntax command above and test affected user flows using the local server.
 4. Review the changed files and links; resolve review comments and obtain the team's required approval before merging.
 
-To publish with GitHub Pages, push the project to the team's central repository, then select **Settings > Pages**, choose the `main` branch and `/ (root)` folder, save, and verify the published landing page and navigation. The repository URL, collaborators, pull requests, approvals, and Pages deployment must be configured in the team's GitHub account; they cannot be created from this local frontend folder alone.
+To publish with GitHub Pages, push the project to the team's central repository, then select **Settings > Pages**, choose the `main` branch and `/ (root)` folder, save, and verify the published landing page and navigation.
